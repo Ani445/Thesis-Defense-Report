@@ -1,0 +1,82 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+\section{Semantic Segmentation}
+\label{sec:semantic_segmentation}
+Semantic segmentation is a fundamental task in computer vision that involves partitioning an image into semantically meaningful regions. Each pixel in the image is assigned a label corresponding to the object or region it belongs to. This task is crucial for applications such as autonomous driving, medical image analysis, and scene understanding.
+
+The goal of semantic segmentation is to achieve pixel-level understanding of an image, which is more detailed than traditional image classification or object detection. Unlike these tasks, semantic segmentation requires not only identifying the presence of objects but also delineating their precise boundaries.
+
+
+\subsection{Fully Supervised Semantic Segmentation}
+\label{subsec:fully_supervised}
+Fully supervised semantic segmentation methods rely on large amounts of labeled data, where each pixel in the training images is annotated with its corresponding class label. These methods typically use deep learning architectures, such as convolutional neural networks (CNNs), to learn complex features and patterns from the labeled data. The performance of these models is heavily dependent on the quality and quantity of the annotated data.
+
+\subsection{Weakly Supervised Semantic Segmentation}
+\label{subsec:weakly_supervised}
+Weakly supervised semantic segmentation aims to reduce the reliance on extensive pixel-level annotations by utilizing weaker forms of supervision, such as image-level labels, bounding boxes, or scribbles. This approach allows for the training of segmentation models with limited labeled data while leveraging large amounts of unlabeled data. Weakly supervised methods have gained popularity due to their ability to achieve competitive performance with significantly less annotation effort.
+
+\section{Motivation}
+\label{sec:motivation}
+Semantic segmentation has gained significant attention due to its wide range of applications and its potential to solve real-world problems. For instance, in autonomous driving, understanding the environment at a pixel level is essential for safe navigation. Similarly, in medical imaging, precise segmentation of anatomical structures can aid in accurate diagnosis and treatment planning.
+
+Despite its importance, semantic segmentation remains a challenging task due to the complexity of real-world scenes, variations in object appearances, and the need for large-scale annotated datasets. These challenges motivate researchers to develop innovative methods that can achieve high accuracy while being computationally efficient. Weakly supervised semantic segmentation methods have emerged as a promising solution to these challenges, allowing for the use of limited labeled data while leveraging large amounts of unlabeled data.
+
+The motivation for this research stems from the need to bridge the gap between the high accuracy of fully supervised methods and the practical limitations of obtaining large annotated datasets. By exploring weakly supervised approaches, we aim to develop models that can generalize well to unseen data while minimizing the reliance on extensive manual annotations.
+
+\section{Problem Statement}
+\label{sec:problem_statement}
+
+Weakly Supervised Semantic Segmentation (WSSS) presents a compelling alternative to fully supervised methods by significantly reducing the dependence on costly pixel-level annotations. However, current WSSS techniques rely on Class Activation Maps (CAMs) \cite{cam} generated from image-level labels to identify object regions. While this approach has shown promise, it often falls short in terms of spatial precision and completeness, leading to suboptimal segmentation results.
+
+In the context of WSSS, the challenge lies in effectively leveraging the image-level labels to produce accurate and detailed segmentation maps. The dependence on CAMs, which are typically generated from global features, can result in sparse and coarse activation maps that fail to capture the fine details of object boundaries. This limitation is particularly pronounced when dealing with complex scenes or occlusions, where precise localization is crucial.
+
+Additionally, the refinement techniques applied to these CAMs often fail to fully leverage the rich affinity information inherent in modern transformer architectures. Consequently, the resulting pseudo-labels lack the spatial precision required for high-quality segmentation, ultimately impacting the overall performance. This highlights the need for more robust backbone architectures capable of effectively capturing both local and global features, as well as advanced CAM refinement strategies to narrow the performance gap between weakly and fully supervised segmentation methods.
+
+So, keeping in mind the above challenges, we aim to develop a weakly supervised semantic segmentation model that can effectively leverage image-level labels to produce accurate and detailed segmentation maps. Our approach will focus on enhancing the spatial precision and completeness of the generated CAMs.
+
+\section{Challenges}
+\label{sec:challenges}
+Semantic segmentation faces several challenges that hinder its widespread adoption and effectiveness:
+
+\begin{itemize}
+    \item \textbf{Data Annotation:} Creating pixel-level annotations for large datasets is time-consuming, labor-intensive, and prone to human error. This limits the availability of high-quality labeled data.
+    \item \textbf{Class Imbalance:} Real-world datasets often exhibit an imbalance in the distribution of object classes, where certain classes dominate while others are underrepresented. This imbalance can lead to biased models.
+    \item \textbf{Complex Scenes:} Real-world images often contain complex scenes with occlusions, varying lighting conditions, and diverse object appearances, making segmentation challenging.
+    \item \textbf{Generalization:} Models trained on specific datasets may struggle to generalize to unseen data due to domain shifts or variations in image characteristics.
+    \item \textbf{Computational Efficiency:} High-resolution images and complex models require significant computational resources, which can be a bottleneck for real-time applications.
+    \item \textbf{Weak Supervision:} While weakly supervised methods reduce annotation effort, they often face challenges in achieving the same level of accuracy as fully supervised methods.
+    \item \textbf{Contextual Information:} Capturing contextual information is crucial for accurate segmentation, especially in complex scenes. Models must effectively utilize both local and global features to understand the relationships between objects and their surroundings.
+    \item \textbf{Capturing Fine Details}: Achieving high spatial precision in segmentation maps is challenging, especially for small or thin objects. Models must be capable of capturing fine details while maintaining overall accuracy.
+\end{itemize}
+
+Addressing these challenges requires innovative approaches that balance accuracy, efficiency, and practicality, paving the way for more robust and scalable semantic segmentation solutions.
+
+% \section{Contribution}
+% \label{sec:contribution}
+
+% In this work, we make the following key contributions:
+
+% \begin{itemize}
+%     \item We explore the use of the UniCL framework with a Swin Transformer backbone to enhance CAM generation, leveraging Swin's ability to capture both local fine details and global context through its hierarchical structure.
+%     \item We propose an enhanced affinity-based CAM refinement technique by combining backbone attention maps and decoder-derived affinity matrices, improving the semantic consistency of the pseudo-labels.
+%     \item We integrate a Pixel-Adaptive Refinement Module (PAR) that incorporates both color and spatial information, further refining the pseudo-labels and enhancing boundary accuracy.
+% \end{itemize}
+
+\section{Organization}
+\label{sec:organization}
+
+The remainder of this thesis report is organized as follows:
+
+\begin{itemize}
+    \item \textbf{Chapter \ref{chap:related-works}: Related Works} provides a comprehensive review of existing literature on semantic segmentation. It discusses fully supervised and weakly supervised methods, key architectures like U-Net, DeepLab, and Vision Transformers, and identifies gaps in current research.
+
+    \item \textbf{Chapter \ref{chap:methodology}: Proposed Methodology} details the proposed approach, including the use of the UniCL framework with a Swin Transformer backbone for CAM generation. It also describes the affinity-based CAM refinement technique and the Pixel-Adaptive Refinement Module (PAR) for pseudo-label generation and segmentation refinement.
+
+    \item \textbf{Chapter \ref{chap:citations}: Citations} provides guidance on managing references using \texttt{biblatex}, with examples of citing articles, books, and multi-citations.
+
+    \item \textbf{Appendices} include supplementary materials such as additional figures, tables, and extended discussions that support the main content of the thesis.
+\end{itemize}
+
+This structure ensures a logical flow, starting from the foundational concepts and related works, progressing through the proposed methodology, and concluding with the results, discussions, and supplementary materials.
+

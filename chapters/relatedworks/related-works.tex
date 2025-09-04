@@ -1,0 +1,62 @@
+\chapter {Related Works}
+\label{chap:related-works}
+
+\section{Fully Supervised Semantic Segmentation}
+\label{sec:fully-supervised}
+
+In fully supervised semantic segmentation, the model is trained on a dataset with pixel-level annotations. The model learns to predict the class of each pixel in an image based on the provided annotations. This approach typically requires a large amount of labeled data, which can be expensive and time-consuming to obtain.
+
+\subsection{Early Approaches}
+\label{subsec:early-approaches}
+The early approaches to semantic segmentation relied heavily on hand-crafted features and traditional machine learning techniques. These methods often involved extracting low-level features such as color, texture, and shape from the images and then using classifiers like Support Vector Machines (SVMs) or Random Forests to assign labels to each pixel.
+
+Then came the era of deep learning, where convolutional neural networks (CNNs) revolutionized the field. The introduction of fully convolutional networks (FCNs) allowed for end-to-end training of segmentation models, enabling them to learn spatial hierarchies of features directly from the data. This was a significant breakthrough, as it eliminated the need for manual feature extraction and allowed for more accurate and efficient segmentation.
+
+\subsection{Convolutional Neural Networks (CNNs)}
+\label{subsec:cnn_sem_seg}
+
+The first fully convolutional network (FCN) for semantic segmentation was proposed by \cite{fsss_fcn}, which replaced the fully connected layers in traditional CNNs with convolutional layers. This allowed the network to produce dense predictions for each pixel in the input image. The FCN architecture was further improved by adding skip connections, which helped to preserve spatial information and improve segmentation accuracy.
+
+Then came the introduction of U-Net \cite{fsss_unet}, a popular architecture for semantic segmentation that is widely used in medical imaging and other applications. U-Net consists of an encoder-decoder structure, where the encoder captures context information and the decoder enables precise localization. The \emph{skip connections} between the encoder and decoder blocks play a crucial role by retaining spatial information, making U-Net particularly effective for tasks with limited training data.
+
+The field of semantic segmentation has continued to evolve, with the introduction of various architectures and techniques.
+
+The deeplab series \cite{fsss_deeplabv1, fsss_deeplabv2, fsss_deeplabv3,fsss_deeplabv3plus} introduced atrous convolution and spatial pyramid pooling to capture multi-scale context information; \cite{fsss_deeplabv1} also used a methd called CRF (Conditional Random Field) to refine the segmentation results. But it was removed in the later versions of the model. In \cite{fsss_deeplabv2}, the atrous convolution method evolved into a more general form called atrous spatial pyramid pooling (ASPP), which allows the model to capture features at multiple scales. The ASPP module consists of parallel atrous convolutions with different rates, enabling the model to learn multi-scale context information effectively. Finally \cite{fsss_deeplabv3plus} introduced a new decoder module that refines the segmentation results by combining low-level features from the encoder with high-level features from the ASPP module. This approach improves the localization of object boundaries and enhances the overall segmentation performance.
+
+\cite{fsss_pspnet} introduced the Pyramid Scene Parsing Network (PSPNet), which uses a pyramid pooling module to capture global context information at different scales. The pyramid pooling module aggregates features from different regions of the image, allowing the model to learn rich contextual information for better segmentation.
+
+\cite{fsss_segnet} proposed SegNet, an encoder-decoder architecture that focuses on efficient upsampling of feature maps. SegNet uses a series of convolutional and pooling layers in the encoder to extract features, followed by a corresponding decoder that upsamples the feature maps to produce the final segmentation output. The main innovation in SegNet is the use of unpooling layers, which store the indices of the max-pooling operation during encoding, instead of the feature maps themselves. This allows for more efficient memory usage and faster inference times, making SegNet suitable for real-time applications.
+
+\subsection{Transformers}
+\label{subsec:transformers}
+The introduction of transformers in computer vision has led to significant advancements in semantic segmentation. Vision Transformer (ViT) \cite{transformer_vit} and its variants have shown promising results in various tasks, including semantic segmentation. ViTs leverage self-attention mechanisms to capture long-range dependencies and global context information, making them suitable for dense prediction tasks.
+The years later on, the transformer-based architectures have gained popularity in semantic segmentation. \cite{transformer_swin} proposed the Swin Transformer, which introduces a hierarchical architecture with shifted windows to capture both local and global context information. The Swin Transformer has shown state-of-the-art performance on various benchmark datasets, including ImageNet-1k \cite{dataset_imagenet} for image classification and COCO \cite{dataset_coco} for object detection and \cite{dataset_ade20k} for semantic segmentation. The Swin Transformer has been widely adopted in various applications.
+
+Leveraging the strengths of Vision Transformer, \cite{fsss_setr} first proposed the SETR (Semantic Segmentation Transformer) architecture, which replaces the traditional CNN backbone with a transformer encoder. The SETR architecture consists of a ViT encoder that processes the input image and generates a set of feature maps, followed by a decoder that upsamples the feature maps to produce the final segmentation output. The SETR model has shown competitive performance on various benchmark datasets, demonstrating the effectiveness of transformers in semantic segmentation tasks.
+
+\cite{fsss_segmenter} proposed the Segmenter architecture, which combines a ViT backbone with a lightweight decoder for efficient semantic segmentation. The Segmenter model uses a transformer encoder to capture global context information and a simple decoder to produce the final segmentation output. The Segmenter architecture is designed to be computationally efficient while maintaining high accuracy, making it suitable for real-time applications.
+
+\cite{fsss_segformer} introduced SegFormer, a transformer-based architecture that combines the strengths of both CNNs and transformers for semantic segmentation. SegFormer uses a hierarchical transformer encoder to capture multi-scale features and a lightweight decoder to produce the final segmentation output. The SegFormer model has shown state-of-the-art performance on various benchmark datasets, demonstrating the effectiveness of combining CNNs and transformers in semantic segmentation tasks.
+
+The field of semantic segmentation has seen significant advancements with the introduction of various architectures and techniques. The combination of CNNs and transformers has led to improved performance and efficiency in semantic segmentation tasks. As the field continues to evolve, we can expect further innovations and breakthroughs in this area.
+
+\subsection{Problem with Fully Supervised Semantic Segmentation}
+\label{subsec:problem-with-fully-supervised}
+Fully supervised semantic segmentation has achieved remarkable success, largely driven by powerful models and richly annotated datasets. However, this success comes at a significant cost: acquiring dense pixel-level annotations is both expensive and time-consuming. Each image must be meticulously labeled, often requiring expert knowledge and hours of manual effort. This high annotation burden severely limits the scalability of fully supervised methods, especially for large or specialized datasets. To overcome this bottleneck, the research community has increasingly turned toward weakly supervised semantic segmentation (WSSS) — an approach that seeks to train effective segmentation models with minimal supervision.
+
+
+
+
+\input{chapters/relatedworks/sayema}
+
+\subsection{Refinement}
+\label{subsec:refinement}
+A major challenge in weakly supervised semantic segmentation is the generation of high-quality pseudo labels from weak annotations. The quality of these pseudo labels directly impacts the performance of the segmentation model. Therefore, refinement techniques are often employed to improve the quality of the pseudo labels. These techniques can include post-processing methods, such as conditional random fields (CRFs), or affinity based methods that leverage the relationships between pixels to refine the segmentation results.
+
+AffinityNet \cite{wsss_affinitynet} is a notable example of a refinement technique that uses affinity information to improve the segmentation results. After generating initial CAMs from image-level labels, AffinityNet trains a CNN network to classify whether two adjacent pixels belong to the same semantic region. A random walk algorithm, using these affinities, then propagates object labels across the image, enhancing coherence of the segmentation masks.
+
+AFA \cite{wsss_afa_affinity_from_attention} advanced this idea by showing that pixel affinities can be efficiently derived from attention maps of vision transformers, rather than training a separate affinity prediction network. Specifically, AFA extracts affinity information from the self-attention layers of the transformer backbone, using which it performs random walk propagation like AffinityNet. This approach simplifies the refinement pipeline and benefits from the strong semantic relationships already captured by attention mechanisms. In addition, it introduces the Pixel Adaptive Refinement (PAR) module, which uses local color and spatial information to further refine the initial pseudolabels. PAR is based on pixel adaptive convolution and less costly compared to DCRFs. It also dilates the kernels to cover a larger area, allowing it to capture more contextual information.
+
+CLIP-ES \cite{wsss_clip_es} uses a similar approach, but instead of using the attention maps from the transformer, it uses the attention maps from the CLIP model. The CLIP model is a powerful vision-language model that has been shown to be effective in object detection and segmentation tasks. By leveraging the attention maps from the CLIP model, CLIP-ES is able to generate high-quality pseudo labels that are more accurate and robust than those generated by traditional methods. It uses the random walk propagation like AFA, along with a bounding box mask to mask certain affinities while covering more object regions.
+
+Frozen CLIP \cite{wsss_frozen_clip} is another technique that uses the CLIP model to generate pseudo labels. In addition to using the attention maps from the CLIP model, it uses the decoder to generate pseudo labels. Since its backbone is frozen, it requires a decoder to enable the model to learn the affinities of the features. Then it weights the decoder affinities with the frozen CLIP attention maps to get the final affinity map. After that, it uses the random walk propagation with box mask like CLIP-ES and applies the PAR module of AFA to get the final segmentation pseudo labels.

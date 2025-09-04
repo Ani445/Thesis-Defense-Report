@@ -1,0 +1,43 @@
+# LaTeX auxiliary and intermediate files
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.idx
+**/*.ind
+**/*.lof
+**/*.lot
+**/*.out
+**/*.toc
+**/*.acn
+**/*.acr
+**/*.alg
+**/*.glg
+**/*.glo
+**/*.gls
+**/*.ist
+**/*.fls
+**/*.log
+**/*.nav
+**/*.snm
+**/*.fdb_latexmk
+**/*.synctex.gz
+**/*.run.xml
+**/*.bbl
+
+# Temporary files
+*.tmp
+*.bak
+*.dvi
+
+# PDF output
+z_sample.pdf
+main.pdf
+
+# Editor-specific files
+.vscode/
+*.swp
+*.swo
+*~
+
+Illustrations/

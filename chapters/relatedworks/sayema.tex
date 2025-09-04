@@ -1,0 +1,95 @@
+
+\section{Weakly Supervised Semantic Segmentation}
+\label{sec:weakly-supervised}
+Fully supervised semantic segmentation is based on human-annotated pixel-level segmentation masks which are time-consuming, frustrating, and commercially expensive to obtain. Furthermore, crowd-sourced annotators must be specially trained for the tedious and difficult task of pixel-level annotation. As a result, such pixel-accurate supervision often limits annotated examples and class diversity in the existing datasets. This limits existing approaches to a small range of predefined object classes in the datasets. However, unlabeled and weakly labeled visual data can be collected in large amounts relatively quickly and at much lower annotation costs. So weakly supervised approaches have been studied to resolve this issue and allow semantic segmentation models to be more scalable.
+
+\section{Types of WSSS}
+\label{sec:types-weakly-supervised}
+Different types of weak supervision have been explored for semantic segmentation which include bounding boxes, scribbles, points, image level labels, eye tracks, free-form squiggles, or noisy web tags. Bounding box annotation provides coarse object boundaries, allowing models to infer object regions, but still requires annotators to draw accurate boxes. In Scribble supervision, the annotators draw scribbles (a set of pixels with a category label )on the object regions without fully outlining the object boundaries. Point supervision relies on marking typically one point per object, providing object location hints. However, these types of weak supervision still require a certain amount of human intervention during annotation procedure, so it is costly to annotate these weak labels for a large amount of visual data. 
+
+
+\section{Image-level Label based weak supervision}
+\label{sec:image-level-label}
+Image-level annotation is one of the most economical and efficient settings for weakly supervised semantic segmentation. In this context, every training image has its image class labels belonging to the objects present in the image but the locations of the objects are unknown. So, the challenge is to accurately assign image-level labels to their corresponding pixels.
+
+ Early approaches tried to train a segmentation model directly from image-level labels \cite{dcnn}, but their performance is not satisfactory. Later methods incorporate segmentation seeds given by discriminative localization techniques such as Class Activation Maps (CAM)\cite{cam}, with additional evidence such as superpixels \cite{imagelevelpixel}, segmentation proposals \cite{imagelevelpixel}, and motions in video \cite{wsss_motion_cues}, which are useful to estimate object shapes. Wei et al.\cite{adversarial_erasing} propose to progressively expand the segmentation results by sequentially searching for new and complementary object regions, while Kolesnikov and Lampert \cite{kolesnikov2016} learn a segmentation model to approximate the output of the dense Conditional Random Field (dCRF) \cite{krähenbühl} applied to the segmentation seeds given by CAMs.
+
+Some approaches learn to predict affinity matrices at the pixel level [36], to refine the output of dCRF through random walk. AffinityNet \cite{wsss_affinitynet} specifically predicts class-agnostic affinities between adjacent pixels to guide random walk propagation and improvement of CAMs. Seeded Region Growing (SRG) \cite{srg} is another notable method, where neighboring pixels are added to regions of initial seed points based on similarity criteria (such as color, intensity, or texture) or deep learning features having high-level semantics [DSRG] \cite{wsss_dsrg_deep_seeded_region_growing}.  P2P \cite{pixel_to_prototype} further proposes pixel-to-prototype contrastive learning, narrowing the supervision gap between image-level labels and pixel-level segmentation. Typically, these methods were built on the CNN network, inheriting the locality flaw. 
+
+Some recent works introduce ViT to WSSS \cite{camtokens, getam}. Inspired by the property that the class token in ViT can capture the foreground information \cite{caron}, TS-CAM\cite{camtokens} extracts the class-agnostic attention map and couples it with the naive semantic-aware CAM. \cite{getam} proposes to derive the gradients of the attention map and extracts the attention of class token w.r.t. other tokens as the class-specific maps. MCTformer \cite{MCTformer} embeds multiple class tokens and enforces them learning the activation maps of different classes. AFA \cite{wsss_afa_affinity_from_attention} proposes to learn reliable semantic affinity from the attention blocks to refine the initial coarse labels. FrozenCLIP \cite{wsss_frozen_clip} utilizes the frozen CLIP backbone for semantic feature extraction and pseudo-labels generation to train the decoder for final prediction, by dynamically updating the pseudo labels using RFM.
+
+
+
+\section{Stages}
+\label{sec:stages}
+
+Weakly supervised semantic segmentation has two main solutions based on their training processes: multi-stage approaches \cite{instance_wsss, l2g, lee} and single-stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}. 
+
+\subsection{Multi Stage}
+\label{subsec:multi-stage}
+
+Multi Stage WSSS has multiple steps. At first. a classification network is trained to generate the CAM, and initial pixel level pseudo labels are generated from the CAM. Then these pseudo labels are refined through affinity matrix and random walk propagation\cite{wsss_affinitynet, wsss_afa_affinity_from_attention}, or seeded region growing[SRG] or contrastive learning. Then these refined pseudo labels are used for supervising a segmentation model.
+
+Du et.al. \cite{pixel_to_prototype} proposed a pixel-to-prototype contrast method to enforce semantic consistency at  the feature level in order to generate higher-quality pseudo labels. MCTformer \cite{MCTformer} proposed the use of multi-class tokens in the transformer architecture to produce class-specific attention maps to generate refined CAM. Some recent approaches have attempted to introduce CLIP in the WSSS pipeline. CLIMS \cite{clims} utilized the CLIP model to activate more complete object regions while suppressing highly confident background regions. CLIP-ES \cite{wsss_clip_es} proposed to use the softmax function in CLIP to compute the GradCAM \cite{cam_grad} with carefully designed text prompts. This allowed CLIP's GradCAM to produce reliable pseudo labels for supervising segmentation models.
+
+\subsection{Single Stage}
+\label{subsec:single-stage}
+
+In single-stage weakly supervised semantic segmentation, the model tries to learn segmentation directly from weak supervision (like image-level labels) in one shot. A network is trained that produces segmentation outputs without going through separate phases of label generation and refinement. There’s no explicit intermediate step to improve pseudo labels — the model directly predicts segmentation maps during training based on weak supervision signals.
+
+Earlier single-stage WSSS methods used the ImageNet \cite{dataset_imagenet} pre-train model as the backbone to  jointly learn classification and segmentation, and mainly focused on improving segmentation by providing more accurate supervision or constraining its learning.  AA\&AR \cite{aaar} introduced an adaptive affinity loss to enhance semantic propagation in the segmentation branch. AFA \cite{wsss_afa_affinity_from_attention} designed an affinity branch to refine CAMs to produce better online pseudo labels. ToCo \cite{wsss_toco_token_contrast} leveraged token contrast learning to reduce over-smoothing in online CAM generation, generating better supervision for segmentation.
+
+
+\section{Breakdown of the pipeline}
+\label{sec:pipeline-breakdown}
+\subsection{Backbone}
+\label{subsec:backbone}
+
+The entire framework of AffinityNet \cite{wsss_affinitynet} is based on three DNNs: A network computing CAMs, AffinityNet, and a segmentation model and all three are all built upon the same backbone network. The backbone is a modified version of Model A1 \cite{RevisitingResNET}, which is also known as ResNet38 and has 38 convolution layers with wide channels. The GAP and fully connected layer of the original model are removed and the convolution layers of the last three levels are replaced by atrous convolutions with input stride of 1, and their dilation rates are adjusted so that the modified backbone network will return a feature map of stride 8.
+
+In DSRG \cite{wsss_dsrg_deep_seeded_region_growing}, they use the slightly modified version of the 16-layer VGG network from \cite{VGG16} for the classification network and DeepLab-V2 from \cite{fsss_deeplabv2} for the segmentation network. They are all initialized by the VGG-16 pretrained on ImageNet.
+
+AFA \cite{wsss_afa_affinity_from_attention} uses the Mix Transformer (MiT) proposed in Segformer \cite{fsss_segformer}, as a backbone for image segmentation tasks than the vanilla ViT. The backbone parameters are initialized with ImageNet-1k pre-trained weights.
+
+ToCo \cite{wsss_toco_token_contrast} uses the ViT-base (ViT-B) as the backbone initialized with ImageNet pre-trained weights. It  introduces an auxiliary classification layer within the ViT encoder to generate auxiliary CAMs, which are used to create auxiliary pseudo labels to guide the Pixel-Token Contrast (PTC) module. The auxiliary CAMs are also used to produce proposals for cropping positive and negative local image patches for the Cross-Token Contrast (CTC) module. Finally, the ultimate CAM is obtained through a classification layer and is used to generate the final pseudo labels.
+
+CLIP-ES \cite{wsss_clip_es} uses the CLIP ViT-B/16 model as the backbone. The image encoder is used to extract image features and the text encoder is used to extract text features. The CLIP model is pre-trained on 400 million image-text pairs, which allows it to learn rich visual and textual representations.
+
+The whole framework of FrozenCLIP \cite{wsss_frozen_clip} includes four main modules: a frozen CLIP backbone (image encoder and text encoder) with the ViT-16-base architecture\cite{transformer_vit} to encode the image and text, a classification process to produce initial CAM, a decoder to generate segmentation predictions, a RFM to refine initial  CAM to provide pseudo labels for training.
+
+\subsection{CAM generation}
+\label{subsec:cam-generation}
+In AffinityNet \cite{wsss_affinitynet}, to obtain the CAM generation model the following three layers are added on the top of the backbone network in the order: a 3x3 convolution layer with 512 channels for a better adaptation to the target task, a global average pooling layer for feature map aggregation, and a fully connected layer for classification.  The activation map is generated via weighting the feature maps with their contribution to a particular class, i.e., the weight matrix in the classification layer. Activation maps are further normalized so that maximum activation becomes 1. And the background activation map for the classes is determined by subtracting the maximum activation score of that pixel from 1.
+
+In DSRG \cite{wsss_dsrg_deep_seeded_region_growing}, we employ the CAMs \cite{cam} method for localizing the foreground classes. In their classification network, the fully-connected classifier is applied to conv7 to generate a heatmap for each object class. Then the discriminative object regions, used as seed cues for the foreground, are obtained by applying a hard threshold to the heatmap. For localizing background seed cues, they selected the regions in normalized saliency maps whose pixels are with low saliency values as background.
+
+AFA \cite{wsss_afa_affinity_from_attention} uses CAMs as the initial pseudo labels. The activation map is generated via weighting the feature maps with their contribution to a particular class, i.e., the weight matrix in the classification layer, and then applying  ReLu function to remove the negative activations. After scaling activation map to [0, 1], a background score is used to differentiate foreground and background regions.
+
+ToCo \cite{wsss_toco_token_contrast} introduces an auxiliary classification layer to perform classification and generate CAM, by  extracting the semantic-aware knowledge.  In the auxiliary classification head, the patch tokens are firstly aggregated via global max-pooling (GMP) and then projected with a fully-connected layer to compute the auxiliary CAMs.
+
+In FrozenCLIP \cite{wsss_frozen_clip}, the image is input to the CLIP image encoder to extract the image features and text prompts generated from the foreground and background class labels are input to the CLIP text encoder to generate the text features. Both image and text encoders are frozen during training.  Then, the classification scores are generated by computing distances between image features (after pooling) and text features. Based on classification scores, Grad CAM \cite{cam_grad} is utilized to generate the initial CAM.
+
+
+\subsection{Pseudo Label Generation}
+\label{subsec:pseudo-label-generation}
+AffinityNet is designed to predict a convolutional feature map where the semantic affinity between a pair of feature vectors is defined in terms of their L1 distance. To supervise this AffinityNet, they compute semantic affinity labels  from CAMS. They identify the confident areas of background, foreground classes and consider remaining areas as neutral from CAMs and compute the pairwise affinities according to class labels( 1 for the same classes and 0 for different classes, and ignored for a neutral label). After training the AffinityNet, the CAMS are refined by random walk with the semantic transition matrix. It improves the quality of CAM and generates accurate segmentation labels.
+
+In DSRG, they grow the seed cues to unlabeled pixels depending on a region similarity criterion, using the classical algorithm Seeded Region Growing \cite{srg}. For each class, the seed cues are visited in row first manner and its 8-connectivity neighborhood pixels are checked for similarity criteria. If they satisfy the criteria , those pixels are added to the set of seed cues for that particular class, and this process is repeated for every object class.  The final updated set of seed cues for every class is used as the supervision and applied to train the segmentation network. In every iteration of the training process, the seed cues or pseudo labels get updated further, thus making the update of pseudo labels dynamic.
+
+In the AFA module, they directly produce the semantic affinity by linearly combining the multi-head attention using an MLP layer. To make the affinity matrix symmetric, they add S and its transpose, because  nodes in a graphical model sharing the same semantics are supposed to be equal. To supervise the predicted affinity, reliable pseudo affinity labels  are derived from the refined pseudo labels. Given CAMs, each pixel is assigned a class based on the maximum activation score and if two pixels share the same class or semantic , AFA sets their affinity as positive, otherwise their affinity is set as negative. These generated pseudo affinity labels are used to supervise the predicted affinity. The learned reliable semantic affinity values are used to revise the initial CAM via random walk propagation.
+
+In ToCo, after generating the auxiliary CAMs, they use two background thresholds to segment auxiliary CAMs to the pseudo token labels- reliable foreground, background and uncertain regions. If two tokens share the same generated semantic label, they are labeled as positive pairs; otherwise, negative. To remedy the over-smoothing issue, in the Patch Token Contrast (PTC) module, they maximize the similarity of two final patch tokens that belong to positive pairs and minimize the similarity otherwise. Then they introduce the Class Token Contrast (CTC) module to make the representation of entire object regions more consistent by minimizing the difference between global and local class tokens. They minimize/maximize the difference between projected global class token and projected local class token cropped from uncertain/ background regions. 
+
+
+\subsection{Segmentation prediction}
+\label{subsec:segmentation-prediction}
+
+For the segmentation model, AffinityNet adds two more atrous convolution layers on the top of their backbone. This model generates the segmentation prediction which is supervised by their refined CAMS generated by propagating the pairwise affinities of the pixels.
+
+In DSRG, after obtaining the seed cues from initial CAMs,they train an image semantic segmentation network using the seed cues and they use a balanced seeding loss to encourage predictions of the segmentation network to match only seed cues given by the classification network while ignoring the rest of the pixels in the image. Later after refining the seed cues or pseudo labels, the whole network is trained again with the updated seed cues as supervision.
+
+In ToCo,  a simple segmentation head is used as the decoder, which consists of two 3x3 convolutional layers (with a dilation rate of 5) and a 1x1 prediction layer.  The pseudo labels produced by ToCo , after being refined by a pixel adaptive refinement module (PAR) , will be used to supervise the segmentation decoder which gives the segmentation prediction.
+
+For the segmentation decoder, AFA used the MLP decoder head, which fuses multi-level feature maps for prediction with simple MLP layers. For the supervision of the segmentation branch, the revised labels with affinity propagation are used.
+
+In FrozenCLIP, the feature decoder generates the initial feature maps from the output of each transformer block in the CLIP image encoder. Then, for each feature map, an individual MLP module is used to generate new corresponding feature maps and all the new feature maps are concatenated together, which are then processed by a convolution layer to generate a fused feature map. Then the fused feature map passes through several sequential multi-head transformer blocks to generate the final prediction P.
