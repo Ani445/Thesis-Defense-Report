@@ -91,3 +91,5 @@
 
 % Appendix handling
 \RequirePackage[toc,page]{appendix}
+
+\RequirePackage{multirow}
