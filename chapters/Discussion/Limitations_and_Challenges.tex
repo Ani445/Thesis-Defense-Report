@@ -1,5 +1,5 @@
-\section{Limitations and Challenges}
-\label{sec:limitations_and_challenges}
+\subsection{Limitations and Challenges}
+\label{subsec:limitations_and_challenges}
 Despite its conceptual alignment with recent single-stage approaches such as WeCLIP, our UniCL framework currently exhibits several limitations that hinder its effectiveness. First, the reliance on the Swin Transformer as the image encoder introduces structural constraints. Swin employs a window-based self-attention mechanism, which provides strong local feature representations but lacks the global receptive field necessary to model holistic object-level semantics. As a result, the affinity maps extracted from Swin are predominantly local and often fail to capture long-range dependencies between distant regions of an image. This locality limits the ability of UniCL to propagate semantic information effectively across the entire object, leading to fragmented or incomplete predictions.  
 
 Second, the initial class activation maps (CAMs) generated within UniCL tend to be weak and spatially inconsistent compared to ViT-based methods. Since CAM quality directly affects the downstream segmentation process, these weak initial cues significantly constrain the achievable performance, even with refinement mechanisms. Moreover, unlike attention maps from ViT backbones, which inherently encode some global semantic context, affinity maps from Swin offer limited interpretability and are more sensitive to noise, further exacerbating the challenge of producing robust segmentation masks.  

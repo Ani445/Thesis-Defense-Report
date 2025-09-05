@@ -1,6 +1,5 @@
-
-\section{Comparison with Baseline Methods}
-\label{sec:comparison_with_baseline_methods}
+\subsection{Comparison with Baseline Methods}
+\label{subsec:comparison_with_baseline_methods}
 Table~\ref{tab:quantitative_results} compares our proposed approach (UniCL) with both multi-stage and single-stage weakly supervised semantic segmentation (WSSS) methods. While state-of-the-art single-stage approaches such as WeCLIP achieve strong performance (76.4\%/77.2\% with CRF post-processing), our current UniCL implementation yields relatively modest results (50.0\% on both validation and test sets).  
 
 It is important to note that UniCL follows a pipeline similar to WeCLIP, but with a critical distinction in how localization cues are obtained. Whereas WeCLIP relies on attention maps derived from a ViT backbone, UniCL leverages affinity maps computed from the Swin Transformer image encoder in combination with a ViT text encoder. Due to the window-based self-attention mechanism in Swin, the resulting feature representations tend to be more \textit{local} and less globally coherent than ViT attention maps. Consequently, the affinity maps fail to capture holistic object-level relationships, leading to weaker class activation maps (CAMs) at initialization. These initial CAMs often exhibit fragmented activations, particularly for large or complex objects, which limits the effectiveness of subsequent refinement stages.  
@@ -11,7 +10,7 @@ In summary, although UniCL adopts the same overarching design philosophy as WeCL
 
 
 
-\begin{table}[ht]
+\begin{table}[htbp]
     \centering
     \renewcommand{\arraystretch}{1.2}
     \setlength{\tabcolsep}{6pt}
@@ -55,3 +54,4 @@ In summary, although UniCL adopts the same overarching design philosophy as WeCL
     \caption{Comparison of multi-stage and single-stage weakly supervised approaches.}
     \label{tab:quantitative_results}
 \end{table}
+

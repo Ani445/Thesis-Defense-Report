@@ -6,22 +6,12 @@ We evaluated the performance of our proposed method on the PASCAL VOC 2012 valid
 
 Our method achieves a \textbf{mean IoU of 50.0\%}, a pixel accuracy of 79.8\%, and a mean accuracy of 69.97\%. These results indicate that the model segments dominant classes effectively, outperforming many single-stage weakly supervised approaches.
 
-\subsection{Per-Class Analysis}
+% \subsection{Per-Class Analysis}
 
-Table~\ref{tab:per_class_iou} presents the per-class IoU scores. The performance varies significantly across different classes. Large and well-represented classes such as \textbf{background} (77.8\%), \textbf{bus} (67.5\%), \textbf{cat} (65.9\%), and \textbf{dog} (65.1\%) are segmented effectively. In contrast, smaller or less frequent classes such as \textbf{person} (16.9\%), \textbf{chair} (25.3\%), and \textbf{potted plant} (28.3\%) remain challenging.
+% Table~\ref{tab:per_class_iou} presents the per-class IoU scores. The performance varies significantly across different classes. Large and well-represented classes such as \textbf{background} (77.8\%), \textbf{bus} (67.5\%), \textbf{cat} (65.9\%), and \textbf{dog} (65.1\%) are segmented effectively. In contrast, smaller or less frequent classes such as \textbf{person} (16.9\%), \textbf{chair} (25.3\%), and \textbf{potted plant} (28.3\%) remain challenging.
 
-This discrepancy highlights the model's tendency to perform better on classes with larger spatial extent and more training samples, while struggling with rare or small objects.
+% This discrepancy highlights the model's tendency to perform better on classes with larger spatial extent and more training samples, while struggling with rare or small objects.
 
-\subsection{Comparison with Baselines}
+\input{chapters/result_analysis/per_class_performance.tex}
 
-When compared to the baseline method CLIP-ES \cite{wsss_clip_es} and other single-stage approaches, our model shows competitive performance in terms of mIoU (50.0\%). Although multi-stage approaches can achieve higher absolute mIoU values, our method demonstrates the effectiveness of a single-stage, language-guided weakly supervised segmentation framework, achieving reasonable performance without complex multi-stage refinement.
-
-\subsection{Observations}
-
-The quantitative analysis reveals several insights:
-\begin{itemize}
-    \item The model reliably segments dominant, large objects, as reflected in higher IoU scores for these classes.
-    \item Performance on smaller or less frequent classes is limited, suggesting the need for additional strategies such as multi-scale features or class-specific augmentation.
-    \item Overall, the results validate that integrating image-level labels with language supervision provides meaningful guidance for weakly supervised segmentation.
-\end{itemize}
-
+\input{chapters/result_analysis/comparison_with_baselines.tex}
