@@ -1,0 +1,45 @@
+\section{Per-Class Performance Analysis}
+\label{subsec:per_class_performance}
+\begin{table}[ht]
+\centering
+\caption{Per-Class IoU Performance on PASCAL VOC (Latest Results)}
+\begin{tabular}{|c|l|c|}
+\hline
+\textbf{Index} & \textbf{Class}      & \textbf{IoU} \\ \hline
+0  & background   & 0.7784  \\
+1  & aeroplane    & 0.5685  \\
+2  & bicycle      & 0.3191  \\
+3  & bird         & 0.6044  \\
+4  & boat         & 0.4360  \\
+5  & bottle       & 0.3677  \\
+6  & bus          & 0.6753  \\
+7  & car          & 0.4881  \\
+8  & cat          & 0.6591  \\
+9  & chair        & 0.2525  \\
+10 & cow          & 0.5887  \\
+11 & diningtable  & 0.4041  \\
+12 & dog          & 0.6511  \\
+13 & horse        & 0.6132  \\
+14 & motorbike    & 0.5846  \\
+15 & person       & 0.1697  \\
+16 & pottedplant  & 0.2828  \\
+17 & sheep        & 0.6305  \\
+18 & sofa         & 0.4661  \\
+19 & train        & 0.5642  \\
+20 & tvmonitor    & 0.4032  \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Overall Performance Metrics}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Value} \\ \hline
+Pixel Accuracy (pAcc) & 0.7981 \\
+Mean Accuracy (mAcc)  & 0.6997 \\
+Mean IoU (mIoU)       & 0.5003 \\ \hline
+\end{tabular}
+\end{table}
+
+The model achieved a mean IoU of 0.5003 on the PASCAL VOC dataset, with a pixel accuracy of 0.7981 and a mean accuracy of 0.6997. Performance varies significantly across classes: large and well-represented classes such as \textbf{background} (0.7784), \textbf{bus} (0.6753), \textbf{cat} (0.6591), and \textbf{dog} (0.6511) are segmented effectively, while smaller or less frequent classes like \textbf{person} (0.1697), \textbf{chair} (0.2525), and \textbf{potted plant} (0.2828) remain challenging. These results suggest that while the model captures the dominant classes well, further improvements are needed to better handle rare and small objects.
