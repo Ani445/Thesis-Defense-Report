@@ -621,6 +621,57 @@
       \verb https://arxiv.org/abs/2110.07110
       \endverb
     \endentry
+    \entry{dataset_pascal_voc}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=655191b4f54a942147b118da2f50aeed}{%
+           family={Everingham},
+           familyi={E\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+        {{hash=d3bc7b9be5061411a87f19fcdf39499c}{%
+           family={Van\bibnamedelima Gool},
+           familyi={V\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={Luc},
+           giveni={L\bibinitperiod}}}%
+        {{hash=6dedcea44b2da1415e95ac8a84fef83e}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+        {{hash=19dcf449a33f27289a006b0acf819975}{%
+           family={Winn},
+           familyi={W\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c72fc39e94030f67717052309266a44d}{%
+           family={Zisserman},
+           familyi={Z\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{235de32ba219ebb749c8820ac16ff118}
+      \strng{fullhash}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \strng{fullhashraw}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \strng{bibnamehash}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \strng{authorbibnamehash}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \strng{authornamehash}{235de32ba219ebb749c8820ac16ff118}
+      \strng{authorfullhash}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \strng{authorfullhashraw}{3ef4d1b33a74a339fa42029bb4b90a0d}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Computer Vision}
+      \field{month}{06}
+      \field{title}{The Pascal Visual Object Classes (VOC) challenge}
+      \field{volume}{88}
+      \field{year}{2010}
+      \field{pages}{303\bibrangedash 338}
+      \range{pages}{36}
+      \verb{doi}
+      \verb 10.1007/s11263-009-0275-4
+      \endverb
+    \endentry
     \entry{camtokens}{misc}{}{}
       \name{author}{8}{}{%
         {{hash=054b420c0df050e7b7e60aeaf6c1b99c}{%
@@ -2545,7 +2596,6 @@
   \missing{58}
   \missing{61}
   \missing{64}
-  \missing{pascal_voc}
 \endrefsection
 \endinput
 

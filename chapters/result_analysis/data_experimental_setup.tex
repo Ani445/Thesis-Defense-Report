@@ -1,5 +1,24 @@
 \section{Data and Experimental Setup}
-\label{subsec: Data and Experimental setup}
-We used the Pascal VOC 2012 dataset \cite{pascal_voc} for our experiments. The dataset contains 20 object classes and one background class. The training set contains 1,464 images, the validation set contains 1,449 images, and the test set contains 1,456 images. We used the training set for training our models and the validation set for evaluating our models. We did not use the test set as it does not have ground truth annotations available.
-We used the PyTorch framework for our experiments. We used a single NVIDIA Tesla V100 GPU with 32GB of memory for training and evaluation. We used the Adam optimizer with a learning rate of 0.001 and a batch size of 4. We trained our models for 20,000 epochs and selected the best model based on the validation set performance. 
-We used the Intersection over Union (IoU) metric for evaluating the performance of our models. The IoU metric is defined as the ratio of the area of overlap between the predicted segmentation and the ground truth segmentation to the area of union between the predicted segmentation and the ground truth segmentation. We calculated the IoU for each class and reported the mean IoU (mIoU) across all classes.
+\label{subsec:data_and_experimental_setup}
+
+We conducted our experiments on the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, 
+which contains 20 object categories and one background class. 
+The dataset is split into 1,464 training images, 1,449 validation images, 
+and 1,456 test images. Since the test set does not provide ground truth 
+annotations, we used the training set for model training and the validation 
+set for performance evaluation.
+
+All experiments were implemented in the \textbf{PyTorch} framework and executed 
+on a single \textbf{NVIDIA Tesla T4 GPU} with \textbf{16 GB of memory}, 
+provided by Google Colab (free tier). During training, images were randomly 
+resized within the range of 512--2048 pixels, rescaled by factors between 
+0.5 and 2.0, and cropped to a fixed size of 224.
+
+Optimization was performed using the \textbf{AdamW} optimizer with a learning 
+rate of $5 \times 10^{-5}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight 
+decay of 0.01. We trained the models for \textbf{30,000 iterations} with an 
+effective batch size of 8 (per-GPU batch size of 4 with gradient accumulation 
+steps of 2). A linear warmup strategy was applied during the first 500 iterations 
+with a warmup ratio of $10^{-3}$. The best-performing checkpoints were selected 
+based on validation set performance.
+
