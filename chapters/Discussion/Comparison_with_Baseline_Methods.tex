@@ -38,9 +38,10 @@ We compared the performance of our proposed method with the baseline method CLIP
         AFA$_{\text{CVPR'22}}$~\cite{wsss_afa_affinity_from_attention}                                     & MIT-B1     & I    & 66.0          & 66.3          \\
         TSCD$_{\text{AAAI'23}}$~\cite{wsss_tscd}                                    & MIT-B1     & I    & 67.0          & 67.5          \\
         ToCo$_{\text{CVPR'23}}$~\cite{wsss_toco_token_contrast}                                    & ViT        & I    & 71.1          & 72.2          \\
+        WeCLIP (w/o CRF)                                                & ViT        & I+L  & 74.9          & 75.2          \\
+        WeCLIP (w/ CRF)                                                 & ViT        & I+L  & \textbf{76.4} & \textbf{77.2} \\
         \hline
-        ours-WeCLIP (w/o CRF)                                                & ViT        & I+L  & 74.9          & 75.2          \\
-        ours-WeCLIP (w/ CRF)                                                 & ViT        & I+L  & \textbf{76.4} & \textbf{77.2} \\
+        \textbf{Ours (UniCL Latest Results)} & ViT & I+L & 50.0 & 50.0 \\
         \hline
     \end{tabular}
     \caption{Comparison of multi-stage and single-stage weakly supervised approaches.}
