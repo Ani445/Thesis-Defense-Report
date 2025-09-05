@@ -310,12 +310,35 @@ where \( P \in \mathbb{R}^{C \times H \times W} \), \( C \) is the number of cla
 
 \section{CAM Refinement and Pseudo-Label Generation}
 \label{sec:refinement}
-\subsection{Affinity based CAM refinement}
-The initial CAMs produced by the backbone tend to focus only on sparse, highly discriminative regions. It is often noisy and insufficient to be used for supervision. Therefore, a refinement module is required where the initial CAM is improved. The refined CAM is the pseudolabel that is used as supervision.
+\subsection{Affinity based CAM refinement}  
+The initial CAMs produced by the backbone tend to focus only on sparse, highly discriminative regions. These activations are often noisy and insufficient to be used directly as supervision. Therefore, a refinement module is required where the initial CAM is improved. The refined CAM is then used as a pseudolabel for supervision.  
 
-The most common method of recitifying CAM is by using the feature relationships of the backbone that produces it. This is called affinity-based CAM refinement, first proposed by \cite{wsss_affinitynet}. We know that attention maps of a transformer capture the semantic-level affinity of the features or patches. The affinity matrix $A_f$ is produced from these attention maps which is used to refine the CAMs using random walk propagation. Another affinity matrix, $\hat{A}$ is generated from the predicted pseudolabel by the decoder. Then the CE loss between these two affinity matrices are incorporated into the loss function.
+The most common strategy for rectifying CAMs is by exploiting the feature relationships within the backbone that generates them. This is referred to as affinity-based CAM refinement, first introduced by \cite{wsss_affinitynet}. In transformer-based backbones, the attention maps naturally encode semantic-level affinities between tokens or patches. From these attention maps, an affinity matrix $A_f$ can be constructed and employed for CAM refinement via random walk propagation. In parallel, another affinity matrix, $\hat{A}$, can be derived from the predicted pseudolabel produced by the decoder. The cross-entropy loss between these two affinity matrices is then incorporated into the training objective.  
 
-However, in our case, the backbone that produces the CAM is frozen, and therefore, the attention maps of the backbone will not get updated during training. To remedy this, what Frozen Clip \cite{wsss_frozen_clip} does is - it utilizes the affinity map of intermediary features of the decoder to refine the CAMs. While doing so, the attention maps of the backbone are used to influence this decoder affinity matrix in order to produce the final affinity matrix, $R$ , which is then used to generate the transition matrix, $T$ for the random walk propagation. The complete process is described below.
+However, in our case, the backbone responsible for generating the CAMs is \textbf{frozen}, meaning that its attention maps remain fixed and do not update during training. To address this limitation, Frozen CLIP \cite{wsss_frozen_clip} proposes utilizing the affinity derived from intermediate features of the encoder instead of directly relying on the backbone’s frozen attention. The backbone attention maps are then used only to influence this encoder-derived affinity, producing a final refined matrix $R$, which is further transformed into a transition matrix $T$ for random walk propagation.  
+
+In our setup, the UniCL backbone is based on the Swin Transformer, whose shifted-window design restricts the attention mechanism to \textbf{local regions}. Consequently, the attention maps fail to capture the \textbf{global semantic affinities} necessary for effective CAM propagation, and we could not use them directly for refinement. To overcome this, we compute affinities from the \textbf{intermediate feature maps of the Swin encoder}.  
+
+Formally, let $f \in \mathbb{R}^{C \times L}$ denote the encoder feature map of dimension $C$ (channels) and length $L = hw$ (flattened spatial positions). We first normalize $f$ along the channel dimension:  
+
+\begin{equation}
+\tilde{f}_i = \frac{f_i}{\| f_i \|_2}, \quad i=1,\dots,L
+\end{equation}
+
+The affinity between positions $i$ and $j$ is then defined as the dot-product similarity:  
+
+\begin{equation}
+A_{ij} = \tilde{f}_i^\top \tilde{f}_j
+\end{equation}
+
+To enhance stability, we compute affinities across multiple encoder blocks and then average them:  
+
+\begin{equation}
+\hat{A} = \frac{1}{N} \sum_{k=1}^N A^{(k)}
+\end{equation}
+
+where $N$ is the number of encoder blocks used. The resulting affinity matrix $\hat{A} \in \mathbb{R}^{hw \times hw}$ captures semantic relationships across the image and is subsequently used in the random walk propagation step to refine the CAMs.  
+
 
 \subsection{Extracting affinity map from the decoder}
 \label{subsec:decoder_aff_mat}
@@ -328,43 +351,45 @@ Based on the feature map $F_u$ obtained from the decoder (as defined in Eq.~(2))
 
 where $F_u \in \mathbb{R}^{d \times h \times w}$ is reshaped into a matrix of size $d \times hw$ before the computation. The $\text{Sigmoid}(\cdot)$ function ensures that the values in the resulting affinity map lie in the range $[0, 1]$. Consequently, the computed affinity map $A_f$ has the dimensions $\mathbb{R}^{hw \times hw}$. Here, $\top$ denotes the matrix transpose.
 
-\subsection{Selecting attention maps of the image encoder}
+\subsection{Selecting affinity maps of the image encoder}
 \label{subsec:att_map_encoder}
-We extract all the multi-head attention maps from the frozen CLIP image encoder, denoted as $\{A_s^l\}_{l=1}^N$, where each attention map $A_s^l \in \mathbb{R}^{hw \times hw}$. To evaluate the quality of each attention map $A_s^l$, we compare it with the previously computed affinity map $A_f$ using the following score:
+We extract all the affinity maps from the frozen CLIP image encoder, denoted as $\{A_s^l\}_{l=1}^N$, where each affinity map $A_s^l \in \mathbb{R}^{hw \times hw}$. To evaluate the reliability of each affinity map $A_s^l$, we compare it with the previously computed decoder affinity map $A_f$ using the following deviation score:
 
 \begin{equation}
     S^l = \sum_{i=1}^{hw} \sum_{j=1}^{hw} \left| A_f(i, j) - A_s^l(i, j) \right|,
 \end{equation}
 
-where $S^l$ measures the deviation of the attention map $A_s^l$ from the affinity map $A_f$.
+where $S^l$ quantifies how much the affinity map (encoder) $A_s^l$ deviates from the reference affinity (decoder) $A_f$.  
 
-We then compute a binary filter $G^l$ for each attention map based on its corresponding score:
+Based on this score, we assign a binary weight $G^l$ to each affinity map:  
 
 \begin{equation}
     G^l =
     \begin{cases}
-        1, & \text{if } S^l < \frac{1}{N - N_0 + 1} \sum_{l=N_0}^N S^l \\
-        0, & \text{otherwise}
+        1, & \text{if } S^l < \dfrac{1}{N - N_0 + 1} \sum_{m=N_0}^N S^m, \\[8pt]
+        0, & \text{otherwise}.
     \end{cases}
 \end{equation}
 
-Here, $G^l \in \mathbb{R}^{1 \times 1}$ is expanded to $G^l_e \in \mathbb{R}^{hw \times hw}$ for further processing. The threshold is set as the average of the $S^l$ values from layer $N_0$ to $N$. If a particular $S^l$ is less than this threshold, the corresponding attention map is considered reliable and retained ($G^l = 1$). Otherwise, it is deemed weak and filtered out ($G^l = 0$). This filtering process ensures that only high-quality attention maps are preserved for subsequent computations.
+Here, $G^l \in \{0,1\}$ is expanded to $G^l_e \in \mathbb{R}^{hw \times hw}$ for subsequent operations. The threshold is chosen as the average of the scores $\{S^m\}_{m=N_0}^N$ from the later layers of the encoder. If $S^l$ is lower than this threshold, the corresponding affinity map is considered reliable and retained ($G^l = 1$); otherwise, it is filtered out ($G^l = 0$).  
 
-\subsection{Utilizing the attention maps}
+This selection mechanism ensures that only high-quality affinity maps consistent with the encoder-derived relationships are preserved, thereby improving the robustness of the CAM refinement process.  
+
+\subsection{Utilizing the frozen encoder affinity maps}
 \label{subsec: mul_attn_and_aff}
-Using the affinity map $A_f$ and the filtered attention maps, we construct a refining map $R$ by weighing the affinity matrix with the mean of the selected attention maps. The equation is given as:
+Using the affinity map $A_f$ and the filtered affinity maps of the encoder, we construct a refining map $R$ by weighing the decoder affinity matrix with the mean of the selected encoder affinity maps. The equation is given as:
 
 \begin{equation}
     R = A_f \odot \frac{ \sum_{l=1}^N G^l_e A_s^l}{N_m},
 \end{equation}
 
-where $\odot$ denotes element-wise multiplication, and $N_m$ is the number of valid attention maps that have passed the filtering stage, defined as:
+where $\odot$ denotes element-wise multiplication, and $N_m$ is the number of valid encoder affinity maps that have passed the filtering stage, defined as:
 
 \begin{equation}
     N_m = \sum_{l = N_0}^N G^l.
 \end{equation}
 
-Here, $G^l_e \in \mathbb{R}^{hw \times hw}$ is the expanded binary filter corresponding to $G^l$. The refining map $R$ effectively integrates the reliable attention maps weighted by the affinity map $A_f$, enhancing meaningful relationships while suppressing noisy or irrelevant information.
+Here, $G^l_e \in \mathbb{R}^{hw \times hw}$ is the expanded binary filter corresponding to $G^l$. The refining map $R$ effectively integrates the reliable encoder affinity maps weighted by the affinity map $A_f$, enhancing meaningful relationships while suppressing noisy or irrelevant information.
 
 \subsection{Constructing the semantic transition matrix}
 \label{subsec:trans_mat}
