@@ -12,7 +12,7 @@ A wide range of weak supervision have been explored, including bounding boxes, s
 \section{Image-level Label based weak supervision}
 \label{sec:image-level-label}
 Image-level annotation is one of the most economical and efficient settings for weakly supervised semantic segmentation. In this context, every training image has its image class labels belonging to the objects present in the image but the locations of the objects are unknown. So, the challenge is to accurately assign image-level labels to their corresponding pixels.
- 
+
 Initial approaches attempted to train segmentation models directly from image-level labels \cite{dcnn}, but performance was unsatisfactory. Later methods introduced discriminative localization techniques such as Class Activation Maps (CAMs) \cite{cam}, which highlight class-relevant regions. These coarse cues were then refined using auxiliary information such as superpixels \cite{imagelevelpixel}, segmentation proposals \cite{imagelevelpixel}, or motion information from videos \cite{wsss_motion_cues}. Some works, such as Adversarial Erasing \cite{adversarial_erasing}, expanded object coverage progressively by iteratively searching new regions. Others, like Kolesnikov and Lampert \cite{kolesnikov2016}, trained networks to approximate the dense CRF \cite{krähenbühl} applied on CAMs for refinement.
 
 Some approaches learn to predict affinity matrices at the pixel level [36], to refine the output of dCRF through random walk. AffinityNet \cite{wsss_affinitynet} predicts class-agnostic pixel affinities to propagate CAM activations via random walks. Similarly, Seeded Region Growing (SRG) \cite{srg} expands initial seed regions using similarity criteria, while its deep learning extension DSRG \cite{wsss_dsrg_deep_seeded_region_growing} leverages high-level semantic features to grow regions more effectively. P2P \cite{pixel_to_prototype} further narrows the supervision gap by using pixel-to-prototype contrastive learning. A common limitation, however, is that most of these CNN-based methods inherit the restricted locality of convolutional features.
@@ -23,7 +23,7 @@ Recent advances incorporate transformers into WSSS \cite{camtokens, getam}. TS-C
 \section{Stages}
 \label{sec:stages}
 
-Weakly supervised semantic segmentation has two main solutions based on their training processes: multi-stage approaches \cite{instance_wsss,wsss_L2G,wsss_rib} and single-stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}. 
+Weakly supervised semantic segmentation has two main solutions based on their training processes: multi-stage approaches \cite{instance_wsss,wsss_L2G,wsss_rib} and single-stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}.
 
 \subsection{Multi Stage}
 \label{subsec:multi-stage}
@@ -35,24 +35,156 @@ Du et al. \cite{pixel_to_prototype} introduced a pixel-to-prototype contrastive 
 \subsection{Single Stage}
 \label{subsec:single-stage}
 
-In single-stage weakly supervised semantic segmentation, the model tries to learn segmentation directly from weak supervision (like image-level labels) in one shot. A network is trained that produces segmentation outputs without going through separate phases of label generation and refinement. There’s no explicit intermediate step to improve pseudo labels — the model directly predicts segmentation maps during training based on weak supervision signals.
+In single-stage weakly supervised semantic segmentation, the model tries to learn segmentation directly from weak supervision (like image-level labels) in one shot. A network is trained that produces segmentation outputs without going through separate phases of label generation and refinement. There's no explicit intermediate step to improve pseudo labels — the model directly predicts segmentation maps during training based on weak supervision signals.
 
 Earlier works in this line used ImageNet-pretrained backbones \cite{dataset_imagenet} to jointly optimize classification and segmentation, with most efforts devoted to improving supervision quality or constraining the learning process. AA\&AR \cite{wsss_aaar} proposed an adaptive affinity loss that facilitates semantic propagation within the segmentation branch. AFA \cite{wsss_afa_affinity_from_attention} introduced an affinity branch to refine CAMs online, yielding stronger pseudo labels during training. ToCo \cite{wsss_toco_token_contrast} further advanced this direction by employing token-level contrastive learning to mitigate over-smoothing in CAM generation, thereby providing better online supervision.
 
-\section{Types of CAM}
-\label{sec:types-of-cam}
-CNNs are often regarded as “black-box” models due to the limited interpretability of their internal mechanisms. Zhou et al.\cite{cam} demonstrated that different CNN layers could function as unsupervised object detectors through Class Activation Mapping (CAM). Building on this, Grad-CAM\cite{cam_grad} combines the class-discriminative property of CAM with gradient-based visualization techniques to focus on fine-grained image details.
+\section{Class Activation Maps}
+\label{sec:class-activation-maps}
 
-An extension of this method, Grad-CAM++~\cite{cam_gradpp}, improves both object localization and the handling of multiple object instances within the same image compared to prior approaches. It achieves this by assigning pixel-wise weights to the gradients of the output with respect to specific spatial locations in the final convolutional feature map. The method derives closed-form solutions for these weights, including exact higher-order derivatives for softmax and exponential activations. Importantly, Grad-CAM++~\cite{cam_gradpp} requires only a single backward pass, keeping computational cost comparable to earlier gradient-based methods while offering more informative visualizations.
+Class Activation Maps (CAMs) are a powerful tool for visualizing the regions of an
+image that contribute most to the model's predictions. They provide insights into the
+model's decision-making process and help identify the areas of interest for
+segmentation tasks. In this section, we will discuss the process of generating CAMs
+using the UniCL framework and Swin Transformer architecture.
 
-LayerCAM~\cite{layer_cam} further advances interpretability by generating reliable activation maps not only from the final convolutional layer but also from shallower layers. This allows it to capture both coarse object localization and detailed fine-grained features, thereby offering a multi-scale perspective of object representation within CNNs.
+\subsection{Basic Classification}
+\label{subsec:basic_classification}
 
-Beyond CNN-based methods, attention-based interpretability has also been explored. \cite{attention_rollout}introduced attention rollout and attention flow to compute attention scores for input tokens at each layer. Both approaches recursively propagate attention from earlier layers, taking into account residual connections. Attention rollout assumes that token identities propagate linearly through attention weights, while attention flow models the process as a flow network and applies a maximum flow algorithm to compute maximum flow values and trace information flow from hidden embeddings to input tokens. Compared to raw attention maps, these methods provide token-level attention that shows stronger correlation with input-gradient-based importance scores.
+In the basic classification task, the model is trained to classify images into predefined categories. The CAMs are generated by applying a global average pooling operation on the feature maps produced by the last convolutional layer of the model. This operation aggregates the spatial information and produces a heatmap that highlights the regions of the image that are most relevant for the classification task.
 
-RelevanceCAM~\cite{relevance_cam} introduces a new CAM variant that leverages Layer-wise Relevance Propagation (LRP) to compute weighting components. By doing so, it addresses the shattered gradient problem, which often leads to noisy saliency maps in intermediate layers. RelevanceCAM\cite{relevance_cam} demonstrates that not only the final convolutional layers but also intermediate and shallow layers, with smaller receptive fields, can capture class-specific features. This results in improved faithfulness and robustness of explanations, with superior localization of target objects in earlier layers compared to existing CAM-based techniques.
+\begin{figure}[htbp]
+    \centering
+    \fbox{\includegraphics[width=0.8\textwidth]{basic-classification}}
+    \caption{Basic Classification}
+    \label{fig:basic_classification}
+\end{figure}
+
+In the \autoref{fig:basic_classification}, we can see a high-level overview of the basic classification task. The process can be summarized as follows:
+
+\begin{enumerate}
+    \item The input image is passed through the model, and the feature maps are generated. This deep feature extraction block can be either CNNs (as it initially was) or Transformers.
+    \item The \emph{MLP (Multi-Layer Perceptron)}, also called the \emph{Classifier head}, is used to produce the final classification scores.
+    \item The scores are then normalized using a \emph{softmax} function to obtain the class probabilities.
+\end{enumerate}
+
+No matter how the feature maps are generated or what the backbone is, the MLP head is used to produce the final classification scores. For CAM generation, we only need the feature maps and the class scores, i.e, upto the Classifier head.
+
+Convolutional Neural Networks (CNNs) are often considered “black-box” models due to the limited interpretability of their internal decision-making process. To address this, Class Activation Mapping (CAM) was introduced by Zhou et al.~\cite{cam}, demonstrating that CNNs can act as unsupervised object detectors by highlighting discriminative image regions relevant to classification. CAM and its variants have since become central to Weakly Supervised Semantic Segmentation (WSSS), where such localization cues are refined into pixel-level pseudo-labels for segmentation training.
+
+\subsection{Vanilla CAM}
+
+The original CAM~\cite{cam} requires a specific network architecture where fully connected layers are replaced by a Global Average Pooling (GAP) layer followed by a linear classifier. The process is illustrated in \autoref{fig:basic_cam_generation_process}:
+
+\begin{figure}[htbp]
+    \centering
+    \fbox{\includegraphics[width=0.8\textwidth]{basic-CAM}}
+    \caption{CAM Generation Process}
+    \label{fig:basic_cam_generation_process}
+\end{figure}
+
+\begin{enumerate}
+    \item The input image is passed through a CNN to obtain convolutional feature maps.
+    \item GAP is applied to produce a compact vector representation of the image.
+    \item This representation is fed into the classifier head to generate class scores.
+    \item The neuron corresponding to the predicted class is identified.
+    \item The learned weights associated with this class are used to compute a weighted sum of the feature maps, yielding a class-specific heatmap.
+    \item The heatmap is upsampled to match the original image resolution for visualization.
+\end{enumerate}
+
+Although effective, CAM requires modifying the network by inserting GAP, which limits its general applicability.
+
+\subsection{Grad-CAM}
+\label{subsec:grad_cam}
+
+To overcome CAM's architectural constraint, Selvaraju et al.~\cite{cam_grad} proposed Gradient-weighted CAM (Grad-CAM). Unlike CAM, Grad-CAM can be applied to any CNN-based model without requiring structural changes. Instead of relying solely on classifier weights, Grad-CAM leverages the gradient of the target class score with respect to feature maps. The process is illustrated in \autoref{fig:grad_cam_generation_process}:
+
+\begin{figure}[htbp]
+    \centering
+    \fbox{\includegraphics[width=0.8\textwidth]{grad-CAM}}
+    \caption{Grad-CAM Generation Process}
+    \label{fig:grad_cam_generation_process}
+\end{figure}
+
+\begin{enumerate}
+    \item Forward pass the input to obtain feature maps from the last convolutional layer.
+    \item Compute the classification scores through the classifier head.
+    \item Select the target class neuron (often the top prediction, but any class can be chosen).
+    \item Backpropagate to compute gradients of this class score with respect to the feature maps.
+    \item Average the gradients spatially to obtain weights for each feature map channel.
+    \item Combine the feature maps using these weights to create a coarse localization heatmap.
+    \item Apply ReLU to suppress negative contributions.
+    \item Upsample the heatmap to align with the input image.
+\end{enumerate}
+
+Grad-CAM preserves the architectural flexibility missing in CAM, while still providing class-discriminative localization.
+
+\subsection{Grad-CAM++}
+Grad-CAM++~\cite{cam_gradpp} was introduced to address two main limitations of Grad-CAM: (1) poor handling of multiple object instances of the same class, and (2) sensitivity to object size and distribution. Instead of relying only on first-order gradients, Grad-CAM++ incorporates higher-order derivatives of the class score with respect to feature maps.
+
+\begin{enumerate}
+    \item The forward pass generates feature maps as in Grad-CAM.
+    \item For the target class, both first-order and higher-order gradients are computed.
+    \item These gradients are used to calculate pixel-wise weights, where each spatial location contributes differently to the final importance score.
+    \item The weighted sum of the feature maps is constructed using these refined weights, resulting in a sharper and more spatially precise heatmap.
+    \item Like Grad-CAM, the heatmap is processed with ReLU and upsampled.
+\end{enumerate}
+
+This method improves localization in complex scenarios, such as small objects or multiple instances, while requiring only one backward pass, keeping computational costs similar to Grad-CAM.
+
+\subsection{LayerCAM}
+LayerCAM~\cite{layer_cam} builds on the intuition that meaningful localization is not limited to the last convolutional layer. Earlier and intermediate layers often capture fine-grained features such as edges and textures, which can complement coarse semantic features from deeper layers.
+
+LayerCAM computes CAMs at multiple levels of the network:
+\begin{enumerate}
+    \item For each chosen convolutional layer, gradients with respect to the target class are calculated.
+    \item Instead of spatially averaging the gradients, LayerCAM assigns weights at every spatial location by multiplying activation values with their corresponding gradients.
+    \item These location-aware weights allow the method to produce more precise heatmaps per layer.
+    \item CAMs from different layers are then combined to form a multi-scale localization map that captures both coarse object regions and fine details.
+\end{enumerate}
+
+By integrating multi-layer signals, LayerCAM enhances both interpretability and localization accuracy compared to Grad-CAM.
+
+\subsection{Attention Rollout and Attention Flow}
+Beyond CNN-based visualization, transformer-based networks introduced attention-based interpretability. Abnar and Zuidema~\cite{attention_rollout} proposed two techniques:
+
+- \textbf{Attention Rollout}: recursively multiplies attention matrices across layers, incorporating residual connections. This assumes that token identity propagates linearly through attention weights, providing a global view of how input tokens influence the final decision.
+- \textbf{Attention Flow}: formulates interpretability as a maximum flow problem, modeling information propagation as a flow network. A maximum flow algorithm is then applied to trace how embeddings in deeper layers are connected back to input tokens.
+
+Both methods generate token-level importance maps that correlate strongly with gradient-based measures, improving interpretability for transformer architectures.
+
+\subsection{RelevanceCAM}
+RelevanceCAM~\cite{relevance_cam} incorporates Layer-wise Relevance Propagation (LRP) into CAM generation. Unlike gradient-based methods that can suffer from the shattered gradient problem, LRP redistributes the prediction score backward through the network based on relevance conservation principles.
+
+\begin{enumerate}
+    \item Starting from the target class score, relevance values are propagated layer by layer toward the input.
+    \item Each neuron’s contribution is quantified based on how much it supports the class prediction.
+    \item These relevance scores are aggregated spatially to form heatmaps at multiple layers.
+    \item The final activation map combines information from both shallow and deep layers, enhancing robustness and interpretability.
+\end{enumerate}
+
+RelevanceCAM provides more stable and faithful explanations, particularly in intermediate layers, and demonstrates improved localization performance over traditional Grad-CAM variants.
+
+\subsection{Summary}
+Overall, CAM-based methods have evolved from the original GAP-based CAM~\cite{cam} to gradient-driven approaches like Grad-CAM~\cite{cam_grad}, higher-order generalizations such as Grad-CAM++~\cite{cam_gradpp}, multi-layer extensions like LayerCAM~\cite{layer_cam}, attention-based methods for transformers~\cite{attention_rollout}, and LRP-driven methods like RelevanceCAM~\cite{relevance_cam}. These advances have been pivotal in WSSS, where class-discriminative heatmaps serve as initial localization cues that are refined into pixel-level pseudo-labels for segmentation.
 
 \section{Breakdown of the pipeline}
 \label{sec:pipeline-breakdown}
+
+\section{Overview}
+\label{sec:overview}
+In this section, we provide a high-level overview of the proposed methodology. The methodology is designed to address the challenges of weakly supervised semantic segmentation (WSSS) by leveraging the strengths of multi-modal learning frameworks like UniCL and advanced vision architectures such as the Swin Transformer. The key components of the methodology include:
+
+\begin{itemize}
+    \item \textbf{Backbone Architecture}: The backbone network is responsible for generating Class Activation Maps (CAMs) from input images. We experiment with UniCL as the backbone due to its multi-modal capabilities and state-of-the-art performance in generating high-quality CAMs.
+    \item \textbf{CAM Generation}: CAMs are generated using Grad-CAM techniques adapted for multi-modal models like UniCL. These CAMs highlight the regions of interest in the image for each class.
+    \item \textbf{Segmentation Prediction}: The feature maps from the backbone are aggregated and passed through a decoder to produce segmentation predictions. The decoder employs multi-head transformer layers to refine the predictions.
+    \item \textbf{CAM Refinement and Pseudo-Label Generation}: Initial CAMs are refined using affinity-based techniques and random walk propagation to generate high-quality pseudo-labels. These pseudo-labels serve as supervision for training the segmentation model.
+    \item \textbf{Loss Function}: A combination of segmentation loss and affinity loss is used to optimize the model. The affinity loss ensures consistency between the affinity maps of the decoder and the pseudo-labels, while the segmentation loss aligns the predictions with the refined CAMs.
+\end{itemize}
+
+The proposed methodology integrates these components into a cohesive framework, enabling the generation of accurate segmentation maps from weak supervision signals.
+
 \subsection{Backbone}
 \label{subsec:backbone}
 
