@@ -19,6 +19,45 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
+    \entry{attention_rollout}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=f975fd62621fc055339fdf5f3f64d41d}{%
+           family={Abnar},
+           familyi={A\bibinitperiod},
+           given={Samira},
+           giveni={S\bibinitperiod}}}%
+        {{hash=44ad51ff065eed44fec5244bbae59fd4}{%
+           family={Zuidema},
+           familyi={Z\bibinitperiod},
+           given={Willem},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{0c514d65ea282376df5c6895d9467080}
+      \strng{fullhash}{0c514d65ea282376df5c6895d9467080}
+      \strng{fullhashraw}{0c514d65ea282376df5c6895d9467080}
+      \strng{bibnamehash}{0c514d65ea282376df5c6895d9467080}
+      \strng{authorbibnamehash}{0c514d65ea282376df5c6895d9467080}
+      \strng{authornamehash}{0c514d65ea282376df5c6895d9467080}
+      \strng{authorfullhash}{0c514d65ea282376df5c6895d9467080}
+      \strng{authorfullhashraw}{0c514d65ea282376df5c6895d9467080}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Quantifying Attention Flow in Transformers}
+      \field{year}{2020}
+      \verb{eprint}
+      \verb 2005.00928
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2005.00928
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2005.00928
+      \endverb
+    \endentry
     \entry{srg}{article}{}{}
       \name{author}{2}{}{%
         {{hash=b438d9b0b7e492cd509aba323e0b5007}{%
@@ -219,68 +258,56 @@
       \field{pages}{2481\bibrangedash 2495}
       \range{pages}{15}
     \endentry
-    \entry{caron}{misc}{}{}
-      \name{author}{7}{}{%
-        {{hash=3edb601111e59d5826c21f2b90550b2d}{%
-           family={Caron},
+    \entry{cam_gradpp}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=5e375073aa77690342f9b9919270f6df}{%
+           family={Chattopadhay},
            familyi={C\bibinitperiod},
-           given={Mathilde},
-           giveni={M\bibinitperiod}}}%
-        {{hash=a2a13fcd633ec70c55a7f3f4812afdcf}{%
-           family={Touvron},
-           familyi={T\bibinitperiod},
-           given={Hugo},
-           giveni={H\bibinitperiod}}}%
-        {{hash=4ada721a93e1592ecdc3df0fc9876469}{%
-           family={Misra},
-           familyi={M\bibinitperiod},
-           given={Ishan},
-           giveni={I\bibinitperiod}}}%
-        {{hash=a2329be98a372037fcb95334bdc0c720}{%
-           family={Jégou},
-           familyi={J\bibinitperiod},
-           given={Hervé},
-           giveni={H\bibinitperiod}}}%
-        {{hash=d699b6cdc55cf5811dd19c9a2e13c7c1}{%
-           family={Mairal},
-           familyi={M\bibinitperiod},
-           given={Julien},
-           giveni={J\bibinitperiod}}}%
-        {{hash=dfd2b635b41689b48c4b81ce769b940b}{%
-           family={Bojanowski},
-           familyi={B\bibinitperiod},
-           given={Piotr},
-           giveni={P\bibinitperiod}}}%
-        {{hash=977d047821122d1c2e7aa855c30c8cf2}{%
-           family={Joulin},
-           familyi={J\bibinitperiod},
-           given={Armand},
+           given={Aditya},
            giveni={A\bibinitperiod}}}%
+        {{hash=8cb5c014ba91724d7680d6817f6ad2ae}{%
+           family={Sarkar},
+           familyi={S\bibinitperiod},
+           given={Anirban},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d74a9767168e3a4c2917ff3328b654f2}{%
+           family={Howlader},
+           familyi={H\bibinitperiod},
+           given={Prantik},
+           giveni={P\bibinitperiod}}}%
+        {{hash=1a6d0bd847a9168d28d9e43f792ba079}{%
+           family={Balasubramanian},
+           familyi={B\bibinitperiod},
+           given={Vineeth\bibnamedelima N},
+           giveni={V\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
       }
-      \strng{namehash}{08b206d39c68e0a891bf9c793db0530c}
-      \strng{fullhash}{0847698a5ee6a6d58bdc95f47b92644e}
-      \strng{fullhashraw}{0847698a5ee6a6d58bdc95f47b92644e}
-      \strng{bibnamehash}{08b206d39c68e0a891bf9c793db0530c}
-      \strng{authorbibnamehash}{08b206d39c68e0a891bf9c793db0530c}
-      \strng{authornamehash}{08b206d39c68e0a891bf9c793db0530c}
-      \strng{authorfullhash}{0847698a5ee6a6d58bdc95f47b92644e}
-      \strng{authorfullhashraw}{0847698a5ee6a6d58bdc95f47b92644e}
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{372e4d29342a23917d836131c42dae84}
+      \strng{fullhash}{357557e525610f2ce787d571ab357532}
+      \strng{fullhashraw}{357557e525610f2ce787d571ab357532}
+      \strng{bibnamehash}{357557e525610f2ce787d571ab357532}
+      \strng{authorbibnamehash}{357557e525610f2ce787d571ab357532}
+      \strng{authornamehash}{372e4d29342a23917d836131c42dae84}
+      \strng{authorfullhash}{357557e525610f2ce787d571ab357532}
+      \strng{authorfullhashraw}{357557e525610f2ce787d571ab357532}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{title}{Emerging Properties in Self-Supervised Vision Transformers}
-      \field{year}{2021}
-      \verb{eprint}
-      \verb 2104.14294
+      \field{booktitle}{2018 IEEE Winter Conference on Applications of Computer Vision (WACV)}
+      \field{month}{3}
+      \field{title}{Grad-CAM++: Generalized Gradient-Based Visual Explanations for Deep Convolutional Networks}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1109/wacv.2018.00097
       \endverb
       \verb{urlraw}
-      \verb https://arxiv.org/abs/2104.14294
+      \verb http://dx.doi.org/10.1109/WACV.2018.00097
       \endverb
       \verb{url}
-      \verb https://arxiv.org/abs/2104.14294
+      \verb http://dx.doi.org/10.1109/WACV.2018.00097
       \endverb
     \endentry
     \entry{fsss_deeplabv1}{article}{}{}
@@ -913,6 +940,7 @@
       \strng{authornamehash}{819d4979a79d518dd1cae6ea338d0718}
       \strng{authorfullhash}{71b01ef7e8d1fdaf24676b0bff54459b}
       \strng{authorfullhashraw}{71b01ef7e8d1fdaf24676b0bff54459b}
+      \field{extraname}{1}
       \field{sortinit}{J}
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
       \field{labelnamesource}{author}
@@ -920,6 +948,58 @@
       \field{booktitle}{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}
       \field{title}{L2G: A Simple Local-to-Global Knowledge Transfer Framework for Weakly Supervised Semantic Segmentation}
       \field{year}{2022}
+    \endentry
+    \entry{layer_cam}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=efb65a2da63fe51c171a4f98dc6d558f}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Peng-Tao},
+           giveni={P\bibinithyphendelim T\bibinitperiod}}}%
+        {{hash=d3c32927de358f1707c93459d77854ac}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Chang-Bin},
+           giveni={C\bibinithyphendelim B\bibinitperiod}}}%
+        {{hash=f2d105116f208ed641dc9126d8209ee4}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={Qibin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=bfbe355b6a8257baeffd5b8814bc5c57}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Ming-Ming},
+           giveni={M\bibinithyphendelim M\bibinitperiod}}}%
+        {{hash=c600a8d986504b864d4994f2eed6156f}{%
+           family={Wei},
+           familyi={W\bibinitperiod},
+           given={Yunchao},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{819d4979a79d518dd1cae6ea338d0718}
+      \strng{fullhash}{10b63a781c8b171db6b4d0ddee07a50a}
+      \strng{fullhashraw}{10b63a781c8b171db6b4d0ddee07a50a}
+      \strng{bibnamehash}{10b63a781c8b171db6b4d0ddee07a50a}
+      \strng{authorbibnamehash}{10b63a781c8b171db6b4d0ddee07a50a}
+      \strng{authornamehash}{819d4979a79d518dd1cae6ea338d0718}
+      \strng{authorfullhash}{10b63a781c8b171db6b4d0ddee07a50a}
+      \strng{authorfullhashraw}{10b63a781c8b171db6b4d0ddee07a50a}
+      \field{extraname}{2}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Image Processing}
+      \field{title}{LayerCAM: Exploring Hierarchical Class Activation Maps for Localization}
+      \field{volume}{30}
+      \field{year}{2021}
+      \field{pages}{5875\bibrangedash 5888}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/TIP.2021.3089943
+      \endverb
+      \keyw{Location awareness;Task analysis;Semantics;Image segmentation;Reliability;Convolution;Spatial resolution;Weakly-supervised object localization;class activation maps}
     \endentry
     \entry{kolesnikov2016}{misc}{}{}
       \name{author}{2}{}{%
@@ -1040,6 +1120,53 @@
       \verb https://arxiv.org/abs/1210.5644
       \endverb
     \endentry
+    \entry{relevance_cam}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=cd04d2b03dc2a9aeab555c9a5af26fbf}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Jeong\bibnamedelima Ryong},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=0be8a7cbb8d660dbd4a71bee529b7b5d}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Sewon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=fc43e4da84b6bfc90fa9c5667cdba3d3}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Inyong},
+           giveni={I\bibinitperiod}}}%
+        {{hash=e31c72548cd3279bbd81acc544b56fb2}{%
+           family={Eo},
+           familyi={E\bibinitperiod},
+           given={Taejoon},
+           giveni={T\bibinitperiod}}}%
+        {{hash=b4fdf571db816de58833419162d9b071}{%
+           family={Hwang},
+           familyi={H\bibinitperiod},
+           given={Dosik},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{02749381f383613d35ec7b1fb562dd0c}
+      \strng{fullhash}{b338e5d55f26b2363c09912fb3f2be14}
+      \strng{fullhashraw}{b338e5d55f26b2363c09912fb3f2be14}
+      \strng{bibnamehash}{b338e5d55f26b2363c09912fb3f2be14}
+      \strng{authorbibnamehash}{b338e5d55f26b2363c09912fb3f2be14}
+      \strng{authornamehash}{02749381f383613d35ec7b1fb562dd0c}
+      \strng{authorfullhash}{b338e5d55f26b2363c09912fb3f2be14}
+      \strng{authorfullhashraw}{b338e5d55f26b2363c09912fb3f2be14}
+      \field{extraname}{1}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}
+      \field{title}{Relevance-cam: Your model already knows where to look}
+      \field{year}{2021}
+      \field{pages}{14944\bibrangedash 14953}
+      \range{pages}{10}
+    \endentry
     \entry{wsss_rib}{article}{}{}
       \name{author}{4}{}{%
         {{hash=b086d0d35e072045a3df81f37312eb31}{%
@@ -1071,7 +1198,7 @@
       \strng{authornamehash}{21349cf582cab784bb2faf5df2553d25}
       \strng{authorfullhash}{f239014bf77de923006835701c696a21}
       \strng{authorfullhashraw}{f239014bf77de923006835701c696a21}
-      \field{extraname}{1}
+      \field{extraname}{2}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{labelnamesource}{author}
@@ -1124,7 +1251,7 @@
       \strng{authornamehash}{21349cf582cab784bb2faf5df2553d25}
       \strng{authorfullhash}{60f04ba3ef8a75b9892a42d0ff85991b}
       \strng{authorfullhashraw}{60f04ba3ef8a75b9892a42d0ff85991b}
-      \field{extraname}{2}
+      \field{extraname}{3}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{labelnamesource}{author}
