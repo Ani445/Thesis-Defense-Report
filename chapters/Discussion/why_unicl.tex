@@ -1,0 +1,23 @@
+\section{Why UniCL to begin with?}
+\label{sec:why_unicl}
+
+Most existing WSSS approaches that leverage vision-language models employ CLIP with ViT backbones, as these architectures are highly effective at aligning global image representations with text embeddings. However, ViT-based CLIP is not without limitations, particularly in dense prediction tasks such as semantic segmentation. Several reasons motivate the consideration of UniCL with a Swin Transformer backbone as an alternative:
+
+\begin{itemize}
+    \item \textbf{Local Feature Representation:}  
+    ViTs operate on global self-attention across uniformly sized tokens, which excels at capturing semantic context across the entire image. However, this global focus often comes at the expense of fine local details. Swin Transformers, with their shifted-window mechanism, explicitly model local context within spatial neighborhoods. This locality bias is expected to be advantageous for WSSS, where accurate object localization and boundary precision are essential.
+
+    \item \textbf{Hierarchical Feature Maps:}  
+    ViTs maintain a uniform resolution of tokens throughout the network, which is well suited for classification but less ideal for segmentation, where multi-scale features are critical. By contrast, Swin Transformers generate hierarchical, pyramid-like feature maps similar to CNNs. This property provides multi-scale contextual information, making Swin more naturally compatible with the needs of pseudo-label generation in WSSS.
+
+    \item \textbf{Compatibility with UniCL:}  
+CLIP is optimized specifically for contrastive image-text alignment, and its strongest results are observed with ViT backbones. UniCL generalizes this framework by unifying contrastive and classification-based objectives across different backbones. This makes it possible to exploit Swin's structural strengths while still maintaining strong supervision signals, thereby extending beyond the ViT-centric design of CLIP.
+
+    \item \textbf{Boundary Sensitivity:}  
+    In ViTs, semantic information is often distributed broadly across tokens, which can produce coarse or overly smooth CAMs. Swin's window-based design enforces spatial locality, potentially leading to sharper attention around object edges and finer boundary delineation. This characteristic aligns well with the WSSS goal of generating accurate pseudo-labels from CAMs.
+
+    \item \textbf{Computational Efficiency:}  
+    Global self-attention in ViTs scales quadratically with the number of tokens, which can be computationally expensive for high-resolution images. Swin's shifted-window attention reduces this cost to linear complexity within windows, making it more efficient for large-scale, high-resolution segmentation tasks. For WSSS pipelines that must process thousands of full-resolution images, this efficiency can be a significant advantage.
+\end{itemize}
+
+In summary, ViT-based CLIP provides excellent global semantic alignment, but its lack of local inductive bias and hierarchical representation may limit its effectiveness in WSSS. UniCL with Swin, by contrast, introduces locality, multi-scale feature maps, and efficiency, which in theory should produce more discriminative CAMs and more reliable pseudo-labels for weakly supervised segmentation.
