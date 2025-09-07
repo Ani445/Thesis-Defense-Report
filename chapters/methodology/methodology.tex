@@ -15,7 +15,7 @@ In this section, we provide a high-level overview of the proposed methodology. T
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Backbone Architecture}: The backbone network is responsible for generating Class Activation Maps (CAMs) from input images. We experiment with UniCL as the backbone due to its multi-modal capabilities and state-of-the-art performance in generating high-quality CAMs.
+    \item \textbf{Feature Extraction from Backbone}: The backbone network is responsible for generating Class Activation Maps (CAMs) from input images. We experiment with UniCL as the backbone due to its multi-modal capabilities and state-of-the-art performance in generating high-quality CAMs.
     \item \textbf{CAM Generation}: CAMs are generated using Grad-CAM techniques adapted for multi-modal models like UniCL. These CAMs highlight the regions of interest in the image for each class.
     \item \textbf{Segmentation Prediction}: The feature maps from the backbone are aggregated and passed through a decoder to produce segmentation predictions. The decoder employs multi-head transformer layers to refine the predictions.
     \item \textbf{CAM Refinement and Pseudo-Label Generation}: Initial CAMs are refined using affinity-based techniques and random walk propagation to generate high-quality pseudo-labels. These pseudo-labels serve as supervision for training the segmentation model.
@@ -25,7 +25,7 @@ In this section, we provide a high-level overview of the proposed methodology. T
 The proposed methodology integrates these components into a cohesive framework, enabling the generation of accurate segmentation maps from weak supervision signals. \autoref{fig:architecture} illustrates the overall architecture of the proposed methodology, highlighting the flow of data through each component.
 
 
-\section{Backbone}
+\section{Feature Extraction from Backbone}
 \label{sec:backbone}
 
 As we have seen so far, the pseudo labels and CAMs are two critical components of WSSS. First of all, the CAMs are generated from the backbone network, using which the pseudo labels are generated. The pseudo labels are then used to train the segmentation head (or segmentation model in case of multi-stage approach).

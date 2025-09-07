@@ -167,8 +167,8 @@ Overall, CAM-based methods have evolved from the original GAP-based CAM~\cite{ca
 \section{How WSSS models work: a breakdown}
 \label{sec:how-wsss-models-work}
 
-\subsection{Backbone}
-\label{subsec:backbone}
+\subsection{Feature Extraction from Backbone}
+\label{subsec:feature-extraction-backbone}
 
 The architecture of AffinityNet \cite{wsss_affinitynet} relies on three DNNs: a classification network for generating CAMs, the AffinityNet module itself, and a segmentation network. All three share the same backbone. The backbone is a modified variant of Model A1 \cite{RevisitingResNET}, commonly referred to as ResNet38, which consists of 38 convolutional layers with wider channels. In this adaptation, the GAP and fully connected layers from the original design are removed, and the final three convolutional stages are replaced with atrous convolutions with stride 1. The dilation rates are adjusted so that the resulting feature maps maintain a stride of 8.
 

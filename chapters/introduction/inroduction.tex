@@ -18,11 +18,16 @@ Weakly supervised semantic segmentation aims to reduce the reliance on extensive
 
 \section{Motivation}
 \label{sec:motivation}
-Semantic segmentation has gained significant attention due to its wide range of applications and its potential to solve real-world problems. For instance, in autonomous driving, understanding the environment at a pixel level is essential for safe navigation. Similarly, in medical imaging, precise segmentation of anatomical structures can aid in accurate diagnosis and treatment planning.
 
-Despite its importance, semantic segmentation remains a challenging task due to the complexity of real-world scenes, variations in object appearances, and the need for large-scale annotated datasets. These challenges motivate researchers to develop innovative methods that can achieve high accuracy while being computationally efficient. Weakly supervised semantic segmentation methods have emerged as a promising solution to these challenges, allowing for the use of limited labeled data while leveraging large amounts of unlabeled data.
+Semantic segmentation has established itself as a fundamental task in computer vision, with broad applications in areas such as autonomous driving, medical imaging, and robotics. In these domains, a precise pixel-level understanding of the environment is not merely desirable but often critical: for example, safe navigation of self-driving vehicles relies on reliable scene parsing, and accurate delineation of anatomical structures can directly impact medical diagnosis and treatment.
 
-The motivation for this research stems from the need to bridge the gap between the high accuracy of fully supervised methods and the practical limitations of obtaining large annotated datasets. By exploring weakly supervised approaches, we aim to develop models that can generalize well to unseen data while minimizing the reliance on extensive manual annotations.
+Despite its importance, conventional semantic segmentation has been heavily reliant on fully supervised learning. This paradigm demands large-scale datasets with dense pixel-level annotations, which are costly and labor-intensive to produce. Annotating high-resolution images can take hours per image, and the process remains prone to human error. Beyond annotation effort, fully supervised methods face additional hurdles: (i) class imbalance in real-world datasets often biases models toward dominant categories, (ii) complex scenes with occlusion, lighting variation, and fine structural detail challenge the robustness of predictions, and (iii) models trained on specific datasets frequently fail to generalize across domains due to dataset-specific biases.
+
+These challenges naturally motivate the exploration of weakly supervised semantic segmentation (WSSS). By replacing dense annotations with weaker forms of supervision—such as image-level labels, bounding boxes, or scribbles—WSSS reduces annotation cost while still enabling model training. The key idea is to leverage weak supervision to generate class activation maps (CAMs) and corresponding pseudo-labels, which can then guide the segmentation process. Although CAMs are often coarse or noisy, refinement strategies allow them to approximate dense ground truth, making WSSS a practical compromise between annotation effort and segmentation performance.
+
+The motivation for this research is thus twofold: first, to address the scalability and practicality issues of fully supervised methods, and second, to improve the quality and reliability of WSSS pipelines. By advancing WSSS, we aim to narrow the performance gap with fully supervised segmentation while ensuring that solutions remain feasible for deployment in diverse and data-constrained real-world scenarios.
+
+
 
 \section{Problem Statement}
 \label{sec:problem_statement}
@@ -35,27 +40,32 @@ Additionally, the refinement techniques applied to these CAMs often fail to full
 
 So, keeping in mind the above challenges, we aim to develop a weakly supervised semantic segmentation model that can effectively leverage image-level labels to produce accurate and detailed segmentation maps. Our approach will focus on enhancing the spatial precision and completeness of the generated CAMs.
 
-\section{Challenges}
-\label{sec:challenges}
+\section{Challenges of Semantic Segmentation}
+\label{sec:challenges_of_semantic_segmentation}
 Semantic segmentation faces several challenges that hinder its widespread adoption and effectiveness:
 
+\section{Challenges of Weakly Supervised Semantic Segmentation}
+\label{sec:challenges_of_wsss}
+
+While weakly supervised semantic segmentation (WSSS) reduces the annotation burden compared to fully supervised methods, it introduces its own set of challenges:
+
 \begin{itemize}
-    \item \textbf{Data Annotation:} Creating pixel-level annotations for large datasets is time-consuming, labor-intensive, and prone to human error. This limits the availability of high-quality labeled data.
-    \item \textbf{Class Imbalance:} Real-world datasets often exhibit an imbalance in the distribution of object classes, where certain classes dominate while others are underrepresented. This imbalance can lead to biased models.
-    \item \textbf{Complex Scenes:} Real-world images often contain complex scenes with occlusions, varying lighting conditions, and diverse object appearances, making segmentation challenging.
-    \item \textbf{Generalization:} Models trained on specific datasets may struggle to generalize to unseen data due to domain shifts or variations in image characteristics.
-    \item \textbf{Computational Efficiency:} High-resolution images and complex models require significant computational resources, which can be a bottleneck for real-time applications.
-    \item \textbf{Weak Supervision:} While weakly supervised methods reduce annotation effort, they often face challenges in achieving the same level of accuracy as fully supervised methods.
-    \item \textbf{Contextual Information:} Capturing contextual information is crucial for accurate segmentation, especially in complex scenes. Models must effectively utilize both local and global features to understand the relationships between objects and their surroundings.
-    \item \textbf{Capturing Fine Details}: Achieving high spatial precision in segmentation maps is challenging, especially for small or thin objects. Models must be capable of capturing fine details while maintaining overall accuracy.
+    \item \textbf{Incomplete Object Localization:} Class activation maps (CAMs) derived from image-level labels typically highlight only the most discriminative regions, leaving large portions of the object unlabeled.
+    \item \textbf{Noisy Pseudo-labels:} The process of refining CAMs into pixel-level labels often introduces noise and errors, which can propagate during training and degrade performance.
+    \item \textbf{Boundary Precision:} Weak supervision lacks explicit boundary cues, making it difficult to segment fine object details and separate adjacent instances accurately.
+    \item \textbf{Background Confusion:} Without strong pixel-level supervision, models often misclassify diverse background regions as foreground, or vice versa.
+    \item \textbf{Multi-class Co-occurrence:} In scenes containing multiple objects, weak labels struggle to capture clear distinctions, leading to overlapping or missing class activations.
+    \item \textbf{Class Imbalance:} Underrepresented classes may not produce strong activations in CAMs, resulting in poor segmentation for rare categories.
+    \item \textbf{Dependence on External Cues:} Many WSSS methods rely on saliency maps or additional priors to improve CAMs, but these external cues may be dataset-specific and limit generalization.
 \end{itemize}
 
-Addressing these challenges requires innovative approaches that balance accuracy, efficiency, and practicality, paving the way for more robust and scalable semantic segmentation solutions.
+Addressing these challenges is crucial for advancing WSSS methods toward practical applications where annotation resources are limited.
 
-% \section{Contribution}
-% \label{sec:contribution}
 
-% In this work, we make the following key contributions:
+\section{Contribution}
+\label{sec:contribution}
+
+In this work, we make the following key contributions:
 
 % \begin{itemize}
 %     \item We explore the use of the UniCL framework with a Swin Transformer backbone to enhance CAM generation, leveraging Swin's ability to capture both local fine details and global context through its hierarchical structure.

@@ -49,8 +49,8 @@ Fully supervised semantic segmentation has achieved remarkable success, largely 
 
 \input{chapters/relatedworks/sayema}
 
-\subsection{Refinement}
-\label{subsec:refinement}
+\subsection{Refinement of Pseudo Labels}
+\label{subsec:refinement-of-pseudo-labels}
 A major challenge in weakly supervised semantic segmentation is the generation of high-quality pseudo labels from weak annotations. The quality of these pseudo labels directly impacts the performance of the segmentation model. Therefore, refinement techniques are often employed to improve the quality of the pseudo labels. These techniques can include post-processing methods, such as conditional random fields (CRFs), or affinity based methods that leverage the relationships between pixels to refine the segmentation results.
 
 AffinityNet \cite{wsss_affinitynet} is a notable example of a refinement technique that uses affinity information to improve the segmentation results. After generating initial CAMs from image-level labels, AffinityNet trains a CNN network to classify whether two adjacent pixels belong to the same semantic region. A random walk algorithm, using these affinities, then propagates object labels across the image, enhancing coherence of the segmentation masks.
