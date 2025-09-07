@@ -66,46 +66,46 @@ Frozen CLIP \cite{wsss_frozen_clip} is another technique that uses the CLIP mode
 
 \subsection{Multi-Modal Learning}
 \label{subsec:multi_modal_learning}
-Multi-modal learning refers to the process of learning from multiple sources of information, such as images and text. This approach allows models to leverage complementary information from different modalities, leading to improved performance on various tasks. For example, in classification tasks, the ability to learn from both images and text enables the model to capture richer semantic information, enhancing its understanding of the data. More importantly, it can enable zero-shot capabilities, where the model can classify images it has never seen before. This is achieved by associating the visual features of an image with its textual description, allowing the model to generalize to unseen classes. As classification is often a foundational step in many processes, this ability is highly valuable.
+Multi-modal learning involves integrating information from different modalities, such as images and text, to enhance model performance. By combining complementary cues from multiple sources, models can develop a deeper and more comprehensive understanding of the data. For instance, in classification tasks, leveraging both visual and textual data enables the model to capture more nuanced semantic relationships. A key advantage of this approach is the potential for zero-shot learning, where the model can recognize and classify images from previously unseen categories. This is accomplished by aligning visual features with corresponding textual descriptions, allowing the model to generalize beyond the training set. Such capabilities are particularly valuable, as classification often underpins many downstream applications.
 
 \subsubsection{Contrastive Learning}
 \label{subsec:contrastive_learning}
-Contrastive learning is a self-supervised learning approach that aims to learn representations by contrasting positive and negative pairs. This involves aligning features from related inputs (e.g., an image and its corresponding text description) in a shared embedding space while ensuring that unrelated features are pushed apart. A contrastive loss function is typically used to minimize the distance between positive pairs while maximizing the distance between negative pairs. This approach helps models learn discriminative and meaningful representations that are robust and generalizable.
+Contrastive learning is a self-supervised approach focused on learning representations by distinguishing between positive and negative pairs. The objective is to bring representations of related inputs (such as an image and its corresponding textual description) closer in a shared embedding space, while pushing apart representations of unrelated inputs. This is typically achieved using a contrastive loss function, which minimizes the distance between positive pairs and maximizes it for negative pairs. Such a strategy enables models to acquire robust, discriminative, and generalizable feature representations.
 
 \subsubsection{Training Strategy}
 \label{subsec:training_strategy}
-The training strategy for multi-modal learning often involves a combination of supervised and self-supervised learning techniques. Models are trained on large-scale datasets containing paired samples from different modalities, enabling them to learn meaningful representations through techniques like contrastive learning. Data augmentation is frequently employed to improve the robustness and diversity of the learned features, ensuring better generalization to unseen data.
+The training strategy for multi-modal learning generally integrates both supervised and self-supervised techniques. Models are trained on large-scale datasets containing paired samples from different modalities, facilitating the learning of meaningful representations through methods such as contrastive learning. Data augmentation is commonly applied to enhance the diversity and robustness of the learned features, thereby improving the model's generalization to unseen data.
 
 \subsubsection{Task-Agnostic Learning}
 \label{subsec:task_agnostic_learning}
-Task-agnostic learning refers to the ability of a model to learn representations that are not specifically tailored to a single task but can be applied across various tasks. This is achieved by focusing on learning generalizable features that are beneficial for multiple downstream applications. By training on diverse datasets and leveraging multi-modal information, models can develop representations that are adaptable to different tasks, such as image classification, object detection, and image segmentation. This flexibility makes task-agnostic learning a powerful approach for building versatile and reusable models.
+Task-agnostic learning refers to the development of representations that are not specialized for a single task but are applicable across a range of downstream applications. This is accomplished by focusing on learning generalizable features through training on diverse datasets and leveraging multi-modal information. As a result, models can adapt their learned representations to various tasks, including image classification, object detection, and image segmentation. This adaptability makes task-agnostic learning a valuable approach for constructing versatile and reusable models.
 
 \subsection{Contrastive Language-Image Pre-Training (CLIP)}
 \label{subsec:clip}
 
-CLIP \cite{vl_clip} is a multi-modal learning framework that leverages contrastive learning to align images and text in a shared embedding space. It is designed to learn representations that can generalize across various tasks without requiring task-specific fine-tuning. CLIP achieves this by training on a large dataset of image-text pairs, allowing it to learn meaningful relationships between visual and textual information.
+CLIP \cite{vl_clip} is a multi-modal learning framework that utilizes contrastive learning to align images and text within a shared embedding space. It is designed to acquire representations that generalize well across different tasks without the need for task-specific fine-tuning. By training on extensive datasets of image-text pairs, CLIP learns to capture meaningful associations between visual and textual modalities.
 
 \subsection{CLIP Architecture}
 \label{subsec:clip_architecture}
 
 \subsubsection{CLIP Components}
-CLIP consists of two main components:
+CLIP comprises two principal components:
 
 \begin{itemize}
-    \item \textbf{Image Encoder}: This component is responsible for processing images and extracting features. It typically includes a swin transformer, pooling layers, and other modules designed to capture spatial hierarchies and relationships within the image data.
-    \item \textbf{Text Encoder}: This component processes text data, converting it into a format suitable for comparison with image features. It often includes transformer layers and attention mechanisms to capture the semantic relationships within the text.
+    \item \textbf{Image Encoder}: Responsible for processing images and extracting feature representations. This typically involves a Swin Transformer, pooling layers, and additional modules to capture spatial hierarchies and relationships within image data.
+    \item \textbf{Text Encoder}: Processes textual data and converts it into a format suitable for comparison with image features. It generally includes transformer layers and attention mechanisms to capture semantic relationships within the text.
 \end{itemize}
 
-The learning of CLIP is achieved through a contrastive loss function that aligns the image and text features in a shared embedding space. This allows the model to learn meaningful representations that can be applied to various tasks, such as image classification, object detection, and image segmentation. Or, in our case, weakly supervised semantic segmentation, which requires only image-level classification.
+CLIP is trained using a contrastive loss function that aligns image and text features in a shared embedding space. This enables the model to learn representations applicable to a variety of tasks, such as image classification, object detection, and image segmentation. In the context of this work, CLIP's capabilities are leveraged for weakly supervised semantic segmentation, which relies solely on image-level classification.
 
 \subsection{Unified Contrastive Learning (UniCL)}
 \label{subsec:unicl}
 
-UniCL, short for Unified Contrastive Learning \cite{vl_unicl}, is another multi-modal learning framework that builds upon the principles of CLIP. It aims to unify various contrastive learning approaches into a single framework, allowing for more efficient and effective learning from multiple modalities.
+UniCL, or Unified Contrastive Learning \cite{vl_unicl}, is a multi-modal learning framework that extends the ideas of CLIP by unifying different contrastive learning strategies within a single architecture. This enables more effective and flexible learning from multiple modalities.
 
-But it is not just a simple extension of CLIP. UniCL introduces several key innovations that enhance its performance and versatility.
+UniCL is more than a straightforward extension of CLIP; it introduces several important innovations to improve both performance and adaptability.
 
-First, UniCL employs a unified architecture that combines image-label and text-label contrastive learning into a single framework, making a image-label-text space. This allows the contrastive learning process to be more efficient and effective. Because, in the image-text space, in contrastive learning, the model learns to increase the similarity between the image and text features while decreasing the similarity between unrelated features. CLIP used to assume the image-text pair, that was provided as input, to be the only positive pair. But in reality, there are many other positive pairs in the dataset. For example, if we have an image of a cat and the text "a photo of a cat" is provided as input, then another similar text, "a photo of a kitten" can also be a positive pair. CLIP does not consider this. but UniCL does. It tries to learn the similarity between the image and all the text features that have the same category as the image. This is done by using a contrastive loss function that encourages the model to learn a shared representation space for both images and text.
+A key feature of UniCL is its unified approach to contrastive learning, integrating image-label and text-label associations into a joint image-label-text space. This unified framework allows the model to leverage more positive pairs during training. While CLIP treats only the provided image-text pair as a positive match, UniCL recognizes that multiple text descriptions or images can correspond to the same category. For instance, both "a photo of a cat" and "a photo of a kitten" may be valid positive pairs for an image of a cat. UniCL’s contrastive loss encourages the model to learn similarities across all features sharing the same category, resulting in a more comprehensive and robust shared representation space for images and text.
 
 \subsubsection{Unified Image-Text-Label Contrast in UniCL}
 \label{subsec:unified_image_text_label_contrast}
