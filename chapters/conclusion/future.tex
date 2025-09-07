@@ -1,18 +1,24 @@
 \section*{Future Work}
 \label{sec:future}
 
-So far, we have only studied different models, architectures and methods for refining CAMs,pseudo-labels and segmentation maps. But we have not yet performed enough experiments to find any better approach to generate better CAMs. And the few that we have done showed very poor results. So, we have to do more experiments to find better backbones/approaches to generate better CAMs. We can also try to find better methods to refine the CAMs and pseudo-labels and segmentation maps.
 
-Here is list of things we can do in the future:
+So far, we have explored various models, architectures, and methods for refining CAMs, pseudo-labels, and segmentation maps. However, there remain many promising directions for future research and improvement. Below is a comprehensive list of potential future works, combining our previous ideas with additional suggestions from recent advances in WSSS, CLIP, and UniCL:
 
 \begin{itemize}
-    \item Use different backbones and architectures to generate better CAMs.
-    \item Look for better methods to aggregate the feature maps and attention maps from the intermediate layers of the backbones.
-    \item Use different methods to refine the CAMs and pseudo-labels.
-    \item Use different models (so far only SegFormer \cite{fsss_segformer} has been used) to generate better segmentation maps.
-    \item Use different methods to refine the segmentation maps.
-    \item Look for any other objective functions that can be used to train the models.
-    \item 
+    \item \textbf{Experiment with Diverse Backbones and Architectures:} Explore a wider range of backbone networks (e.g., ViT, ResNet variants, Mix Transformer, etc.) and decoder architectures to improve CAM and segmentation quality.
+    \item \textbf{Advanced Feature Aggregation:} Develop improved methods for aggregating feature maps and attention maps from intermediate layers, such as transformer-based fusion modules or multi-scale feature alignment.
+    \item \textbf{Enhanced CAM and Pseudo-Label Refinement:} Investigate new strategies for refining CAMs and pseudo-labels, including graph-based, CRF-based, or affinity-based refinement, as well as uncertainty-aware or region-based approaches.
+    \item \textbf{Alternative Segmentation Models:} Evaluate different segmentation heads and decoders (beyond SegFormer) to assess their impact on weakly supervised segmentation performance.
+    \item \textbf{Novel Objective Functions:} Explore new loss functions, such as region-based, contrastive, or uncertainty-aware objectives, to better guide the learning process.
+    \item \textbf{Prompt Engineering for Multi-Modal Models:} Design and experiment with improved or learnable text prompts for CLIP/UniCL to enhance image-text alignment, especially for rare or ambiguous classes.
+    \item \textbf{Self-Supervised and Semi-Supervised Pretraining:} Utilize large-scale self-supervised or semi-supervised pretraining to improve backbone representations before WSSS training.
+    \item \textbf{Hybrid Local-Global Reasoning:} Combine local affinity (e.g., Swin Transformer) with global attention mechanisms (e.g., ViT) to improve semantic propagation across distant regions.
+    \item \textbf{Cross-Dataset Generalization:} Evaluate and adapt models for better transferability across datasets with different distributions or label sets.
+    \item \textbf{Active Learning Integration:} Incorporate active learning strategies to select the most informative samples for annotation, further reducing annotation costs.
+    \item \textbf{Uncertainty Estimation and Correction:} Integrate uncertainty modeling to identify and correct unreliable pseudo-labels during training.
+    \item \textbf{Explainability and Trustworthiness:} Develop methods to make CAMs and segmentation predictions more interpretable and trustworthy for real-world applications.
+    \item \textbf{Efficient Inference and Deployment:} Optimize models for faster inference and lower memory usage, enabling deployment on edge devices or in real-time scenarios.
+    \item \textbf{New Refinement Strategies:} Try alternative pseudo-label and segmentation map refinement methods, including advanced CRF variants or graph-based approaches.
 \end{itemize}
 
-These directions provide a roadmap for future exploration and improvement in our work.
+These directions provide a comprehensive roadmap for future exploration and improvement in weakly supervised semantic segmentation and multi-modal learning.
