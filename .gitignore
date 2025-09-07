@@ -30,6 +30,8 @@
 *.bak
 *.dvi
 
+*.txt
+
 # PDF output
 z_sample.pdf
 main.pdf

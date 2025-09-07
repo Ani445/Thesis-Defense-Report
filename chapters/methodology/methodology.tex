@@ -58,15 +58,15 @@ Then, we need to pass the image through the CLIP image encoder to get the featur
 
 \section{Segmentation Prediction}
 \label{sec:segmentation_prediction}
-The segmentation prediction module is designed to generate pixel-wise class predictions for the input image. It consists of two main components: encoder feature aggregation and a decoder with multi-head transformer layers. It is constructed following \cite{wsss_frozen_clip}.
+The segmentation prediction module is responsible for producing pixel-level class predictions for the input image. It comprises two primary stages: aggregation of encoder features and a decoder built with multi-head transformer layers. The design is inspired by the approach in \cite{wsss_frozen_clip}.
 
 \subsection{Encoder Feature Aggregation}
 \label{subsec:en_feature_agg}
-Following \cite{wsss_frozen_clip}, the feature maps from the transformer blocks of the UniCL \cite{vl_unicl} image encoder need to be passed to the decoder. Let the feature maps be \( F_l^{\text{init}} \) for \( l = 1, \dots, N \) from the output of each transformer block in the encoder, where \( l \) represents the index of the block. Then, for each feature map \( F_l^{\text{init}} \), an individual MLP module is used to generate new corresponding feature maps \( F_l^{\text{new}} \):
+In accordance with the methodology outlined in \cite{wsss_frozen_clip}, the feature representations extracted from each transformer block of the UniCL image encoder \cite{vl_unicl} are forwarded to the decoder for further processing. Denote the output feature map from the $l$-th transformer block as \( F_l^{\text{init}} \), where \( l = 1, \dots, N \). To harmonize the feature dimensions and enhance representational capacity, each \( F_l^{\text{init}} \) is individually transformed via a dedicated multilayer perceptron (MLP). Specifically, the transformation is defined as:
 \begin{equation}
     F_l^{\text{new}} = W_{1}^{\text{fc}} \left( \text{ReLU} \left( W_{2}^{\text{fc}}(F_l^{\text{init}}) \right) \right),
 \end{equation}
-where \( W_{1}^{\text{fc}} \) and \( W_{2}^{\text{fc}} \) are two different fully-connected layers, and \(\text{ReLU}(\cdot)\) is the ReLU activation function.
+where \( W_{1}^{\text{fc}} \) and \( W_{2}^{\text{fc}} \) denote learnable fully connected layers, and \(\text{ReLU}(\cdot)\) represents the rectified linear unit activation function. This procedure ensures that the multi-scale features from different encoder stages are suitably projected for subsequent aggregation and decoding.
 
 
 After that, all new feature maps \( F_l^{\text{new}} \) for \( l = 1, \dots, N \) are concatenated together, which are then processed by a convolution layer to generate a fused feature map \( F_u \):

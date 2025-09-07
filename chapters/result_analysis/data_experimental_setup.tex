@@ -1,26 +1,10 @@
 \section{Data and Experimental Setup}
 \label{subsec:data_and_experimental_setup}
 
-We conducted our experiments on the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, 
-which contains 20 object categories and one background class. 
-The dataset is split into 1,464 training images, 1,449 validation images, 
-and 1,456 test images. Since the test set does not provide ground truth 
-annotations, we used the training set for model training and the validation 
-set for performance evaluation.
+The experiments were carried out using the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, which comprises 20 object classes in addition to a background category. The dataset is partitioned into 1,464 training images, 1,449 validation images, and 1,456 test images. As ground truth annotations are unavailable for the test set, the training split was utilized for model training, while the validation split was employed for performance assessment.
 
-All experiments were implemented in the \textbf{PyTorch} framework and executed 
-on a single \textbf{NVIDIA Tesla T4 GPU} with \textbf{16 GB of memory}, 
-provided by Google Colab (free tier). During training, images were randomly 
-resized within the range of 512--2048 pixels, rescaled by factors between 
-0.5 and 2.0, and cropped to a fixed size of 224.
+All experimental procedures were implemented using the \textbf{PyTorch} framework and executed on a single \textbf{NVIDIA Tesla T4 GPU} with \textbf{16 GB memory}, accessed via Google Colab (free tier). During training, images were randomly resized within the range of 512 to 2048 pixels, rescaled by factors between 0.5 and 2.0, and subsequently cropped to a fixed dimension of 224.
 
-Optimization was performed using the \textbf{AdamW} optimizer with a learning 
-rate of $5 \times 10^{-5}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight 
-decay of 0.01. We trained the models for \textbf{30,000 iterations} with an 
-effective batch size of 8 (per-GPU batch size of 4 with gradient accumulation 
-steps of 2). A linear warmup strategy was applied during the first 500 iterations 
-with a warmup ratio of $10^{-3}$. The best-performing checkpoints were selected 
-based on validation set performance.
+Model optimization was conducted using the \textbf{AdamW} optimizer, with a learning rate of $5 \times 10^{-5}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight decay parameter of 0.01. Training was performed for \textbf{30,000 iterations} with an effective batch size of 8 (per-GPU batch size of 4, utilizing gradient accumulation over 2 steps). A linear warmup was applied during the initial 500 iterations, with a warmup ratio of $10^{-3}$. The optimal model checkpoints were selected based on validation set performance.
 
-For evaluation, we used the \textbf{mean Intersection over Union (mIoU)} metric, 
-which is standard for semantic segmentation tasks. 
+For evaluation, the \textbf{mean Intersection over Union (mIoU)} metric was adopted, which is the standard criterion for semantic segmentation evaluation.

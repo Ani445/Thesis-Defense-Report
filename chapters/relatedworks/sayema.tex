@@ -116,7 +116,7 @@ To overcome CAM's architectural constraint, Selvaraju et al.~\cite{cam_grad} pro
 Grad-CAM preserves the architectural flexibility missing in CAM, while still providing class-discriminative localization.
 
 \subsection{Grad-CAM++}
-Grad-CAM++~\cite{cam_gradpp} was introduced to address two main limitations of Grad-CAM: (1) poor handling of multiple object instances of the same class, and (2) sensitivity to object size and distribution. Instead of relying only on first-order gradients, Grad-CAM++ incorporates higher-order derivatives of the class score with respect to feature maps.
+Grad-CAM++~\cite{cam_gradpp} was proposed to address two main limitations of Grad-CAM: (1) poor handling of multiple object instances of the same class, and (2) sensitivity to object size and distribution. Instead of relying only on first-order gradients, Grad-CAM++ incorporates higher-order derivatives of the class score with respect to feature maps.
 
 \begin{enumerate}
     \item The forward pass generates feature maps as in Grad-CAM.

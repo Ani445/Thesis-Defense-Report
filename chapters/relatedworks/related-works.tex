@@ -105,7 +105,7 @@ UniCL, or Unified Contrastive Learning \cite{vl_unicl}, is a multi-modal learnin
 
 UniCL is more than a straightforward extension of CLIP; it introduces several important innovations to improve both performance and adaptability.
 
-A key feature of UniCL is its unified approach to contrastive learning, integrating image-label and text-label associations into a joint image-label-text space. This unified framework allows the model to leverage more positive pairs during training. While CLIP treats only the provided image-text pair as a positive match, UniCL recognizes that multiple text descriptions or images can correspond to the same category. For instance, both "a photo of a cat" and "a photo of a kitten" may be valid positive pairs for an image of a cat. UniCL’s contrastive loss encourages the model to learn similarities across all features sharing the same category, resulting in a more comprehensive and robust shared representation space for images and text.
+A key feature of UniCL is its unified approach to contrastive learning, integrating image-label and text-label associations into a joint image-label-text space. This unified framework allows the model to leverage more positive pairs during training. While CLIP treats only the provided image-text pair as a positive match, UniCL recognizes that multiple text descriptions or images can correspond to the same category. For instance, both "a photo of a cat" and "a photo of a kitten" may be valid positive pairs for an image of a cat. UniCL's contrastive loss encourages the model to learn similarities across all features sharing the same category, resulting in a more comprehensive and robust shared representation space for images and text.
 
 \subsubsection{Unified Image-Text-Label Contrast in UniCL}
 \label{subsec:unified_image_text_label_contrast}
@@ -116,14 +116,14 @@ UniCL employs a bidirectional learning objective between image-text pairs:
 \end{equation}
 where \(\mathcal{L}_{i2t}\) and \(\mathcal{L}_{t2i}\) are the image-to-text and text-to-image contrastive losses, respectively. And \(\theta\) and \(\phi\) are the parameters of the image and text encoders, respectively.
 
-The image-to-text contrastive loss to align matched images in a batch with a given text is defined as:
+To align the representations of images and their corresponding textual descriptions within a batch, the image-to-text contrastive loss is formulated as follows. This loss encourages the model to associate each image with all relevant text features that share the same class label, thereby strengthening the alignment between visual and textual modalities in the shared embedding space:
 \begin{equation} \label{eq:unicl_image_to_text_contrastive_loss}
     \mathcal{L}_{i2t} = - \sum_{i \in \mathcal{B}} \frac{1}{|\mathcal{P}(i)|} \sum_{k \in \mathcal{P}(i)} 
     \log \frac{\exp(\tau \mathbf{u}_i^\top \mathbf{v}_k)}{\sum_{j \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
 \end{equation}
 where $k \in \mathcal{P}(i) = \{k | k \in \mathcal{B}, y_k = y_i\}$, i.e., the set of all images in the batch that belong to the same class as image $i$.
 
-On the other hand, the text-to-image contrastive loss to align matched text in a batch with a given image is defined as:
+Conversely, the text-to-image contrastive loss, which aligns each text feature in a batch with its corresponding image features, is formulated as:
 
 \begin{equation} \label{eq:unicl_text_to_image_contrastive_loss}
     \mathcal{L}_{t2i} = - \sum_{j \in \mathcal{B}} \frac{1}{|\mathcal{P}(j)|} \sum_{k \in \mathcal{P}(j)} 
@@ -158,13 +158,13 @@ Second, UniCL replaces CLIP's ViT backbone with a Swin Transformer backbone. The
 
 \subsection{Swin Transformer}
 \label{subsec:swin_transformer}
-Swin Transformer is a hierarchical vision transformer that employs a shifted windowing scheme to capture both local and global information in images. It is designed to be computationally efficient while maintaining high performance on various vision tasks. The architecture consists of multiple stages, each with its own set of transformer blocks, allowing it to process images at different resolutions and capture multi-scale features.
+The Swin Transformer \cite{transformer_swin} is a hierarchical vision transformer architecture that utilizes a shifted windowing mechanism to effectively capture both local and global image information. It is engineered for computational efficiency while delivering strong performance across a range of computer vision tasks. The model is organized into multiple stages, each comprising distinct transformer blocks, which enables the processing of images at varying resolutions and facilitates the extraction of multi-scale features.
 
-\autoref{fig:swin_vs_vit_architecture} illustrates the architectures of the Swin Transformer and Vision Transformers (ViT). The key distinction lies in their processing strategies: the Swin Transformer employs a hierarchical structure, processing feature maps at multiple resolutions, while ViT processes the entire image globally at a single resolution. This hierarchical approach enables the Swin Transformer to effectively capture both local and global information, making it particularly suitable for tasks requiring fine-grained details alongside overall context.
+\autoref{fig:swin_vs_vit_architecture} presents a comparative overview of the Swin Transformer and Vision Transformer (ViT) architectures. The principal difference between the two lies in their respective processing paradigms: the Swin Transformer adopts a hierarchical framework, operating on feature maps at multiple scales, whereas ViT processes the entire image globally at a single resolution. This hierarchical design empowers the Swin Transformer to simultaneously capture fine-grained local details and broader contextual information, making it particularly advantageous for applications that demand both.
 
-The Swin Transformer builds hierarchical feature maps by progressively merging image patches (depicted in gray) in deeper layers. It computes self-attention only within local windows (highlighted in red), resulting in linear computational complexity relative to the input image size. This efficiency, combined with its ability to handle dense recognition tasks, makes it a versatile backbone for both image classification and segmentation.
+Within the Swin Transformer, hierarchical feature maps are constructed by progressively merging image patches (shown in gray) at deeper network layers. Self-attention is computed exclusively within localized windows (indicated in red), resulting in linear computational complexity with respect to the input image size. This approach not only enhances efficiency but also renders the Swin Transformer highly suitable for dense prediction tasks, such as image segmentation and classification.
 
-In contrast, traditional vision Transformers, such as ViT, produce feature maps at a single low resolution and compute self-attention globally, leading to quadratic computational complexity with respect to the input image size. This global attention mechanism, while effective for certain tasks, is less efficient for dense prediction tasks compared to the Swin Transformer's localized attention mechanism.
+Conversely, conventional vision transformers like ViT generate feature maps at a single, lower resolution and apply self-attention globally, which incurs quadratic computational complexity relative to the input size. While global attention can be beneficial for certain tasks, it is less efficient for dense recognition scenarios compared to the localized attention employed by the Swin Transformer.
 
 \begin{figure}[htbp]
     \centering
@@ -189,8 +189,8 @@ In contrast, traditional vision Transformers, such as ViT, produce feature maps 
     \label{fig:swin_vs_vit_architecture}
 \end{figure}
 
-Because of the hierarchical nature of the Swin Transformer, it is particularly well-suited for tasks that require a combination of global context (to indentify the overall structure of the image) and local details (to capture fine-grained features, e.g., edges, textures). This makes it a strong candidate for image segmentation tasks.
+Owing to its hierarchical structure, the Swin Transformer is exceptionally well-suited for tasks that necessitate the integration of global context—essential for discerning the overall image structure—and local information, which is critical for identifying intricate features such as edges and textures. This makes it a compelling choice for image segmentation applications.
 
-Also, the Contrastive and Multi-Modal Learning capabilities of UniCL can be effectively combined with the Swin Transformer's hierarchical architecture to enhance the model's ability to learn rich and discriminative features from both image and text modalities. This combination allows for a more comprehensive understanding of the data, leading to improved performance.
+Furthermore, integrating the contrastive and multi-modal learning strengths of UniCL with the Swin Transformer’s hierarchical design can significantly enhance the model’s capacity to learn robust and discriminative representations from both visual and textual data. This synergy facilitates a more holistic understanding of multimodal inputs, thereby improving overall model performance.
 
-Now, getting all the background information, we can proceed to the proposed methodology. The proposed methodology consists of several key components, including the backbone architecture, CAM generation, pseudo label generation, segmentation prediction, and refinement. Each component plays a crucial role in enhancing the overall performance of the model.
+With this foundational context established, the subsequent section details the proposed methodology, which comprises several core components: the backbone architecture, class activation map (CAM) generation, pseudo-label creation, segmentation prediction, and refinement. Each of these elements is integral to optimizing the model’s effectiveness.
