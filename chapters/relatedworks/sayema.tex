@@ -20,7 +20,7 @@ Some approaches learn to predict affinity matrices at the pixel level [36], to r
 Recent advances incorporate transformers into WSSS \cite{camtokens, getam}. TS-CAM \cite{camtokens} leverages the global information capturing ability of ViT by combining class-token attention with CAMs. \cite{getam} refines class-specific maps by using attention gradients. MCTformer \cite{wsss_MCTformer} expands this idea by embedding multiple class tokens to learn attention maps for different categories. AFA \cite{wsss_afa_affinity_from_attention} instead derives semantic affinities directly from attention maps to refine coarse pseudo-labels. FrozenCLIP \cite{wsss_frozen_clip} pushes this further by exploiting the frozen CLIP backbone to generate high-quality pseudo-labels, which are dynamically updated using a refinement module (RFM).
 
 
-\section{Stages}
+\section{WSSS Training Approaches}
 \label{sec:stages}
 
 Weakly supervised semantic segmentation has two main solutions based on their training processes: multi-stage approaches \cite{instance_wsss,wsss_L2G,wsss_rib} and single-stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}.
