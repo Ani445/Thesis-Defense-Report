@@ -20,6 +20,7 @@
 \RequirePackage{floatrow}
 
 \RequirePackage{graphicx}
+\RequirePackage{longtable}
 
 \RequirePackage[labelfont=bf]{caption}
 \RequirePackage[labelformat=simple]{subcaption}
@@ -85,7 +86,7 @@
 % Wrapper for bibliography printing
 \newcommand{\printbib}{%
     \begin{spacing}{1}%
-    \printbibliography[heading={bibintoc}, title={References}]%
+        \printbibliography[heading={bibintoc}, title={References}]%
     \end{spacing}%
 }
 

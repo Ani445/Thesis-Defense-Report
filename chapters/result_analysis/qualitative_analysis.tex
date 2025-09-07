@@ -6,8 +6,8 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 % \subsection{Selection of Examples}
 % The images were chosen to represent a variety of scenarios, including: 
 % \begin{itemize}
-%     \item \textbf{Easy cases:} Large, isolated objects where CAMs are expected to cover most of the object region.
-%     \item \textbf{Challenging cases:} Small objects, occlusions, or cluttered backgrounds where weakly supervised CAMs often fail to capture complete object extents.
+%     \item \t	\textbf{Easy cases:} Large, isolated objects where CAMs are expected to cover most of the object region.
+%     \item \t	\textbf{Challenging cases:} Small objects, occlusions, or cluttered backgrounds where weakly supervised CAMs often fail to capture complete object extents.
 % \end{itemize}
 
 % \subsection{Visualization Layout}
@@ -22,20 +22,17 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 
   % CAMs with class labels on the left
   \begin{tabular}{c c c c} % first column = label
+
     % Column headers
-    & (a) Input & (b) WeCLIP & (c) Ours \\[1mm]
+                       & (a) Input                                                                                       & (b) WeCLIP                                                                                      & (c) Ours                                                                                        \\[1mm]
 
-    % First example
-    \textbf{Cat} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-
-    % Second example
-    \textbf{Dog} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Aeroplane} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Bicycle}   & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Bird}      & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Boat}      & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Bottle}    & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Bus}       & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \textbf{Car}       & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
   \end{tabular}
 
   \caption{Qualitative comparison of CAMs between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set. The class label for each image is shown on the left.}
@@ -45,12 +42,12 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 \begin{figure}[ht]
   % Pseudo-labels
   \begin{tabular}{cccc}
-    (a) Input & (b) GT & (c) WeCLIP & (d) Ours \\
+    (a) Input                                                                                       & (b) GT & (c) WeCLIP & (d) Ours \\
 
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg}                                  \\
   \end{tabular}
 
   \caption{Qualitative comparison of pseudo-labels between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set.}
@@ -69,13 +66,13 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 %     & (a) Input & (b) WeCLIP & (c) Ours \\[1mm]
 
 %     % First example
-%     \textbf{Cat} &
+%     \t	\textbf{Cat} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
 
 %     % Second example
-%     \textbf{Dog} &
+%     \t	\textbf{Dog} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
 %     \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
@@ -88,12 +85,12 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 \begin{figure}[ht]
   % Pseudo-labels
   \begin{tabular}{cccc}
-    (a) Input & (b) GT & (c) WeCLIP & (d) Ours \\
+    (a) Input                                                                                       & (b) GT & (c) WeCLIP & (d) Ours \\
 
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
     \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
+    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg}                                  \\
   \end{tabular}
 
   \caption{Qualitative comparison of pseudo-labels between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{test} set.}
