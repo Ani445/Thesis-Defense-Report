@@ -1,3 +1,12 @@
-\section{Some Key Findings}
-\label{sec:some_key_findings}
+\section{Key Findings}
+\label{sec:key_findings}
 
+The analysis of UniCL-AffSeg  in the context of weakly supervised semantic segmentation provides several important implications for both model design and the broader research landscape. First, our results highlight that while Swin-based UniCL encoders offer strong local feature representations, their windowed attention mechanism limits global semantic reasoning, which is crucial for generating coherent class activation maps (CAMs). This suggests that future WSSS frameworks could benefit from hybrid architectures that combine local affinity-based features with global attention cues, enabling more accurate propagation of semantic information across object regions.  
+
+Second, the use of affinity maps as an alternative to attention maps demonstrates a viable approach for capturing pixel-level relationships, particularly when using hierarchical Swin features. However, the current approach does not fully leverage multi-scale feature fusion due to the differing spatial resolutions of stage-wise feature maps. Future work could explore techniques such as upsampling, feature alignment, or transformer-based fusion modules to integrate multi-scale information effectively. Such strategies are likely to improve the detection of small structures and enhance segmentation coherence for large objects.  
+
+Third, the quality of initial CAMs remains a bottleneck for downstream segmentation performance. Incorporating stronger initialization strategies, such as contrastive pretraining on object parts, or leveraging pseudo-label refinement techniques, could improve initial activations and lead to more accurate final masks.  
+
+Finally, these findings have broader implications for the design of single-stage WSSS pipelines. Our work underscores the potential of contrastive learning frameworks like UniCL in weakly supervised settings, while also emphasizing the need to balance local detail and global context. Addressing these challenges can not only improve segmentation performance but also provide a more general framework for integrating vision-language pretraining with weak supervision in diverse visual recognition tasks.  
+
+% In summary, future research directions include: (i) integrating local and global reasoning mechanisms, (ii) developing multi-scale feature fusion strategies compatible with hierarchical Swin features, (iii) enhancing initial CAM generation, and (iv) exploring stronger contrastive or affinity-based pretraining approaches for improved weakly supervised segmentation.

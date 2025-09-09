@@ -26,13 +26,143 @@ The proposed methodology integrates these components into a cohesive framework, 
 
 
 \section{Feature Extraction from Backbone}
-\label{sec:backbone}
+\label{sec:feature_extraction_from_backbone}
 
-As we have seen so far, the pseudo labels and CAMs are two critical components of WSSS. First of all, the CAMs are generated from the backbone network, using which the pseudo labels are generated. The pseudo labels are then used to train the segmentation head (or segmentation model in case of multi-stage approach).
+In weakly supervised semantic segmentation (WSSS), two components play a crucial role: class activation maps (CAMs) and pseudo labels. The CAMs are first generated from the backbone network, and these are subsequently used to construct pseudo labels. The pseudo labels then serve as supervision for training the segmentation head—or the full segmentation model in the case of a multi-stage approach. 
 
-So the more accurate the initial CAMs are, the better the pseudo labels will be. And so will be the segmentation model. So we need to ensure that the CAMs are as accurate as possible. Keeping this in mind, we are experimenting with different backbone architectures to find the one that generates the most accurate CAMs.
+The accuracy of the initial CAMs directly affects the quality of the pseudo labels and, consequently, the performance of the segmentation model. To achieve robust feature representations, we employ UniCL \cite{vl_unicl}, a multi-modal contrastive learning model built upon the CLIP framework. In this section, we first introduce CLIP, outlining its core architecture and characteristics. We then discuss UniCL and its innovations over CLIP, followed by a description of the Swin Transformer backbone that underpins the image encoding process.
 
-So, we have chosen UniCL as the first one to experiment with. The reason is that it is a multi-modal model, and it has been shown to produce high-quality CAMs. It is also a state-of-the-art model for zero-shot image classification. So, we can expect it to produce high-quality CAMs.
+\subsection{Contrastive Language-Image Pre-Training (CLIP)}
+\label{subsec:clip}
+
+CLIP \cite{vl_clip} is a multi-modal learning framework that utilizes contrastive learning to align images and text within a shared embedding space. It is designed to acquire representations that generalize well across different tasks without the need for task-specific fine-tuning. By training on extensive datasets of image-text pairs, CLIP learns to capture meaningful associations between visual and textual modalities.
+
+\subsection{CLIP Architecture}
+\label{subsec:clip_architecture}
+
+\subsubsection{CLIP Components}
+CLIP comprises two principal components:
+
+\begin{itemize}
+    \item \textbf{Image Encoder}: Responsible for processing images and extracting feature representations. This typically involves a Swin Transformer, pooling layers, and additional modules to capture spatial hierarchies and relationships within image data.
+    \item \textbf{Text Encoder}: Processes textual data and converts it into a format suitable for comparison with image features. It generally includes transformer layers and attention mechanisms to capture semantic relationships within the text.
+\end{itemize}
+
+CLIP is trained using a contrastive loss function that aligns image and text features in a shared embedding space. This enables the model to learn representations applicable to a variety of tasks, such as image classification, object detection, and image segmentation. In the context of this work, CLIP's capabilities are leveraged for weakly supervised semantic segmentation, which relies solely on image-level classification.
+
+\subsection{Characteristics of CLIP}
+\subsubsection{Multi-Modal Learning}
+\label{subsec:multi_modal_learning}
+Multi-modal learning involves integrating information from different modalities, such as images and text, to enhance model performance. By combining complementary cues from multiple sources, models can develop a deeper and more comprehensive understanding of the data. For instance, in classification tasks, leveraging both visual and textual data enables the model to capture more nuanced semantic relationships. A key advantage of this approach is the potential for zero-shot learning, where the model can recognize and classify images from previously unseen categories. This is accomplished by aligning visual features with corresponding textual descriptions, allowing the model to generalize beyond the training set. Such capabilities are particularly valuable, as classification often underpins many downstream applications.
+
+\subsubsection{Contrastive Learning}
+\label{subsec:contrastive_learning}
+Contrastive learning is a self-supervised approach focused on learning representations by distinguishing between positive and negative pairs. The objective is to bring representations of related inputs (such as an image and its corresponding textual description) closer in a shared embedding space, while pushing apart representations of unrelated inputs. This is typically achieved using a contrastive loss function, which minimizes the distance between positive pairs and maximizes it for negative pairs. Such a strategy enables models to acquire robust, discriminative, and generalizable feature representations.
+
+\subsubsection{Training Strategy}
+\label{subsec:training_strategy}
+The training strategy for multi-modal learning generally integrates both supervised and self-supervised techniques. Models are trained on large-scale datasets containing paired samples from different modalities, facilitating the learning of meaningful representations through methods such as contrastive learning. Data augmentation is commonly applied to enhance the diversity and robustness of the learned features, thereby improving the model's generalization to unseen data.
+
+\subsubsection{Task-Agnostic Learning}
+\label{subsec:task_agnostic_learning}
+Task-agnostic learning refers to the development of representations that are not specialized for a single task but are applicable across a range of downstream applications. This is accomplished by focusing on learning generalizable features through training on diverse datasets and leveraging multi-modal information. As a result, models can adapt their learned representations to various tasks, including image classification, object detection, and image segmentation. This adaptability makes task-agnostic learning a valuable approach for constructing versatile and reusable models.
+
+\subsection{Unified Contrastive Learning (UniCL)}
+\label{subsec:unicl}
+
+UniCL, or Unified Contrastive Learning \cite{vl_unicl}, is a multi-modal learning framework that extends the ideas of CLIP by unifying different contrastive learning strategies within a single architecture. This enables more effective and flexible learning from multiple modalities.
+
+UniCL is more than a straightforward extension of CLIP; it introduces several important innovations to improve both performance and adaptability.
+
+A key feature of UniCL is its unified approach to contrastive learning, integrating image-label and text-label associations into a joint image-label-text space. This unified framework allows the model to leverage more positive pairs during training. While CLIP treats only the provided image-text pair as a positive match, UniCL recognizes that multiple text descriptions or images can correspond to the same category. For instance, both "a photo of a cat" and "a photo of a kitten" may be valid positive pairs for an image of a cat. UniCL's contrastive loss encourages the model to learn similarities across all features sharing the same category, resulting in a more comprehensive and robust shared representation space for images and text.
+
+\subsubsection{Unified Image-Text-Label Contrast in UniCL}
+\label{subsec:unified_image_text_label_contrast}
+
+UniCL employs a bidirectional learning objective between image-text pairs:
+\begin{equation} \label{eq:unified_image_text_label_contrast}
+    \min_{\{\theta, \phi\}} \mathcal{L}_{\text{BiC}} = \mathcal{L}_{i2t} + \mathcal{L}_{t2i},
+\end{equation}
+where \(\mathcal{L}_{i2t}\) and \(\mathcal{L}_{t2i}\) are the image-to-text and text-to-image contrastive losses, respectively. And \(\theta\) and \(\phi\) are the parameters of the image and text encoders, respectively.
+
+To align the representations of images and their corresponding textual descriptions within a batch, the image-to-text contrastive loss is formulated as follows. This loss encourages the model to associate each image with all relevant text features that share the same class label, thereby strengthening the alignment between visual and textual modalities in the shared embedding space:
+\begin{equation} \label{eq:unicl_image_to_text_contrastive_loss}
+    \mathcal{L}_{i2t} = - \sum_{i \in \mathcal{B}} \frac{1}{|\mathcal{P}(i)|} \sum_{k \in \mathcal{P}(i)} 
+    \log \frac{\exp(\tau \mathbf{u}_i^\top \mathbf{v}_k)}{\sum_{j \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
+\end{equation}
+where $k \in \mathcal{P}(i) = \{k | k \in \mathcal{B}, y_k = y_i\}$, i.e., the set of all images in the batch that belong to the same class as image $i$.
+
+Conversely, the text-to-image contrastive loss, which aligns each text feature in a batch with its corresponding image features, is formulated as:
+
+\begin{equation} \label{eq:unicl_text_to_image_contrastive_loss}
+    \mathcal{L}_{t2i} = - \sum_{j \in \mathcal{B}} \frac{1}{|\mathcal{P}(j)|} \sum_{k \in \mathcal{P}(j)} 
+    \log \frac{\exp(\tau \mathbf{u}_k^\top \mathbf{v}_j)}{\sum_{i \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
+\end{equation}
+where $k \in \mathcal{P}(j) = \{k \mid k \in \mathcal{B}, y_k = y_j\}$, i.e., the set of all text features in the batch that belong to the same class as text $j$.
+
+\subsubsection{Comparison with CLIP}
+\label{subsec:clip_vs_unicl}
+
+In case CLIP, for an image, there is only one positive text feature. In other words, $\mathcal{P}(i) = {i} \in \mathcal{B}$; and $\mathcal{P}(j) = {j} \in \mathcal{B}$. So, the image-to-text contrastive loss is defined as:
+
+\begin{equation} \label{eq:clip_image_to_text_contrastive_loss}
+    \mathcal{L}_{i2t} = - \sum_{i \in \mathcal{B}} 
+    \log \frac{\exp(\tau \mathbf{u}_i^\top \mathbf{v}_i)}{\sum_{j \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
+\end{equation}
+where $i \in \mathcal{B}$ is the index of the image in the batch.
+
+And the text-to-image contrastive loss is defined as:
+
+\begin{equation} \label{eq:clip_text_to_image_contrastive_loss}
+    \mathcal{L}_{t2i} = - \sum_{j \in \mathcal{B}} 
+    \log \frac{\exp(\tau \mathbf{u}_j^\top \mathbf{v}_j)}{\sum_{i \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
+\end{equation}
+where $j \in \mathcal{B}$ is the index of the text feature in the batch. 
+
+The equations \ref{eq:unified_image_text_label_contrast}-\ref{eq:clip_text_to_image_contrastive_loss} are taken from \cite{vl_unicl}.
+
+This means that $\mathcal{L}_{BiC}$ becomes CLIP training objective. The main property in \autoref{eq:unicl_text_to_image_contrastive_loss} is that for each image feature, any of the text features in the batch can be used as a positive pair. And so is the case for \autoref{eq:unicl_text_to_image_contrastive_loss}.
+
+Second, UniCL replaces CLIP's ViT backbone with a Swin Transformer backbone. The Swin Transformer is a hierarchical vision transformer that captures both local and global information in images, making it more suitable for various vision tasks.
+
+\subsection{Swin Transformer}
+\label{subsec:swin_transformer}
+The Swin Transformer \cite{transformer_swin} is a hierarchical vision transformer architecture that utilizes a shifted windowing mechanism to effectively capture both local and global image information. It is engineered for computational efficiency while delivering strong performance across a range of computer vision tasks. The model is organized into multiple stages, each comprising distinct transformer blocks, which enables the processing of images at varying resolutions and facilitates the extraction of multi-scale features.
+
+\autoref{fig:swin_vs_vit_architecture} presents a comparative overview of the Swin Transformer and Vision Transformer (ViT) architectures. The principal difference between the two lies in their respective processing paradigms: the Swin Transformer adopts a hierarchical framework, operating on feature maps at multiple scales, whereas ViT processes the entire image globally at a single resolution. This hierarchical design empowers the Swin Transformer to simultaneously capture fine-grained local details and broader contextual information, making it particularly advantageous for applications that demand both.
+
+Within the Swin Transformer, hierarchical feature maps are constructed by progressively merging image patches (shown in gray) at deeper network layers. Self-attention is computed exclusively within localized windows (indicated in red), resulting in linear computational complexity with respect to the input image size. This approach not only enhances efficiency but also renders the Swin Transformer highly suitable for dense prediction tasks, such as image segmentation and classification.
+
+Conversely, conventional vision transformers like ViT generate feature maps at a single, lower resolution and apply self-attention globally, which incurs quadratic computational complexity relative to the input size. While global attention can be beneficial for certain tasks, it is less efficient for dense recognition scenarios compared to the localized attention employed by the Swin Transformer.
+
+\begin{figure}[htbp]
+    \centering
+    \fbox{ % Draw a box around the entire figure
+        \begin{minipage}{0.9\textwidth} % Adjust the width as needed
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{swin-vs-vit-archi-a.pdf}
+                \caption{Swin Transformer}
+                \label{fig:swin_transformer_data_flow}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[b]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{swin-vs-vit-archi-b.pdf}
+                \caption{Vision Transformers}
+                \label{fig:vit_data_flow}
+            \end{subfigure}
+        \end{minipage}
+    }
+    \caption{Comparison of Swin Transformer and ViT Architectures}
+    \label{fig:swin_vs_vit_architecture}
+\end{figure}
+
+Owing to its hierarchical structure, the Swin Transformer is exceptionally well-suited for tasks that necessitate the integration of global context—essential for discerning the overall image structure—and local information, which is critical for identifying intricate features such as edges and textures. This makes it a compelling choice for image segmentation applications.
+
+Furthermore, integrating the contrastive and multi-modal learning strengths of UniCL with the Swin Transformer’s hierarchical design can significantly enhance the model’s capacity to learn robust and discriminative representations from both visual and textual data. This synergy facilitates a more holistic understanding of multimodal inputs, thereby improving overall model performance.
+
+With this foundational context established, the subsequent section details the proposed methodology, which comprises several core components: the backbone architecture, class activation map (CAM) generation, pseudo-label creation, segmentation prediction, and refinement. Each of these elements is integral to optimizing the model’s effectiveness.
 
 \section{CAM Generation}
 \label{sec:cam_generation}
