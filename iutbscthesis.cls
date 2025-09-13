@@ -94,3 +94,4 @@
 \RequirePackage[toc,page]{appendix}
 
 \RequirePackage{multirow}
+\RequirePackage{tcolorbox}

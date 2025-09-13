@@ -20,22 +20,77 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
   \setlength{\tabcolsep}{2pt} % adjust spacing
   \renewcommand{\arraystretch}{0.9}
 
-  % CAMs with class labels on the left
-  \begin{tabular}{c c c c} % first column = label
+  % Wrap the table in a colored box (requires \usepackage{tcolorbox})
+  \begin{tcolorbox}[colframe=black!60, colback=white, boxrule=0.8pt, arc=2pt, left=2pt, right=2pt, top=2pt, bottom=2pt]
+    \centering
+    % CAMs with class labels on the left
+    \begin{tabular}{c c c c} % first column = label
 
-    % Column headers
-                       & (a) Input                                                                                       & (b) WeCLIP                                                                                      & (c) Ours                                                                                        \\[1mm]
+      % Column headers
+       & (a) Input                                                    & (b) WeCLIP & (c) Ours
+      \\
+      [1mm]
 
-    {\textbf{Aeroplane}} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Bicycle}   & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Bird}      & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Boat}      & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Bottle}    & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Bus}       & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-    \textbf{Car}       & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} & \includegraphics[width=0.23\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} \\
-  \end{tabular}
+      {\textbf{Cat}}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2007_003778.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2007_003778_7.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2007_003778_7.jpg}
+      \\
+      \textbf{Bicycle}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2011_000453.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2011_000453_1.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2011_000453_1.jpg}
+      \\
+      \textbf{Bird}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2011_001902.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2011_001902_2.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2011_001902_2.jpg}
+      \\
+      \textbf{Boat}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2010_003599.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2010_003599_3.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2010_003599_3.jpg}
+      \\
+      \textbf{pottedplant}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2011_000145.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2011_000145_15.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2011_000145_15.jpg}
+      \\
+      \textbf{Car}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2010_005119.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2010_005119_6.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2010_005119_6.jpg}
+      \\
+      \textbf{Bus}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2010_000148.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/weclip/2010_000148_5.jpg}
+       & \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_cams/ours/2010_000148_5.jpg}
+      \\
+    \end{tabular}
+  \end{tcolorbox}
 
-  \caption{Qualitative comparison of CAMs between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set. The class label for each image is shown on the left.}
+  \caption{Qualitative comparison of CAMs between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set.}
   \label{fig:qualitative_comparison_cam_val}
 \end{figure}
 
