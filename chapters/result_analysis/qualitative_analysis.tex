@@ -94,63 +94,98 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
   \label{fig:qualitative_comparison_cam_val}
 \end{figure}
 
+
 \begin{figure}[ht]
-  % Pseudo-labels
-  \begin{tabular}{cccc}
-    (a) Input & (b) GT & (c) WeCLIP & (d) Ours         \\
-    [1mm]
+  \centering
+  \setlength{\tabcolsep}{2pt} % adjust spacing
+  \renewcommand{\arraystretch}{0.9}
+  % Wrap the table in a colored box (requires \usepackage{tcolorbox})
+  \begin{tcolorbox}[colframe=black!60, colback=white, boxrule=0.8pt, arc=2pt, left=2pt, right=2pt, top=2pt, bottom=2pt]
+    \centering
+    \begin{tabular}{cccc}
+      (a) Input & (b) GT & (c) WeCLIP & (d) Ours           \\
+      [1mm]
 
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/weclip/2007_003778_[7, 15].png}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/ours/2007_003778_[7, 15].png}  \\
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2007_003778.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2007_003778.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2007_003778_[7, 15].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2007_003778_[7, 15].png}    \\
 
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/weclip/2009_003768_[12, 14].png}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/ours/2009_003768_[12, 14].png} \\
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2009_003768.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2009_003768.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2009_003768_[12, 14].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2009_003768_[12, 14].png}   \\
 
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/weclip/2007_003778_[7, 15].png}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/ours/2007_003778_[7, 15].png}  \\
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2011_001967.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2011_001967.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2011_001967_[2].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2011_001967_[2].png}        \\
 
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/originals/2007_003778.jpg}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/weclip/2007_003778_[7, 15].png}
-              &
-    \includegraphics[width=0.22\textwidth]
-    {figures/val_labels/ours/2007_003778_[7, 15].png}  \\
-  \end{tabular}
 
-  \caption{Qualitative comparison of pseudo-labels between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set.}
-  \label{fig:qualitative_comparison_pseudolabel_val}
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2007_000250.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2007_000250.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2007_000250_[4, 10].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2007_000250_[4, 10].png}    \\
+
+
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2010_005119.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2010_005119.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2010_005119_[6].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2010_005119_[6].png}        \\
+
+
+
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/originals/2011_000453.jpg}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/colored_gts/2011_000453.png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/weclip/2011_000453_[1, 4, 14].png}
+                &
+      \includegraphics[width=0.20\textwidth,height=0.20\textwidth]
+      {figures/val_labels/ours/2011_000453_[1, 4, 14].png} \\
+    \end{tabular}
+
+    \caption{Qualitative comparison of pseudo-labels between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{val} set.}
+    \label{fig:qualitative_comparison_pseudolabel_val}
+  \end{tcolorbox}
 \end{figure}
 
 
@@ -186,10 +221,10 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
   \begin{tabular}{cccc}
     (a) Input                                                                                       & (b) GT & (c) WeCLIP & (d) Ours \\
 
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
-    \includegraphics[width=0.22\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg}                                  \\
+    \includegraphics[width=0.20\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
+    \includegraphics[width=0.20\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
+    \includegraphics[width=0.20\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg} &
+    \includegraphics[width=0.20\textwidth]{figures/qualitative_analysis/test_cam/2010_005860_6.jpg}                                  \\
   \end{tabular}
 
   \caption{Qualitative comparison of pseudo-labels between WeCLIP and our UniCL-AffSeg on PASCAL VOC 2012 \textit{test} set.}
