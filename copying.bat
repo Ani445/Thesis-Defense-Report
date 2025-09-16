@@ -7,8 +7,8 @@ REM Set source and target directories
 @REM set "LIST=figures\val_cams\ours\t.txt"
 
 
-set "SRC=C:\Users\abesh\Downloads\Weclip results and imges\Weclip results and imges\weclip_test_pseudolabels\content\WeCLIP\all_cams\new"
-set "DST=F:\UNI_STUFF\Thesis\Thesis-Defense-Report\figures\test_labels\weclip"
+set "SRC=H:\archive\VOC2012\SegmentationClassAug"
+set "DST=F:\UNI_STUFF\Thesis\Thesis-Defense-Report\figures\gts"
 set "LIST=figures\test_cams\ours\t.txt"
 
 REM Make sure the target directory exists
