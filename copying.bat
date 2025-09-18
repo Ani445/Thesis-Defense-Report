@@ -7,8 +7,8 @@ REM Set source and target directories
 @REM set "LIST=figures\val_cams\ours\t.txt"
 
 
-set "SRC=H:\archive\VOC2012\SegmentationClassAug"
-set "DST=F:\UNI_STUFF\Thesis\Thesis-Defense-Report\figures\gts2"
+set "SRC=H:\archive\VOC2012\JPEGImages"
+set "DST=F:\UNI_STUFF\Thesis\Thesis-Defense-Report\figures\originals"
 set "LIST=t.txt"
 
 REM Make sure the target directory exists

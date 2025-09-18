@@ -1,12 +1,34 @@
 \section{Key Findings}
 \label{sec:key_findings}
 
-The analysis of UniCL-AffSeg  in the context of weakly supervised semantic segmentation provides several important implications for both model design and the broader research landscape. First, our results highlight that while Swin-based UniCL encoders offer strong local feature representations, their windowed attention mechanism limits global semantic reasoning, which is crucial for generating coherent class activation maps (CAMs). This suggests that future WSSS frameworks could benefit from hybrid architectures that combine local affinity-based features with global attention cues, enabling more accurate propagation of semantic information across object regions.  
 
-Second, the use of affinity maps as an alternative to attention maps demonstrates a viable approach for capturing pixel-level relationships, particularly when using hierarchical Swin features. However, the current approach does not fully leverage multi-scale feature fusion due to the differing spatial resolutions of stage-wise feature maps. Future work could explore techniques such as upsampling, feature alignment, or transformer-based fusion modules to integrate multi-scale information effectively. Such strategies are likely to improve the detection of small structures and enhance segmentation coherence for large objects.  
+The analysis of UniCL-AffSeg in the context of weakly supervised semantic segmentation reveals several key findings, which are organized below for clarity:
 
-Third, the quality of initial CAMs remains a bottleneck for downstream segmentation performance. Incorporating stronger initialization strategies, such as contrastive pretraining on object parts, or leveraging pseudo-label refinement techniques, could improve initial activations and lead to more accurate final masks.  
+\subsection*{1. Local vs. Global Feature Representation}
+\begin{itemize}
+	\item \textbf{Strength of Swin-based UniCL encoders:} These encoders provide robust local feature representations.
+	\item \textbf{Limitation:} The windowed attention mechanism restricts global semantic reasoning, which is essential for generating coherent class activation maps (CAMs).
+	\item \textbf{Implication:} Future WSSS frameworks may benefit from hybrid architectures that combine local affinity-based features with global attention cues, enabling more accurate propagation of semantic information across object regions.
+\end{itemize}
 
-Finally, these findings have broader implications for the design of single-stage WSSS pipelines. Our work underscores the potential of contrastive learning frameworks like UniCL in weakly supervised settings, while also emphasizing the need to balance local detail and global context. Addressing these challenges can not only improve segmentation performance but also provide a more general framework for integrating vision-language pretraining with weak supervision in diverse visual recognition tasks.  
+\subsection*{2. Affinity Maps and Multi-Scale Feature Fusion}
+\begin{itemize}
+	\item \textbf{Affinity maps as an alternative:} Using affinity maps instead of attention maps is effective for capturing pixel-level relationships, especially with hierarchical Swin features.
+	\item \textbf{Current limitation:} The approach does not fully leverage multi-scale feature fusion due to differing spatial resolutions of stage-wise feature maps.
+	\item \textbf{Future directions:} Techniques such as upsampling, feature alignment, or transformer-based fusion modules could be explored to integrate multi-scale information, improving detection of small structures and segmentation coherence for large objects.
+\end{itemize}
 
-% In summary, future research directions include: (i) integrating local and global reasoning mechanisms, (ii) developing multi-scale feature fusion strategies compatible with hierarchical Swin features, (iii) enhancing initial CAM generation, and (iv) exploring stronger contrastive or affinity-based pretraining approaches for improved weakly supervised segmentation.
+\subsection*{3. Quality of Initial CAMs}
+\begin{itemize}
+	\item \textbf{Bottleneck:} The quality of initial CAMs remains a limiting factor for downstream segmentation performance.
+	\item \textbf{Potential improvements:} Incorporating stronger initialization strategies (e.g., contrastive pretraining on object parts) or leveraging pseudo-label refinement techniques could enhance initial activations and lead to more accurate final masks.
+\end{itemize}
+
+\subsection*{4. Broader Implications for WSSS Pipeline Design}
+\begin{itemize}
+	\item \textbf{Contrastive learning frameworks:} The results highlight the potential of frameworks like UniCL in weakly supervised settings.
+	\item \textbf{Balance needed:} There is a need to balance local detail and global context for optimal performance.
+	\item \textbf{General framework:} Addressing these challenges can improve segmentation performance and provide a more general approach for integrating vision-language pretraining with weak supervision in diverse visual recognition tasks.
+\end{itemize}
+
+% ...existing code...
