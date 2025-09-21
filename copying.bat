@@ -9,7 +9,7 @@ REM Set source and target directories
 
 set "SRC=H:\archive\VOC2012\JPEGImages"
 set "DST=F:\UNI_STUFF\Thesis\Thesis-Defense-Report\figures\originals"
-set "LIST=t.txt"
+set "LIST=name_list.txt"
 
 REM Make sure the target directory exists
 if not exist "%DST%" mkdir "%DST%"
