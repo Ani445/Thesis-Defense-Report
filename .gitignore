@@ -31,6 +31,7 @@
 *.dvi
 
 *.txt
+!name_list.txt
 
 # PDF output
 z_sample.pdf
