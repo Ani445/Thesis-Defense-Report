@@ -1,10 +1,30 @@
 \section{Data and Experimental Setup}
-\label{subsec:data_and_experimental_setup}
+\label{sec:data_and_experimental_setup}
 
-The experiments were carried out using the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, which comprises 20 object classes in addition to a background category. The dataset is partitioned into 1,464 training images, 1,449 validation images, and 1,456 test images. As ground truth annotations are unavailable for the test set, the training split was utilized for model training, while the validation split was employed for performance assessment.
+\subsection{Dataset}
+\label{subsec:dataset}
+The experiments were conducted on the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, which consists of 20 foreground object classes and an additional background category. The dataset is divided into 1,464 training images, 1,449 validation images, and 1,456 test images. Since ground truth annotations for the test set are not publicly available, the training set was used for model training and the validation set for performance evaluation.
 
-All experimental procedures were implemented using the \textbf{PyTorch} framework and executed on a single \textbf{NVIDIA Tesla T4 GPU} with \textbf{16 GB memory}, accessed via Google Colab (free tier). During training, images were randomly resized within the range of 512 to 2048 pixels, rescaled by factors between 0.5 and 2.0, and subsequently cropped to a fixed dimension of 224.
+\subsection{Experimental Setup}
+\label{subsec:experimental_setup}
+All experiments were implemented using the \textbf{PyTorch} framework and executed on a single \textbf{NVIDIA Tesla T4 GPU} with \textbf{16 GB memory}, accessed through Google Colab (free tier).
 
-Model optimization was conducted using the \textbf{AdamW} optimizer, with a learning rate of $5 \times 10^{-5}$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight decay parameter of 0.01. Training was performed for \textbf{30,000 iterations} with an effective batch size of 8 (per-GPU batch size of 4, utilizing gradient accumulation over 2 steps). A linear warmup was applied during the initial 500 iterations, with a warmup ratio of $10^{-3}$. The optimal model checkpoints were selected based on validation set performance.
+During training, the input images were randomly resized within the range of 512 to 2048 pixels, rescaled by factors between 0.5 and 2.0, and then cropped to a fixed resolution of $224 \times 224$.
 
-For evaluation, the \textbf{mean Intersection over Union (mIoU)} metric was adopted, which is the standard criterion for semantic segmentation evaluation.
+Model optimization was performed using the \textbf{AdamW} optimizer with a learning rate of $5 \times 10^{-5}$, momentum parameters $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight decay of 0.01. Training was run for \textbf{30,000 iterations} with an effective batch size of 8 (per-GPU batch size of 4, with gradient accumulation over 2 steps). A linear learning rate warmup was applied for the first 500 iterations, with a warmup ratio of $10^{-3}$. The best model checkpoints were selected based on validation set performance.
+
+\subsection{Evaluation Metric}
+\label{subsec:evaluation_metric}
+The primary evaluation criterion was the \textbf{mean Intersection over Union (mIoU)}. For a given class $c$, the Intersection over Union (IoU) is defined as:
+
+$$
+\text{IoU}(c) = \frac{TP_c}{TP_c + FP_c + FN_c}
+$$
+
+where $TP_c$, $FP_c$, and $FN_c$ denote the number of true positives, false positives, and false negatives for class $c$, respectively. The mean IoU is then computed as the average IoU across all $K$ semantic classes:
+
+$$
+\text{mIoU} = \frac{1}{K} \sum_{c=1}^{K} \text{IoU}(c)
+$$
+
+This metric is widely used in semantic segmentation as it provides a balanced assessment of model performance across both frequent and infrequent classes.
