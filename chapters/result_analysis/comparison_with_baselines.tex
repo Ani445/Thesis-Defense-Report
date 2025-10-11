@@ -54,29 +54,3 @@ In summary, although UniCL-AffSeg adopts the same overarching design philosophy 
     \caption{Comparison of multi-stage and single-stage weakly supervised approaches.}
     \label{tab:quantitative_results}
 \end{table}
-
-\begin{table}[htbp]
-    \centering
-    \renewcommand{\arraystretch}{1.2}
-    \setlength{\tabcolsep}{6pt}
-    \begin{tabular}{l c c c c}
-        \hline
-        Method                                                               & Backbone   & Sup. & val           & test          \\
-        \hline
-        \multicolumn{5}{c}{\textit{single-stage weakly supervised approaches}}                                                   \\
-        1Stage$_{\text{CVPR'20}}$               & ResNet38   & I    & 62.7          & 64.3          \\
-        RRM$_{\text{AAAI'20}}$         & ResNet38   & I    & 62.6          & 62.9          \\
-        AA\&AR$_{\text{ACMMM'21}}$                                & ResNet38   & I    & 63.9          & 64.8          \\
-        SLRNet$_{\text{IJCV'22}}$                                & ResNet38   & I    & 67.2          & 67.6          \\
-        AFA$_{\text{CVPR'22}}$                                     & MIT-B1     & I    & 66.0          & 66.3          \\
-        TSCD$_{\text{AAAI'23}}$                                  & MIT-B1     & I    & 67.0          & 67.5          \\
-        ToCo$_{\text{CVPR'23}}$                                   & ViT        & I    & 71.1          & 72.2          \\
-        WeCLIP (w/o CRF)                                                & ViT        & I+L  & 74.9          & 75.2          \\
-        WeCLIP (w/ CRF)                                                 & ViT        & I+L  & \textbf{76.4} & \textbf{77.2} \\
-        \hline
-        Ours (UniCL-AffSeg) & Swin-B & I+L & 50.0 & 50.0 \\
-        \hline
-    \end{tabular}
-    \caption{Comparison of multi-stage and single-stage weakly supervised approaches.}
-    \label{tab:quantitative_results}
-\end{table}
