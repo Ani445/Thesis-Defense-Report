@@ -1,10 +1,126 @@
+\begin{figure}[H]
+  \centering
+  \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
+  \renewcommand{\arraystretch}{0.4}
+
+  \begin{tabular}{c c c}
+    \textbf{Grad-CAM} & \textbf{Layer-CAM} & \textbf{Grad-CAM++} \\
+    [2pt]
+    % First row of images
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2007_009807_12} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2007_009807_12} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2007_009807_12} \\
+
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2011_001967_2} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2011_001967_2} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2011_001967_2} \\
+
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2008_003976_0} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2008_003976_0} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2008_003976_0} \\
+
+  \end{tabular}
+
+  \caption{Comparison of CAM visualization methods on the Pascal VOC dataset for single class scenario. Columns show Grad-CAM, Layer-CAM, and Grad-CAM++ respectively. Each row corresponds to a different example image.}
+  \label{fig:cam_variation_singleclass}
+\end{figure}
+
 \section{Explored but Ineffective Approaches}
 \label{sec:ineffective_approaches}
 
 During development, we investigated several alternative strategies that, while promising in theory, did not yield satisfactory results in practice. We summarize these negative results here both for completeness and to highlight potential pitfalls for future work.  
 
 \paragraph{Alternative CAM Generation Methods.} 
-We experimented with LayerCAM and Grad-CAM++, as replacements for our primary CAM extraction mechanism. Although these methods are widely used in weakly supervised settings, in our framework they produced coarse and noisy activation maps, failing to capture complete object regions. Figure~\ref{fig:cam_comparison} provides a visual comparison, illustrating how these alternatives highlighted only small discriminative parts while missing large portions of the objects.  
+We experimented with LayerCAM and Grad-CAM++, as replacements for our primary CAM extraction mechanism. Although these methods are widely used in weakly supervised settings, in our framework they couldn't produce better CAMs. 
+LayerCAM, which uses the element-wise product of feature maps and gradients, produced better CAMs than Grad-CAM in case of single class images. However, in multi-class scenarios, it almost always highlighted only one dominant region for every class, which is quite interesting.
+
+
+
+
+\begin{figure}[H]
+  \centering
+  \setlength{\tabcolsep}{1pt}
+  \renewcommand{\arraystretch}{0.7}
+
+  %%%%%%%%%%%%% Subfigure A %%%%%%%%%%%%%
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tabular}{c c c}
+      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_007558_6} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_007558_6} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_007558_6} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Car}}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_007558_13} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_007558_13} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_007558_13} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Motorbike}}} \\
+    \end{tabular}
+    \caption{Example 1: Multi-class image containing \textit{Car} and \textit{Motorbike}.}
+    \label{fig:cam_multiclass_a}
+  \end{subfigure}
+  \hfill
+  %%%%%%%%%%%%% Subfigure B %%%%%%%%%%%%%
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tabular}{c c c}
+      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2009_001718_1} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2009_001718_1} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2009_001718_1} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Bicycle}}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2009_001718_14} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2009_001718_14} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2009_001718_14} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
+    \end{tabular}
+    \caption{Example 2: Multi-class image containing \textit{Bicycle} and \textit{Person}.}
+    \label{fig:cam_multiclass_b}
+  \end{subfigure}
+
+  \vspace{8pt}
+
+  %%%%%%%%%%%%% Subfigure C %%%%%%%%%%%%%
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tabular}{c c c}
+      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_002762_12} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_002762_12} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_002762_12} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Horse}}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_002762_14} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_002762_14} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_002762_14} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
+    \end{tabular}
+    \caption{Example 3: Multi-class image containing \textit{Horse} and \textit{Person}.}
+    \label{fig:cam_multiclass_c}
+  \end{subfigure}
+  \hfill
+  %%%%%%%%%%%%% Subfigure D %%%%%%%%%%%%%
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \begin{tabular}{c c c}
+      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2010_001933_11} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2010_001933_11} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2010_001933_11} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Dog}}} \\[2pt]
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2010_001933_17} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2010_001933_17} &
+      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2010_001933_17} \\
+      \multicolumn{3}{c}{{\scriptsize \textit{Class: Sofa}}} \\
+    \end{tabular}
+    \caption{Example 4: Multi-class image containing \textit{Dog} and \textit{Sofa}.}
+    \label{fig:cam_multiclass_d}
+  \end{subfigure}
+
+  \caption{Comparison of Grad-CAM, Layer-CAM, and Grad-CAM++ visualizations for multiple multi-class images from the Pascal VOC dataset. Each subfigure shows CAMs for two distinct object classes within the same image.}
+  \label{fig:cam_variation_multiclass_all}
+\end{figure}
+
+
 
 \paragraph{Backbone Fine-tuning Variants.}
 We also attempted to fine-tune the last one or two Swin Transformer blocks, both with and without an additional fully connected (FC) projection layer. These modifications degraded the quality of the generated CAMs, often resulting in unstable or inconsistent activations. This suggests that partial fine-tuning, without carefully designed regularization, may overfit to local patterns and disrupt the alignment with text embeddings.  
