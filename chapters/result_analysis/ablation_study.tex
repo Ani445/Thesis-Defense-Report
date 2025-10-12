@@ -35,7 +35,7 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
 \label{tab:ablation_rfm_comparison}
 \end{table}
 
-\subsection{Analysis}
+\subsection{Quantitative Analysis}
 
 \autoref{tab:ablation_rfm_comparison} shows the per-class IoU and overall mean IoU (mIoU) for the Pascal VOC dataset, comparing the baseline model without RFM against the model with RFM applied. Several observations can be made:
 
@@ -45,5 +45,41 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
     \item Small or complex objects like \textit{bicycle}, \textit{diningtable}, and \textit{sofa} also benefit from RFM, indicating that the module helps refine boundaries and capture finer details.
     \item Interestingly, the \textit{person} class shows a slight decrease. This reflects dataset bias in the UniCL pretraining datasets, where the model has limited exposure to humans, making RFM refinement less effective in this particular case.
 \end{itemize}
+
+\subsection{Qualitative Analysis}
+\begin{figure}[H]
+  \centering
+  \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
+  \renewcommand{\arraystretch}{0.4}
+
+  \begin{tabular}{c c c c}
+    \textbf{Without RFM} & \textbf{With RFM} & \hspace{4pt} \textbf{Without RFM} & \textbf{With RFM} \\
+    [2pt]
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_001185_[2]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_001185_[2]} & \hspace{2pt}
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_007558_[6, 13]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_007558_[6, 13]} \\
+    [1mm]
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_001753_[0]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_001753_[0]} & \hspace{2pt}
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_002398_[11]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_002398_[11]} \\
+    [1mm]
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2007_009807_[12]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2007_009807_[12]} & \hspace{2pt}
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003912_[1, 4]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003912_[1, 4]} \\
+    [1mm]
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003276_[6]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003276_[6]} & \hspace{2pt}
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2009_000074_[13, 14]} &
+    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2009_000074_[13, 14]} \\
+  \end{tabular}
+
+  \caption{Qualitative ablation on the Pascal VOC dataset showing the effect of the Refinement Module (RFM) \cite{wsss_frozen_clip} using our method. Each pair compares pseudo-labels generated without (left) and with (right) RFM. The RFM enhances boundary precision and recovers missing object regions, leading to more complete and accurate segmentation masks.}
+  \label{fig:qualitative_ablation}
+\end{figure}
+
+Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the Refinement Module (RFM) on pseudo-label generation across diverse object categories. Without RFM, CAMs frequently appear fragmented and incomplete, particularly along fine structures such as bird wings or bicycle wheels. Incorporating RFM results in smoother, spatially coherent masks with improved object coverage and sharper boundaries, effectively reducing under-segmentation and background noise (e.g., in the airplane and dog examples). However, in some cases—most notably for the person class—the initial CAMs exhibit high confidence in background regions, which RFM further propagates during affinity-based refinement. This leads to over-segmentation and explains the slight quantitative drop observed for the person category in Table~\ref{tab:ablation_rfm_comparison}. Despite this limitation, RFM generally enhances semantic completeness and boundary precision, validating its role in improving spatial consistency under weak supervision.
 
 Overall, the ablation study confirms that the RFM effectively enhances segmentation quality by refining initial CAMs using affinity information and contextual cues, particularly for classes that are underrepresented or have complex shapes. These results establish a strong baseline for subsequent experiments and highlight the importance of the RFM in improving both boundary delineation and class-specific performance.
