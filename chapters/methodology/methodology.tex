@@ -251,31 +251,31 @@ where \( P \in \mathbb{R}^{C \times H \times W} \), \( C \) is the number of cla
 \subsection{Affinity based CAM refinement}  
 The initial CAMs produced by the backbone tend to focus only on sparse, highly discriminative regions. These activations are often noisy and insufficient to be used directly as supervision. Therefore, a refinement module is required where the initial CAM is improved. The refined CAM is then used as a pseudolabel for supervision.  
 
-The most common strategy for rectifying CAMs is by exploiting the feature relationships within the backbone that generates them. This is referred to as affinity-based CAM refinement, first introduced by \cite{wsss_affinitynet}. In transformer-based backbones, the attention maps naturally encode semantic-level affinities between tokens or patches. From these attention maps, an affinity matrix $A_f$ can be constructed and employed for CAM refinement via random walk propagation. In parallel, another affinity matrix, $\hat{A}$, can be derived from the predicted pseudolabel produced by the decoder. The cross-entropy loss between these two affinity matrices is then incorporated into the training objective.  
+The most common strategy for rectifying CAMs is by exploiting the feature relationships within the backbone that generates them. This is referred to as affinity-based CAM refinement, first introduced by \cite{wsss_affinitynet}. In transformer-based backbones, the attention maps naturally encode semantic-level affinities between tokens or patches. From these attention maps, an affinity matrix $A_f$ can be constructed and employed for CAM refinement via random walk propagation. In parallel, another affinity matrix, $A$, can be derived from the predicted pseudolabel produced by the decoder. The cross-entropy loss between these two affinity matrices is then incorporated into the training objective.  
 
 However, in our case, the backbone responsible for generating the CAMs is \textbf{frozen}, meaning that its attention maps remain fixed and do not update during training. To address this limitation, Frozen CLIP \cite{wsss_frozen_clip} proposes utilizing the affinity derived from intermediate features of the encoder instead of directly relying on the backbone’s frozen attention. The backbone attention maps are then used only to influence this encoder-derived affinity, producing a final refined matrix $R$, which is further transformed into a transition matrix $T$ for random walk propagation.  
 
 In our setup, the UniCL backbone is based on the Swin Transformer, whose shifted-window design restricts the attention mechanism to \textbf{local regions}. Consequently, the attention maps fail to capture the \textbf{global semantic affinities} necessary for effective CAM propagation, and we could not use them directly for refinement. To overcome this, we compute affinities from the \textbf{intermediate feature maps of the Swin encoder}.  
 
-Formally, let $f \in \mathbb{R}^{C \times L}$ denote the encoder feature map of dimension $C$ (channels) and length $L = hw$ (flattened spatial positions). We first normalize $f$ along the channel dimension:  
+Formally, let $f^{(k)} \in \mathbb{R}^{C \times L}$ denote the feature map from the $k$-th encoder block, where $C$ is the channel dimension and $L = h \times w$ represents the flattened spatial resolution. Each feature map is first normalized along the channel dimension:
 
 \begin{equation}
-\tilde{f}_i = \frac{f_i}{\| f_i \|_2}, \quad i=1,\dots,L
+\tilde{f}^{(k)}_i = \frac{f^{(k)}_i}{\| f^{(k)}_i \|_2}, \quad i = 1, \dots, L
 \end{equation}
 
-The affinity between positions $i$ and $j$ is then defined as the dot-product similarity:  
+The affinity between spatial positions $i$ and $j$ within block $k$ is then computed as the dot-product similarity:
 
 \begin{equation}
-A_{ij} = \tilde{f}_i^\top \tilde{f}_j
+A^{(k)}_{ij} = \tilde{f}^{(k)}_i{}^\top \tilde{f}^{(k)}_j
 \end{equation}
 
-To enhance stability, we compute affinities across multiple encoder blocks and then average them:  
+We compute such affinity matrices across multiple intermediate encoder blocks to capture complementary semantic relations at different abstraction levels. The resulting set of affinities is represented as:
 
 \begin{equation}
-\hat{A} = \frac{1}{N} \sum_{k=1}^N A^{(k)}
+\mathcal{A} = \{ A^{(1)}, A^{(2)}, \dots, A^{(N)} \}, \quad \mathcal{A} \in \mathbb{R}^{N \times hw \times hw}
 \end{equation}
 
-where $N$ is the number of encoder blocks used. The resulting affinity matrix $\hat{A} \in \mathbb{R}^{hw \times hw}$ captures semantic relationships across the image and is subsequently used in the random walk propagation step to refine the CAMs.  
+This multi-block affinity representation provides richer contextual cues for propagating and refining class activation maps.
 
 
 \subsection{Extracting affinity map from the decoder}
@@ -291,13 +291,13 @@ where $F_u \in \mathbb{R}^{d \times h \times w}$ is reshaped into a matrix of si
 
 \subsection{Selecting affinity maps of the image encoder}
 \label{subsec:att_map_encoder}
-We extract all the affinity maps from the frozen CLIP image encoder, denoted as $\{A_s^l\}_{l=1}^N$, where each affinity map $A_s^l \in \mathbb{R}^{hw \times hw}$. To evaluate the reliability of each affinity map $A_s^l$, we compare it with the previously computed decoder affinity map $A_f$ using the following deviation score:
+Following \cite{wsss_frozen_clip}, we extract all the affinity maps from the frozen CLIP image encoder, denoted as $\{A^l\}_{l=1}^N$, where each affinity map $A^l \in \mathbb{R}^{hw \times hw}$. To evaluate the reliability of each affinity map $A^l$, we compare it with the previously computed decoder affinity map $A_f$ using the following deviation score:
 
 \begin{equation}
-    S^l = \sum_{i=1}^{hw} \sum_{j=1}^{hw} \left| A_f(i, j) - A_s^l(i, j) \right|,
+    S^l = \sum_{i=1}^{hw} \sum_{j=1}^{hw} \left| A_f(i, j) - A^l(i, j) \right|,
 \end{equation}
 
-where $S^l$ quantifies how much the affinity map (encoder) $A_s^l$ deviates from the reference affinity (decoder) $A_f$.  
+where $S^l$ quantifies how much the affinity map (encoder) $A^l$ deviates from the reference affinity (decoder) $A_f$.  
 
 Based on this score, we assign a binary weight $G^l$ to each affinity map:  
 
@@ -315,10 +315,10 @@ This selection mechanism ensures that only high-quality affinity maps consistent
 
 \subsection{Utilizing the frozen encoder affinity maps}
 \label{subsec: mul_attn_and_aff}
-Using the affinity map $A_f$ and the filtered affinity maps of the encoder, we construct a refining map $R$ by weighing the decoder affinity matrix with the mean of the selected encoder affinity maps. The equation is given as:
+Using the affinity map $A_f$ and the filtered affinity maps of the encoder, we construct a refining map $R$ by weighing the decoder affinity matrix with the mean of the selected encoder affinity maps. This method of selection is adopted first by \cite{wsss_frozen_clip}. The equation is given as:
 
 \begin{equation}
-    R = A_f \odot \frac{ \sum_{l=1}^N G^l_e A_s^l}{N_m},
+    R = A_f \odot \frac{ \sum_{l=1}^N G^l_e A^l}{N_m},
 \end{equation}
 
 where $\odot$ denotes element-wise multiplication, and $N_m$ is the number of valid encoder affinity maps that have passed the filtering stage, defined as:
@@ -331,12 +331,12 @@ Here, $G^l_e \in \mathbb{R}^{hw \times hw}$ is the expanded binary filter corres
 
 \subsection{Constructing the semantic transition matrix}
 \label{subsec:trans_mat}
-Now that we have the affinity matrix $A_f$, to apply the random walk propagation, we need to at first normalize the rows for converting it into a transition probability matrix. In addition, column normalization ensures consistency and symmetric behavior. Sinkhorn normalization \cite{math_sinkhorn} is thus used to convert $A_f$ into a double stochastic matrix $R_{\text{nor}}$.
+Now that we have the affinity matrix $R$, to apply the random walk propagation, we need to at first normalize the rows for converting it into a transition probability matrix. In addition, column normalization ensures consistency and symmetric behavior. Sinkhorn normalization \cite{math_sinkhorn} is thus used to convert $R$ into a double stochastic matrix $R_{\text{nor}}$.
 
 Next, $R_{\text{nor}}$ is converted into a symmetric matrix by adding its transpose and normalizing the sum:
 
 \[
-    T = \frac{R_{\text{nor}} + R_{\text{nor}}^T}{2}, \quad \text{where} \quad R_{\text{nor}} = \text{Sinkhorn}(A_f)
+    T = \frac{R_{\text{nor}} + R_{\text{nor}}^T}{2}, \quad \text{where} \quad R_{\text{nor}} = \text{Sinkhorn}(R)
 \]
 
 The matrix $T$ is now symmetric whose rows and columns are normalized. This is the transition probability matrix to be used for random walk.
@@ -427,12 +427,12 @@ In the refinement module, we used the affinity map of the decoder features, $A_f
 We compute the affinity labels for the predicted pseudolabel as follows:
 
 \begin{equation}
-    \hat{A} = O_h(M_p)^TO_h(M_p)
+    A_p = O_h(M_p)^TO_h(M_p)
 \end{equation}
 where $O_h(.)$ is the one-hot encoding of $M_p$, and $A \in \mathbb{R}^{hw \times hw}$  is the affinity label.
-. This means that the value of $\hat{A(i,j)}$ will be 1 for the $(i,j)$ pair which have the same class label, and 0 otherwise. The affinity loss is the Cross-Entropy Loss of $A_f$ and $\hat{A}$:
+. This means that the value of $A_p(i,j)$ will be 1 for the $(i,j)$ pair which have the same class label, and 0 otherwise. The affinity loss is the Cross-Entropy Loss of $A_f$ and $A_p$:
 \begin{equation}
-    \mathcal{L}_{aff} = \mathcal{L}_{ce}(A_f, \hat{A})
+    \mathcal{L}_{aff} = \mathcal{L}_{ce}(A_f, A_p)
 \end{equation}
 
 \subsection{Segmentation Loss}
