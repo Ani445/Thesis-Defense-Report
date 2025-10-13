@@ -13,6 +13,13 @@ During training, the input images were randomly resized within the range of 512 
 
 Model optimization was performed using the \textbf{AdamW} optimizer with a learning rate of $5 \times 10^{-5}$, momentum parameters $\beta_1 = 0.9$, $\beta_2 = 0.999$, and a weight decay of 0.01. Training was run for \textbf{30,000 iterations} with an effective batch size of 8 (per-GPU batch size of 4, with gradient accumulation over 2 steps). A linear learning rate warmup was applied for the first 500 iterations, with a warmup ratio of $10^{-3}$. The best model checkpoints were selected based on validation set performance.
 
+\begin{figure}[t]
+    \centering
+    \fbox{\includegraphics[width=0.98\textwidth]{figures/voc_colormap.png}}
+    \caption{Pascal VOC 2012 class color map for visualization. Each class is represented by a unique color for easy identification in segmentation maps.}
+    \label{fig:class_colors_voc2012}
+\end{figure}
+
 \subsection{Evaluation Metric}
 \label{subsec:evaluation_metric}
 The primary evaluation criterion was the \textbf{mean Intersection over Union (mIoU)}. For a given class $c$, the Intersection over Union (IoU) is defined as:
