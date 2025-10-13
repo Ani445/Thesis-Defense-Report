@@ -9,8 +9,8 @@ In this section, we provide a high-level overview of the proposed methodology. T
 
 \begin{figure}
     \centering
-    \fbox{\includegraphics[width=0.95\textwidth]{figures/architecture}}
-    \caption{Architecture}
+    \fbox{\includegraphics[width=0.98\textwidth, height = 1.05\textwidth]{figures/architecture}}
+    \caption{Architecture of UniCL-AffSeg}
     \label{fig:architecture}
 \end{figure}
 
@@ -228,13 +228,6 @@ After that, all new feature maps \( F_l^{\text{new}} \) for \( l = 1, \dots, N \
 where \( F_u \in \mathbb{R}^{d \times h \times w} \), and \( d \), \( h \), and \( w \) represent the channel dimension, height, and width of the feature map, respectively. \(\text{Conv}(\cdot)\) is a convolutional layer, and \(\text{Concat}[\cdot]\) denotes the concatenation operation.
 
 
-\begin{figure}[t]
-    \centering
-    \fbox{\includegraphics[width=0.9\textwidth]{figures/DecoderRFM}}
-    \caption{Decoder and Refinement Module}
-    \label{fig:decoder}
-\end{figure}
-
 \subsection{Generating Final Prediction}
 \label{subsec:decoder_final_pred}
 
@@ -254,6 +247,13 @@ The initial CAMs produced by the backbone tend to focus only on sparse, highly d
 The most common strategy for rectifying CAMs is by exploiting the feature relationships within the backbone that generates them. This is referred to as affinity-based CAM refinement, first introduced by \cite{wsss_affinitynet}. In transformer-based backbones, the attention maps naturally encode semantic-level affinities between tokens or patches. From these attention maps, an affinity matrix $A_f$ can be constructed and employed for CAM refinement via random walk propagation. In parallel, another affinity matrix, $A$, can be derived from the predicted pseudolabel produced by the decoder. The cross-entropy loss between these two affinity matrices is then incorporated into the training objective.  
 
 However, in our case, the backbone responsible for generating the CAMs is \textbf{frozen}, meaning that its attention maps remain fixed and do not update during training. To address this limitation, Frozen CLIP \cite{wsss_frozen_clip} proposes utilizing the affinity derived from intermediate features of the encoder instead of directly relying on the backbone’s frozen attention. The backbone attention maps are then used only to influence this encoder-derived affinity, producing a final refined matrix $R$, which is further transformed into a transition matrix $T$ for random walk propagation.  
+
+\begin{figure}[t]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{figures/DecoderRFM}}
+    \caption{Decoder and Refinement Module}
+    \label{fig:decoder}
+\end{figure}
 
 In our setup, the UniCL backbone is based on the Swin Transformer, whose shifted-window design restricts the attention mechanism to \textbf{local regions}. Consequently, the attention maps fail to capture the \textbf{global semantic affinities} necessary for effective CAM propagation, and we could not use them directly for refinement. To overcome this, we compute affinities from the \textbf{intermediate feature maps of the Swin encoder}.  
 
