@@ -14,83 +14,86 @@ Overall, Grad-CAM provided the most consistent and complete CAMs across both sin
   \centering
   \setlength{\tabcolsep}{1pt}
   \renewcommand{\arraystretch}{0.7}
+  \fbox{%
+    \begin{minipage}{0.9\textwidth}
+      %%%%%%%%%%%%% Subfigure A %%%%%%%%%%%%%
+      \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \begin{tabular}{c c c}
+          {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2008_007558_6} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2008_007558_6} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2008_007558_6} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Car}}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2008_007558_13} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2008_007558_13} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2008_007558_13} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Motorbike}}} \\
+        \end{tabular}
+        \caption{Example 1: Multi-class image containing \textit{Car} and \textit{Motorbike}.}
+        \label{fig:cam_multiclass_a}
+      \end{subfigure}
+      \hfill
+      %%%%%%%%%%%%% Subfigure B %%%%%%%%%%%%%
+      \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \begin{tabular}{c c c}
+          {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2009_001718_1} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2009_001718_1} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2009_001718_1} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Bicycle}}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2009_001718_14} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2009_001718_14} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2009_001718_14} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
+        \end{tabular}
+        \caption{Example 2: Multi-class image containing \textit{Bicycle} and \textit{Person}.}
+        \label{fig:cam_multiclass_b}
+      \end{subfigure}
 
-  %%%%%%%%%%%%% Subfigure A %%%%%%%%%%%%%
-  \begin{subfigure}[t]{0.48\textwidth}
-    \centering
-    \begin{tabular}{c c c}
-      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_007558_6} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_007558_6} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_007558_6} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Car}}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_007558_13} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_007558_13} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_007558_13} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Motorbike}}} \\
-    \end{tabular}
-    \caption{Example 1: Multi-class image containing \textit{Car} and \textit{Motorbike}.}
-    \label{fig:cam_multiclass_a}
-  \end{subfigure}
-  \hfill
-  %%%%%%%%%%%%% Subfigure B %%%%%%%%%%%%%
-  \begin{subfigure}[t]{0.48\textwidth}
-    \centering
-    \begin{tabular}{c c c}
-      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2009_001718_1} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2009_001718_1} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2009_001718_1} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Bicycle}}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2009_001718_14} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2009_001718_14} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2009_001718_14} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
-    \end{tabular}
-    \caption{Example 2: Multi-class image containing \textit{Bicycle} and \textit{Person}.}
-    \label{fig:cam_multiclass_b}
-  \end{subfigure}
+      \vspace{8pt}
 
-  \vspace{8pt}
+      %%%%%%%%%%%%% Subfigure C %%%%%%%%%%%%%
+      \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \begin{tabular}{c c c}
+          {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2008_002762_12} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2008_002762_12} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2008_002762_12} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Horse}}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2008_002762_14} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2008_002762_14} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2008_002762_14} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
+        \end{tabular}
+        \caption{Example 3: Multi-class image containing \textit{Horse} and \textit{Person}.}
+        \label{fig:cam_multiclass_c}
+      \end{subfigure}
+      \hfill
+      %%%%%%%%%%%%% Subfigure D %%%%%%%%%%%%%
+      \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \begin{tabular}{c c c}
+          {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2010_001933_11} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2010_001933_11} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2010_001933_11} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Dog}}} \\[2pt]
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcam/2010_001933_17} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/layercam/2010_001933_17} &
+          \includegraphics[width=0.32\linewidth, height=0.32\linewidth]{figures/cams/gradcampp/2010_001933_17} \\
+          \multicolumn{3}{c}{{\scriptsize \textit{Class: Sofa}}} \\
+        \end{tabular}
+        \caption{Example 4: Multi-class image containing \textit{Dog} and \textit{Sofa}.}
+        \label{fig:cam_multiclass_d}
+      \end{subfigure}
 
-  %%%%%%%%%%%%% Subfigure C %%%%%%%%%%%%%
-  \begin{subfigure}[t]{0.48\textwidth}
-    \centering
-    \begin{tabular}{c c c}
-      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_002762_12} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_002762_12} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_002762_12} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Horse}}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2008_002762_14} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2008_002762_14} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2008_002762_14} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Person}}} \\
-    \end{tabular}
-    \caption{Example 3: Multi-class image containing \textit{Horse} and \textit{Person}.}
-    \label{fig:cam_multiclass_c}
-  \end{subfigure}
-  \hfill
-  %%%%%%%%%%%%% Subfigure D %%%%%%%%%%%%%
-  \begin{subfigure}[t]{0.48\textwidth}
-    \centering
-    \begin{tabular}{c c c}
-      {\scriptsize \textbf{Grad-CAM}} & {\scriptsize \textbf{Layer-CAM}} & {\scriptsize \textbf{Grad-CAM++}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2010_001933_11} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2010_001933_11} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2010_001933_11} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Dog}}} \\[2pt]
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcam/2010_001933_17} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/layercam/2010_001933_17} &
-      \includegraphics[width=0.28\linewidth, height=0.28\linewidth]{figures/cams/gradcampp/2010_001933_17} \\
-      \multicolumn{3}{c}{{\scriptsize \textit{Class: Sofa}}} \\
-    \end{tabular}
-    \caption{Example 4: Multi-class image containing \textit{Dog} and \textit{Sofa}.}
-    \label{fig:cam_multiclass_d}
-  \end{subfigure}
-
-  \caption{Comparison of Grad-CAM, Layer-CAM, and Grad-CAM++ visualizations for multiple multi-class images from the Pascal VOC dataset. Each subfigure shows CAMs for two distinct object classes within the same image.}
-  \label{fig:cam_variation_multiclass_all}
+      \caption{Comparison of Grad-CAM, Layer-CAM, and Grad-CAM++ visualizations for multiple multi-class images from the Pascal VOC dataset. Each subfigure shows CAMs for two distinct object classes within the same image.}
+      \label{fig:cam_variation_multiclass_all}
+    \end{minipage}
+  }
 \end{figure}
 
 

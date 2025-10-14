@@ -47,7 +47,7 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
 % \end{itemize}
 
 
-\autoref{tab:ablation_rfm_comparison} presents the per-class IoU and overall mean IoU (mIoU) for the PASCAL VOC dataset, comparing the baseline model without the Refinement Module (RFM) against the model with RFM applied. The inclusion of the RFM leads to a clear improvement in segmentation quality, increasing the overall mIoU from 0.469 to 0.503. This enhancement demonstrates the effectiveness of the module in refining spatial coherence and object completeness. Notably, classes that are large or visually distinctive, such as \textit{bus}, \textit{cat}, \textit{dog}, and \textit{sheep}, exhibit substantial gains in IoU, confirming the RFM’s ability to enhance region coverage for well-represented categories. Moreover, smaller or structurally complex classes, including \textit{bicycle}, \textit{diningtable}, and \textit{sofa}, also show improvement, suggesting that the RFM effectively sharpens boundaries and captures finer object details. However, the \textit{person} class experiences a slight decline in IoU, likely due to inherent bias in the UniCL pretraining datasets (ImageNet-21K and YFCC-14M), where human-centric categories are underrepresented. Consequently, the RFM’s refinement process becomes less effective for such classes, underscoring the importance of addressing pretraining bias in future work.
+\autoref{tab:ablation_rfm_comparison} presents the per-class IoU and overall mean IoU (mIoU) for the PASCAL VOC dataset, comparing the baseline model without the Refinement Module (RFM) against the model with RFM applied. The inclusion of the RFM leads to a clear improvement in segmentation quality, increasing the overall mIoU from 0.469 to 0.503. This enhancement demonstrates the effectiveness of the module in refining spatial coherence and object completeness. Notably, classes that are large or visually distinctive, such as \textit{bus}, \textit{cat}, \textit{dog}, and \textit{sheep}, exhibit substantial gains in IoU, confirming the RFM's ability to enhance region coverage for well-represented categories. Moreover, smaller or structurally complex classes, including \textit{bicycle}, \textit{diningtable}, and \textit{sofa}, also show improvement, suggesting that the RFM effectively sharpens boundaries and captures finer object details. However, the \textit{person} class experiences a slight decline in IoU, likely due to inherent bias in the UniCL pretraining datasets (ImageNet-21K and YFCC-14M), where human-centric categories are underrepresented. Consequently, the RFM’s refinement process becomes less effective for such classes, underscoring the importance of addressing pretraining bias in future work.
 
 \subsection{Qualitative Study}
 
@@ -58,29 +58,35 @@ Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the
   \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
   \renewcommand{\arraystretch}{0.4}
 
-  \begin{tabular}{c c c c}
-    \textbf{Without RFM} & \textbf{With RFM} & \hspace{4pt} \textbf{Without RFM} & \textbf{With RFM} \\
-    [2pt]
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_001185_[2]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_001185_[2]} & \hspace{2pt}
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_007558_[6, 13]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_007558_[6, 13]} \\
-    [1mm]
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_001753_[0]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_001753_[0]} & \hspace{2pt}
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_002398_[11]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_002398_[11]} \\
-    [1mm]
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2007_009807_[12]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2007_009807_[12]} & \hspace{2pt}
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003912_[1, 4]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003912_[1, 4]} \\
-    [1mm]
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003276_[6]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003276_[6]} & \hspace{2pt}
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2009_000074_[13, 14]} &
-    \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2009_000074_[13, 14]} \\
-  \end{tabular}
+  % Add a border around the figure using a minipage and \fbox
+  \fbox{%
+    \begin{minipage}{0.98\linewidth}
+      \centering
+      \begin{tabular}{c c c c}
+        \textbf{Without RFM} & \textbf{With RFM} & \hspace{10pt} \textbf{Without RFM} & \textbf{With RFM} \\
+        [2pt]
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_001185_[2]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_001185_[2]} & \hspace{2pt}
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2008_007558_[6, 13]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2008_007558_[6, 13]} \\
+        [1mm]
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_001753_[0]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_001753_[0]} & \hspace{2pt}
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2011_002398_[11]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2011_002398_[11]} \\
+        [1mm]
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2007_009807_[12]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2007_009807_[12]} & \hspace{2pt}
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003912_[1, 4]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003912_[1, 4]} \\
+        [1mm]
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2010_003276_[6]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2010_003276_[6]} & \hspace{2pt}
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2009_000074_[13, 14]} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2009_000074_[13, 14]} \\
+      \end{tabular}
+    \end{minipage}
+  }
 
   \caption{Qualitative ablation on the Pascal VOC dataset showing the effect of the Refinement Module (RFM) \cite{wsss_frozen_clip} using our method. Each pair compares pseudo-labels generated without (left) and with (right) RFM. The RFM enhances boundary precision and recovers missing object regions, leading to more complete and accurate segmentation masks.}
   \label{fig:qualitative_ablation}
