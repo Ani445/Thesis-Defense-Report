@@ -37,16 +37,22 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
 
 \subsection{Quantitative Study}
 
-\autoref{tab:ablation_rfm_comparison} shows the per-class IoU and overall mean IoU (mIoU) for the Pascal VOC dataset, comparing the baseline model without RFM against the model with RFM applied. Several observations can be made:
+% \autoref{tab:ablation_rfm_comparison} shows the per-class IoU and overall mean IoU (mIoU) for the Pascal VOC dataset, comparing the baseline model without RFM against the model with RFM applied. Several observations can be made:
 
-\begin{itemize}
-    \item The inclusion of the RFM improves the overall mIoU from 0.469 to 0.503, demonstrating a clear benefit in segmentation quality.
-    \item Classes that are large or visually distinctive, such as \textit{bus}, \textit{cat}, \textit{dog}, and \textit{sheep}, show noticeable improvements in IoU.
-    \item Small or complex objects like \textit{bicycle}, \textit{diningtable}, and \textit{sofa} also benefit from RFM, indicating that the module helps refine boundaries and capture finer details.
-    \item Interestingly, the \textit{person} class shows a slight decrease. This reflects dataset bias in the UniCL pretraining datasets, where the model has limited exposure to humans, making RFM refinement less effective in this particular case.
-\end{itemize}
+% \begin{itemize}
+%     \item The inclusion of the RFM improves the overall mIoU from 0.469 to 0.503, demonstrating a clear benefit in segmentation quality.
+%     \item Classes that are large or visually distinctive, such as \textit{bus}, \textit{cat}, \textit{dog}, and \textit{sheep}, show noticeable improvements in IoU.
+%     \item Small or complex objects like \textit{bicycle}, \textit{diningtable}, and \textit{sofa} also benefit from RFM, indicating that the module helps refine boundaries and capture finer details.
+%     \item Interestingly, the \textit{person} class shows a slight decrease. This reflects dataset bias in the UniCL pretraining datasets, where the model has limited exposure to humans, making RFM refinement less effective in this particular case.
+% \end{itemize}
+
+
+\autoref{tab:ablation_rfm_comparison} presents the per-class IoU and overall mean IoU (mIoU) for the PASCAL VOC dataset, comparing the baseline model without the Refinement Module (RFM) against the model with RFM applied. The inclusion of the RFM leads to a clear improvement in segmentation quality, increasing the overall mIoU from 0.469 to 0.503. This enhancement demonstrates the effectiveness of the module in refining spatial coherence and object completeness. Notably, classes that are large or visually distinctive, such as \textit{bus}, \textit{cat}, \textit{dog}, and \textit{sheep}, exhibit substantial gains in IoU, confirming the RFM’s ability to enhance region coverage for well-represented categories. Moreover, smaller or structurally complex classes, including \textit{bicycle}, \textit{diningtable}, and \textit{sofa}, also show improvement, suggesting that the RFM effectively sharpens boundaries and captures finer object details. However, the \textit{person} class experiences a slight decline in IoU, likely due to inherent bias in the UniCL pretraining datasets (ImageNet-21K and YFCC-14M), where human-centric categories are underrepresented. Consequently, the RFM’s refinement process becomes less effective for such classes, underscoring the importance of addressing pretraining bias in future work.
 
 \subsection{Qualitative Study}
+
+Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the Refinement Module (RFM) on pseudo-label generation across diverse object categories. Without RFM, CAMs frequently appear fragmented and incomplete, particularly along fine structures such as bird wings or bicycle wheels. Incorporating RFM results in smoother, spatially coherent masks with improved object coverage and sharper boundaries, effectively reducing under-segmentation and background noise (e.g., in the airplane and dog examples). 
+
 \begin{figure}[H]
   \centering
   \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
@@ -80,6 +86,6 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
   \label{fig:qualitative_ablation}
 \end{figure}
 
-Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the Refinement Module (RFM) on pseudo-label generation across diverse object categories. Without RFM, CAMs frequently appear fragmented and incomplete, particularly along fine structures such as bird wings or bicycle wheels. Incorporating RFM results in smoother, spatially coherent masks with improved object coverage and sharper boundaries, effectively reducing under-segmentation and background noise (e.g., in the airplane and dog examples). However, in some cases—most notably for the person class—the initial CAMs exhibit high confidence in background regions, which RFM further propagates during affinity-based refinement. This leads to over-segmentation and explains the slight quantitative drop observed for the person category in Table~\ref{tab:ablation_rfm_comparison}. Despite this limitation, RFM generally enhances semantic completeness and boundary precision, validating its role in improving spatial consistency under weak supervision.
+However, in some cases—most notably for the person class—the initial CAMs exhibit high confidence in background regions, which RFM further propagates during affinity-based refinement. This leads to over-segmentation and explains the slight quantitative drop observed for the person category in Table~\ref{tab:ablation_rfm_comparison}. Despite this limitation, RFM generally enhances semantic completeness and boundary precision, validating its role in improving spatial consistency under weak supervision.
 
 Overall, the ablation study confirms that the RFM effectively enhances segmentation quality by refining initial CAMs using affinity information and contextual cues, particularly for classes that are underrepresented or have complex shapes. These results establish a strong baseline for subsequent experiments and highlight the importance of the RFM in improving both boundary delineation and class-specific performance.
