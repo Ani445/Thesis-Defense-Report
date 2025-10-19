@@ -103,7 +103,7 @@ where $k \in \mathcal{P}(j) = \{k \mid k \in \mathcal{B}, y_k = y_j\}$, i.e., th
 \subsubsection{Comparison with CLIP}
 \label{subsec:clip_vs_unicl}
 
-In case CLIP, for an image, there is only one positive text feature. In other words, $\mathcal{P}(i) = {i} \in \mathcal{B}$; and $\mathcal{P}(j) = {j} \in \mathcal{B}$. So, the image-to-text contrastive loss is defined as:
+In case CLIP \cite{vl_clip}, for an image, there is only one positive text feature. In other words, $\mathcal{P}(i) = {i} \in \mathcal{B}$; and $\mathcal{P}(j) = {j} \in \mathcal{B}$. So, the image-to-text contrastive loss is defined as:
 
 \begin{equation} \label{eq:clip_image_to_text_contrastive_loss}
     \mathcal{L}_{i2t} = - \sum_{i \in \mathcal{B}} 
@@ -123,7 +123,7 @@ The equations \ref{eq:unified_image_text_label_contrast}-\ref{eq:clip_text_to_im
 
 This means that $\mathcal{L}_{BiC}$ becomes CLIP training objective. The main property in \autoref{eq:unicl_text_to_image_contrastive_loss} is that for each image feature, any of the text features in the batch can be used as a positive pair. And so is the case for \autoref{eq:unicl_text_to_image_contrastive_loss}.
 
-Second, UniCL replaces CLIP's ViT backbone with a Swin Transformer backbone. The Swin Transformer is a hierarchical vision transformer that captures both local and global information in images, making it more suitable for various vision tasks.
+Second, UniCL replaces CLIP's ViT backbone with a Swin Transformer \cite{transformer_swin} backbone. The Swin Transformer is a hierarchical vision transformer that captures both local and global information in images, making it more suitable for various vision tasks.
 
 \subsection{Swin Transformer}
 \label{subsec:swin_transformer}
