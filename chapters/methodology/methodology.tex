@@ -72,7 +72,7 @@ Task-agnostic learning refers to the development of representations that are not
 
 UniCL, or Unified Contrastive Learning \cite{vl_unicl}, is a multi-modal learning framework that extends the ideas of CLIP by unifying different contrastive learning strategies within a single architecture. This enables more effective and flexible learning from multiple modalities.
 
-UniCL is more than a straightforward extension of CLIP; it introduces several important innovations to improve both performance and adaptability.
+UniCL \cite{vl_unicl} is more than a straightforward extension of CLIP; it introduces several important innovations to improve both performance and adaptability.
 
 A key feature of UniCL is its unified approach to contrastive learning, integrating image-label and text-label associations into a joint image-label-text space. This unified framework allows the model to leverage more positive pairs during training. While CLIP treats only the provided image-text pair as a positive match, UniCL recognizes that multiple text descriptions or images can correspond to the same category. For instance, both "a photo of a cat" and "a photo of a kitten" may be valid positive pairs for an image of a cat. UniCL's contrastive loss encourages the model to learn similarities across all features sharing the same category, resulting in a more comprehensive and robust shared representation space for images and text.
 
