@@ -4,7 +4,7 @@
     \setlength{\tabcolsep}{6pt}
     \begin{tabular}{l c c c c}
         \hline
-        Method                                                               & Backbone   & Sup. & val           & test          \\
+        \textbf{Method}                                                               & \textbf{Backbone}   & \textbf{Sup.} & \textbf{val}           & test          \\
         \hline
         \multicolumn{5}{c}{\textit{multi-stage weakly supervised approaches}}                                                    \\
         RCA$_{\text{CVPR'22}}$~\cite{wsss_RCA}             & ResNet101  & I+S  & 72.2          & 72.8          \\
@@ -36,10 +36,14 @@
         WeCLIP (w/o CRF)                                                & ViT        & I+L  & 74.9          & 75.2          \\
         WeCLIP (w/ CRF)                                                 & ViT        & I+L  & \textbf{76.4} & \textbf{77.2} \\
         \hline
-        \textbf{Ours (UniCL-AffSeg)} & UniCL & I+L & 50.0 & 50.0 \\
+        \textbf{Ours (UniCL-AffSeg)} & Swin-B & I+L & 50.0 & 50.0 \\
         \hline
     \end{tabular}
-    \caption{Comparison of multi-stage and single-stage weakly supervised approaches.}
+    \caption{
+    Comparison of multi-stage and single-stage weakly supervised semantic segmentation methods on the PASCAL VOC 2012 validation and test sets (mIoU, \%). 
+    Here, \textbf{I} denotes image-level supervision, \textbf{L} denotes language supervision, and \textbf{S} denotes saliency supervision. 
+    Our method (\textbf{UniCL-AffSeg}) employs Swin-B as the backbone or image encoder.
+    }
     \label{tab:quantitative_results}
 \end{table}
 
