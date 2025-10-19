@@ -222,7 +222,7 @@ In accordance with the methodology outlined in \cite{wsss_frozen_clip}, the feat
 where \( W_{1}^{\text{fc}} \) and \( W_{2}^{\text{fc}} \) denote learnable fully connected layers, and \(\text{ReLU}(\cdot)\) represents the rectified linear unit activation function. This procedure ensures that the multi-scale features from different encoder stages are suitably projected for subsequent aggregation and decoding.
 
 
-After that, all new feature maps \( F_l^{\text{new}} \) for \( l = 1, \dots, N \) are concatenated together, which are then processed by a convolution layer to generate a fused feature map \( F_u \):
+After that, all new feature maps \( F_l^{\text{new}} \) for \( l = 1, \dots, N \) are concatenated together, which are then processed by a convolution layer to generate a fused feature map \( F_u \) \cite{wsss_frozen_clip}:
 \begin{equation}
     F_u = \text{Conv}\left( \text{Concat}\left[ F_1^{\text{new}}, F_2^{\text{new}}, \dots, F_N^{\text{new}} \right] \right),
     \tag{2}
@@ -234,7 +234,7 @@ where \( F_u \in \mathbb{R}^{d \times h \times w} \), and \( d \), \( h \), and 
 \subsection{Generating Final Prediction}
 \label{subsec:decoder_final_pred}
 
-Several sequential multi-head transformer layers are designed to generate the final prediction \( P \):
+Several sequential multi-head transformer layers are designed to generate the final prediction \( P \) \cite{wsss_frozen_clip}:
 \begin{equation}
     \label{eq:prediction}
     P = \text{Conv}(\phi(F_u)) \uparrow,
