@@ -3,7 +3,7 @@
 
 \subsection{Dataset}
 \label{subsec:dataset}
-The experiments were conducted on the \textbf{Pascal VOC 2012} dataset \cite{dataset_pascal_voc}, which consists of 20 foreground object classes and an additional background category. The dataset is divided into 1,464 training images, 1,449 validation images, and 1,456 test images. Since ground truth annotations for the test set are not publicly available, the training set was used for model training and the validation set for performance evaluation.
+Experiments were performed on the PASCAL VOC 2012 dataset \cite{voc2012}, which comprises 20 object classes plus one background category. In line with standard practice, the training set was expanded using additional images from the Semantic Boundaries Dataset (SBD), yielding a total of 10,582 training images (trainaug). The original VOC 2012 split contains 1,464 training images, 1,449 validation images, and 1,456 test images. As the ground-truth labels for the test set are not publicly accessible, all evaluations of model performance were carried out on the validation set.
 
 \subsection{Experimental Setup}
 \label{subsec:experimental_setup}
