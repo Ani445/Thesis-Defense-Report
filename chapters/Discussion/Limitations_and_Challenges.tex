@@ -15,7 +15,7 @@
 
 % Finally, foreground-background separation remains a persistent challenge in weakly supervised semantic segmentation. Reliance on image-level or language-level cues often leads to incomplete coverage of object regions, while post-processing techniques such as CRF, although beneficial, cannot fully compensate for weak initial localization signals.  
 
-% In summary, UniCL-AffSeg highlights both the potential and the challenges of extending contrastive learning frameworks to weakly supervised segmentation. Addressing the locality of Swin’s attention, improving CAM quality, incorporating multi-scale feature fusion, reducing training sensitivity to hyperparameters, and developing strategies that integrate local affinity with global reasoning are key directions for overcoming these limitations.
+% In summary, UniCL-AffSeg highlights both the potential and the challenges of extending contrastive learning frameworks to weakly supervised segmentation. Addressing the locality of Swin's attention, improving CAM quality, incorporating multi-scale feature fusion, reducing training sensitivity to hyperparameters, and developing strategies that integrate local affinity with global reasoning are key directions for overcoming these limitations.
 
 
 
@@ -28,7 +28,7 @@ Despite its conceptual alignment with recent single-stage approaches such as WeC
 \subsection{Architectural Constraints}
 
 \paragraph{Locality of Swin Attention.}
-The Swin Transformer employs a window-based self-attention mechanism, which provides strong local feature representations but lacks a truly global receptive field. While beneficial for capturing fine-grained details, this design prevents the model from reasoning holistically about objects spread across distant regions. Consequently, the affinity maps produced by Swin tend to be locally accurate but globally fragmented, limiting UniCL’s ability to propagate semantic information across the entire object. By contrast, ViT backbones in CLIP capture long-range dependencies more naturally through global self-attention, yielding more coherent semantic maps.
+The Swin Transformer employs a window-based self-attention mechanism, which provides strong local feature representations but lacks a truly global receptive field. While beneficial for capturing fine-grained details, this design prevents the model from reasoning holistically about objects spread across distant regions. Consequently, the affinity maps produced by Swin tend to be locally accurate but globally fragmented, limiting UniCL's ability to propagate semantic information across the entire object. By contrast, ViT backbones in CLIP capture long-range dependencies more naturally through global self-attention, yielding more coherent semantic maps.
 
 \paragraph{Feature-Text Modality Mismatch.}
 Although UniCL was designed to unify contrastive and classification-based objectives, its integration with Swin features exposes a modality gap. Swin feature maps are hierarchical and locally focused, whereas the ViT-based text encoder provides globally contextualized embeddings. This structural mismatch weakens image-text correspondence, which is particularly detrimental in weakly supervised settings where no pixel-level annotations exist to bridge the gap. The result is unreliable affinity learning and degraded segmentation quality.
