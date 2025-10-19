@@ -85,7 +85,7 @@ UniCL employs a bidirectional learning objective between image-text pairs:
 \end{equation}
 where \(\mathcal{L}_{i2t}\) and \(\mathcal{L}_{t2i}\) are the image-to-text and text-to-image contrastive losses, respectively. And \(\theta\) and \(\phi\) are the parameters of the image and text encoders, respectively.
 
-To align the representations of images and their corresponding textual descriptions within a batch, the image-to-text contrastive loss is formulated as follows. This loss encourages the model to associate each image with all relevant text features that share the same class label, thereby strengthening the alignment between visual and textual modalities in the shared embedding space:
+To align the representations of images and their corresponding textual descriptions within a batch, the image-to-text contrastive loss is formulated by \cite{vl_unicl}. This loss encourages the model to associate each image with all relevant text features that share the same class label, thereby strengthening the alignment between visual and textual modalities in the shared embedding space:
 \begin{equation} \label{eq:unicl_image_to_text_contrastive_loss}
     \mathcal{L}_{i2t} = - \sum_{i \in \mathcal{B}} \frac{1}{|\mathcal{P}(i)|} \sum_{k \in \mathcal{P}(i)} 
     \log \frac{\exp(\tau \mathbf{u}_i^\top \mathbf{v}_k)}{\sum_{j \in \mathcal{B}} \exp(\tau \mathbf{u}_i^\top \mathbf{v}_j)},
