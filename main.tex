@@ -91,7 +91,7 @@ Recent WSSS advancements have shown that competitive performance can be reached 
 
 This study aims to improve CAM quality by exploring effective backbone architectures and refinement strategies. We investigate multi-modal architectures like UniCL and hierarchical transformers such as Swin Transformer to enhance feature extraction. To further refine CAMs, we use an affinity-based framework that combines decoder-derived affinities with encoder affinity maps, creating more semantically coherent pseudo-labels. Additionally, a Pixel-Adaptive Refinement (PAR) module proposed by \cite{wsss_afa_affinity_from_attention} to refine pseudo-labels based on local similarities, ensuring better object boundaries.
 
-Experiments on the PASCAL VOC 2012 dataset demonstrate that our approach achieves strong segmentation performance, with a mean IoU of 50.3\% on the validation set and 50.8\% on the test set. The model performs best on large, distinctive categories such as \textit{bus}, \textit{sheep}, and \textit{horse}, but struggles with small or underrepresented classes like \textit{person}, \textit{chair}, and \textit{potted plant}. The poor performance of the \textit{person} class arises from initial CAM confidence being biased toward background regions, which propagates through the Random Walk-based Refinement Module (RFM), while the Pixel-Adaptive module tends to oversmooth fine structures such as limbs. These challenges are further compounded by biases in UniCL’s pretraining datasets (ImageNet-21K and YFCC-14M), which provide limited representation for human-centric and small-object categories.
+Experiments on the PASCAL VOC 2012 dataset demonstrate that our approach achieves strong segmentation performance, with a mean IoU of 50.3\% on the validation set and 50.8\% on the test set. The model performs best on large, distinctive categories such as \textit{bus}, \textit{sheep}, and \textit{horse}, but struggles with small or underrepresented classes like \textit{person}, \textit{chair}, and \textit{potted plant}. The poor performance of the \textit{person} class arises from initial CAM confidence being biased toward background regions, which propagates through the Random Walk-based Refinement Module (RFM), while the Pixel-Adaptive module tends to oversmooth fine structures such as limbs. These challenges are further compounded by biases in UniCL's pretraining datasets (ImageNet-21K and YFCC-14M), which provide limited representation for human-centric and small-object categories.
 
 Overall, our findings highlight the effectiveness of UniCL and Swin Transformer in enhancing CAM quality and segmentation performance under weak supervision, while also revealing key limitations that motivate future work on scale-aware and bias-compensated refinement strategies.
 \end{abstract}
@@ -107,6 +107,6 @@ Overall, our findings highlight the effectiveness of UniCL and Swin Transformer 
 \input{chapters/Discussion/discussion.tex}
 \input{chapters/conclusion/conclusion.tex}
 
-% \input{chapters/citations/citations.tex}
+\input{chapters/citations/citations.tex}
 
 \end{document}

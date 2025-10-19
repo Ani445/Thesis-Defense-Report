@@ -69,7 +69,7 @@ In this work, we make the following key contributions:
 
 \begin{itemize}
     \item We explore the use of the UniCL framework \cite{vl_unicl} with a Swin Transformer backbone \cite{transformer_swin} to enhance CAM generation, leveraging Swin's ability to capture both local fine details and global context through its hierarchical structure.
-    \item We adapt the affinity-based CAM refinement technique from WeCLIP \cite{wsss_frozen_clip} to the Swin Transformer backbone by computing pixel affinities from Swin’s hierarchical features, allowing the refinement to propagate class activations effectively despite the absence of a global attention map.
+    \item We adapt the affinity-based CAM refinement technique from WeCLIP \cite{wsss_frozen_clip} to the Swin Transformer backbone by computing pixel affinities from Swin's hierarchical features, allowing the refinement to propagate class activations effectively despite the absence of a global attention map.
     \item We integrate a Pixel-Adaptive Refinement Module (PAR) \cite{wsss_afa_affinity_from_attention} that incorporates both color and spatial information, further refining the pseudo-labels and enhancing boundary accuracy.
     \item We integrate the refined CAMs and Pixel-Adaptive Refinement into the standard WSSS training pipeline, training the model to leverage these improved pseudo-labels for better segmentation performance.
 
