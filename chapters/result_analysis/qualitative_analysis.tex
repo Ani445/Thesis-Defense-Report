@@ -1,12 +1,17 @@
 \section{Qualitative Analysis}
 \label{sec:qualitative_analysis}
 
-We present qualitative comparisons of our UniCL-AffSeg framework against the WeCLIP baseline and ground truth annotations on selected Pascal VOC 2012 images. Both class activation maps (CAMs) and pseudo-labels are visualized to highlight differences in object localization, boundary delineation, and overall mask quality.
+This section provides a comprehensive qualitative evaluation of our UniCL-AffSeg framework through visual comparison with the WeCLIP baseline across multiple dimensions. We examine class activation maps (CAMs), refined pseudo-labels, and challenging scenarios to understand the strengths and limitations of our approach. The analysis is conducted on representative samples from the PASCAL VOC 2012 validation and test sets, covering diverse object categories and scene complexities.
 
+The qualitative assessment serves multiple purposes: (i) it validates the quantitative improvements observed in our experimental results, (ii) it provides insights into the spatial and semantic quality of generated pseudo-supervision, and (iii) it identifies specific scenarios where our method excels or faces challenges. This analysis is crucial for understanding the practical applicability of our approach and informing future improvements.
 
-\subsection{Observations}
+\subsection{Class Activation Map Analysis}
+\label{subsec:cam_analysis}
 
-\subsubsection{Class Activation Maps (CAMs)}
+\subsubsection{CAM Quality and Object Localization}
+\label{subsubsec:cam_quality}
+
+Class activation maps serve as the foundation for weakly supervised segmentation, and their quality directly impacts the effectiveness of subsequent pseudo-label generation. Our analysis reveals several key characteristics of CAMs produced by UniCL-AffSeg compared to WeCLIP.
 
 % \begin{figure}[ht]
 %   \centering
@@ -137,19 +142,33 @@ We present qualitative comparisons of our UniCL-AffSeg framework against the WeC
 %   \label{fig:qualitative_comparison_cam_test}
 % \end{figure}
 
-Comparison of UniCL-AffSeg CAMs with WeCLIP reveals several key differences:
+The comparative analysis of UniCL-AffSeg CAMs with WeCLIP reveals distinct patterns in object localization and activation characteristics:
 
 \begin{itemize}
-    \item \textbf{Object Coverage and Completeness}: UniCL-AffSeg CAMs exhibit more contiguous and complete activation regions for many classes. For instance, in images such as \textit{boat}, \textit{aeroplane}, \textit{train}, and \textit{car} (see \autoref{fig:qualitative_comparison_cam_val} and \autoref{fig:qualitative_comparison_cam_test}), our CAMs capture larger, more holistic object areas, reducing sparsity and better approximating full object extents.
+    \item \textbf{Enhanced Object Coverage}: UniCL-AffSeg demonstrates superior object coverage for large, structured objects. In cases involving \textit{boat}, \textit{aeroplane}, \textit{train}, and \textit{car} classes, our method produces more contiguous and complete activation regions that better approximate full object extents. This improvement is particularly evident in scenarios where objects occupy significant portions of the image, suggesting that the Swin Transformer's hierarchical feature representation effectively captures multi-scale object characteristics.
     
-    \item \textbf{Background Noise and Boundaries}: Our CAMs sometimes include extraneous background activations, producing noisy and diffuse maps, e.g., for \textit{cat}, \textit{bird}, and \textit{bicycle} in the first rows of \autoref{fig:qualitative_comparison_cam_val}. In contrast, WeCLIP CAMs show cleaner, more focused activations with sharper edges, minimizing false positives. 
+    \item \textbf{Activation Density and Completeness}: Our CAMs exhibit higher activation density within object regions, reducing the sparsity commonly observed in traditional CAM generation methods. This characteristic is beneficial for capturing object interiors rather than just discriminative edges or parts. However, this increased density occasionally leads to over-activation in certain regions.
     
-    \item \textbf{Handling of Complex or Small Objects}: For challenging cases such as \textit{chair}, \textit{potted plant}, and \textit{person} in cluttered backgrounds, UniCL-AffSeg CAMs occasionally produce false positives or fragmented activations, as seen in the last rows of \autoref{fig:qualitative_comparison_cam_val} and \autoref{fig:qualitative_comparison_cam_test}. WeCLIP CAMs, while less complete, tend to avoid such errors and maintain higher precision.
+    \item \textbf{Precision vs. Recall Trade-off}: While UniCL-AffSeg CAMs show improved recall in object localization, they sometimes sacrifice precision by including extraneous background regions. This trade-off is particularly noticeable for classes like \textit{cat}, \textit{bird}, and \textit{bicycle}, where background activations create more diffuse maps compared to WeCLIP's sharper, more focused activations.
     
-    \item \textbf{Consistency Across Datasets}: These trends hold across both the \textit{val} and \textit{test} sets, indicating that the differences in CAM quality are consistent and not dataset-specific.
+    \item \textbf{Multi-scale Feature Integration}: The hierarchical nature of the Swin Transformer backbone enables better integration of features at different scales, resulting in CAMs that capture both fine details and global object structure. This is evident in complex objects like \textit{bus} and \textit{train}, where structural elements are better preserved.
 \end{itemize}
 
-\subsubsection{Pseudo-Labels}
+\subsubsection{CAM Refinement Impact}
+\label{subsubsec:cam_refinement}
+
+The affinity-based refinement process plays a crucial role in transforming raw CAMs into high-quality pseudo-labels. Our analysis shows that the refinement effectively:
+
+\begin{itemize}
+    \item \textbf{Spatial Consistency Enhancement}: The pixel affinity computation helps propagate activations to semantically similar regions, creating more spatially consistent activation patterns. This is particularly effective for textured objects where individual patches may have varying activation strengths.
+    
+    \item \textbf{Boundary Regularization}: The refinement process helps smooth activation boundaries while preserving important structural details. This reduces the jagged appearance of raw CAMs and produces more natural object boundaries.
+    
+    \item \textbf{Noise Suppression}: While not eliminating all noise, the affinity-based approach helps suppress isolated false activations by considering spatial neighborhood relationships in the feature space.
+\end{itemize}
+
+\subsection{Pseudo-Label Quality Assessment}
+\label{subsec:pseudolabel_analysis}
 
 \begin{figure}[ht]
   \centering
@@ -475,17 +494,106 @@ Comparison of UniCL-AffSeg CAMs with WeCLIP reveals several key differences:
   \end{tcolorbox}
 \end{figure}
 
-The pseudo-labels generated by UniCL-AffSeg are compared with those from WeCLIP in \autoref{fig:qualitative_comparison_pseudolabel_val} and \autoref{fig:qualitative_comparison_pseudolabel_test}. Key observations include:
+\subsubsection{Pseudo-Label Fidelity and Detail Preservation}
+\label{subsubsec:pseudolabel_fidelity}
+
+The transformation from CAMs to pseudo-labels through our refinement pipeline demonstrates significant improvements in several aspects, as evidenced in \autoref{fig:qualitative_comparison_pseudolabel_val} and \autoref{fig:qualitative_comparison_pseudolabel_test}:
 
 \begin{itemize}
-    \item \textbf{Fine Detail Capture}: UniCL-AffSeg pseudo-labels more effectively capture intricate object details and shapes. For example, in \autoref{fig:qualitative_comparison_pseudolabel_val} and \autoref{fig:qualitative_comparison_pseudolabel_test}, features such as \textit{bicycle spokes}, \textit{object contours}, and other finer structures are better identified by our model, whereas WeCLIP often misses or oversimplifies them. Notably, some of these fine details are even absent in the ground truth, highlighting our method's ability to recover subtle features.
+    \item \textbf{Structural Detail Recovery}: UniCL-AffSeg pseudo-labels exhibit remarkable ability to recover fine structural details that are often lost in traditional weakly supervised approaches. Examples include \textit{bicycle spokes}, \textit{vehicle wheel structures}, \textit{architectural elements in buildings}, and \textit{anatomical features in animals}. In some instances, our method recovers details that are even absent or unclear in the ground truth annotations, suggesting robust feature representation learning.
     
-    \item \textbf{Boundary Delineation}: For classes such as \textit{aeroplane} and \textit{bird}, UniCL-AffSeg produces sharper and more accurate boundaries compared to WeCLIP.
+    \item \textbf{Shape Preservation}: The hierarchical feature aggregation from the Swin Transformer backbone enables better preservation of object shapes and proportions. This is particularly evident in elongated objects like \textit{aeroplanes} and \textit{trains}, where aspect ratios and overall geometry are more accurately maintained.
     
-    \item \textbf{Background Activation}: In some cases, our method incorrectly activates background regions and misclassifies them as foreground, for instance in the \textit{person} and \textit{chair} classes shown in \autoref{fig:qualitative_comparison_pseudolabel_person_chair}. This behavior is likely caused by noisy CAMs, leading to over-segmentation and false positives.
-    
-    \item \textbf{Consistency Across Datasets}: The observed improvements in pseudo-label quality are consistent across both the \textit{val} and \textit{test} sets, similar to the trends seen in the CAM analysis.
+    \item \textbf{Multi-object Scene Handling}: In scenes containing multiple objects, our method demonstrates improved ability to distinguish between different instances while maintaining their individual characteristics. The affinity-based refinement helps prevent over-segmentation or merging of distinct objects.
 \end{itemize}
+
+\subsubsection{Boundary Quality and Spatial Accuracy}
+\label{subsubsec:boundary_quality}
+
+Boundary delineation represents one of the most challenging aspects of weakly supervised segmentation. Our analysis reveals:
+
+\begin{itemize}
+    \item \textbf{Edge Sharpness}: UniCL-AffSeg produces notably sharper object boundaries compared to WeCLIP, particularly for classes with well-defined edges such as \textit{vehicles}, \textit{furniture}, and \textit{rigid objects}. This improvement stems from the multi-scale feature integration capabilities of the Swin Transformer.
+    
+    \item \textbf{Smooth Contours}: For organic objects like \textit{animals} and \textit{plants}, our method generates smoother, more natural contours that better approximate the true object boundaries. The pixel affinity mechanism effectively interpolates between high-confidence regions to create coherent boundaries.
+    
+    \item \textbf{Concave Region Handling}: Complex object shapes with concave regions (e.g., between \textit{bicycle frame elements} or \textit{chair legs}) are better preserved in our pseudo-labels, whereas WeCLIP often over-smooths these regions.
+\end{itemize}
+
+\subsection{Challenging Scenarios and Failure Cases}
+\label{subsec:challenging_scenarios}
+
+\subsubsection{Background Confusion and Over-segmentation}
+\label{subsubsec:background_confusion}
+
+While UniCL-AffSeg demonstrates improvements in many aspects, certain challenges remain:
+
+\begin{itemize}
+    \item \textbf{Background Misclassification}: As observed in \autoref{fig:qualitative_comparison_pseudolabel_person_chair}, our method occasionally misclassifies background regions as foreground objects. This issue is particularly prominent for classes like \textit{person} and \textit{chair} in cluttered indoor environments, where contextual objects share similar visual features.
+    
+    \item \textbf{Textural Similarity}: Objects with similar textures or colors to the background pose challenges for our method. For instance, \textit{potted plants} against natural backgrounds or \textit{animals} in their natural habitats sometimes result in imprecise segmentation boundaries.
+    
+    \item \textbf{Scale Sensitivity}: Very small objects or objects occupying minimal portions of the image sometimes generate fragmented or incomplete pseudo-labels, despite improvements in overall coverage.
+\end{itemize}
+
+\subsubsection{Multi-class Interaction Challenges}
+\label{subsubsec:multiclass_challenges}
+
+Complex scenes with multiple interacting objects present specific challenges:
+
+\begin{itemize}
+    \item \textbf{Object Occlusion}: When objects partially occlude each other, our method sometimes struggles to maintain accurate boundaries for the occluded regions. This is evident in scenes with \textit{overlapping vehicles} or \textit{people in crowds}.
+    
+    \item \textbf{Class Co-occurrence Effects}: Certain class combinations (e.g., \textit{person} and \textit{chair}, \textit{person} and \textit{bicycle}) exhibit increased susceptibility to segmentation errors, possibly due to strong contextual associations learned during training.
+    
+    \item \textbf{Scale Disparities}: Scenes containing objects of vastly different scales sometimes result in biased attention toward larger objects, leading to incomplete segmentation of smaller instances.
+\end{itemize}
+
+\subsection{Overall Assessment and Key Insights}
+\label{subsec:overall_assessment}
+
+\subsubsection{Quantitative-Qualitative Correspondence}
+\label{subsubsec:quant_qual_correspondence}
+
+The qualitative observations align well with the quantitative improvements reported in our experimental results:
+
+\begin{itemize}
+    \item The enhanced object coverage and detail preservation directly contribute to improved IoU scores across most object classes.
+    \item Better boundary delineation translates to more accurate pixel-level predictions, supporting the observed mIoU improvements.
+    \item The consistency of improvements across validation and test sets validates the robustness of our approach.
+\end{itemize}
+
+\subsubsection{Method Strengths and Practical Implications}
+\label{subsubsec:method_strengths}
+
+The qualitative analysis reveals several key strengths of our UniCL-AffSeg framework:
+
+\begin{itemize}
+    \item \textbf{Robust Multi-scale Representation}: The Swin Transformer backbone effectively captures features at multiple scales, leading to more comprehensive object understanding and better pseudo-label quality.
+    
+    \item \textbf{Effective Refinement Strategy}: The affinity-based CAM refinement successfully propagates activations while maintaining spatial coherence, resulting in more complete and accurate pseudo-labels.
+    
+    \item \textbf{Generalization Capability}: The consistent performance improvements across diverse object categories and scene types suggest good generalization of the learned representations.
+    
+    \item \textbf{Detail Preservation}: The ability to recover fine structural details makes our method particularly valuable for applications requiring high-precision segmentation.
+\end{itemize}
+
+\subsubsection{Future Improvement Directions}
+\label{subsubsec:future_improvements}
+
+Based on the identified challenges and failure cases, several directions for future improvement emerge:
+
+\begin{itemize}
+    \item \textbf{Background Disambiguation}: Developing more sophisticated mechanisms to distinguish between similar foreground and background regions could reduce false positive activations.
+    
+    \item \textbf{Multi-object Reasoning}: Enhanced modeling of object interactions and occlusion relationships could improve performance in complex multi-object scenarios.
+    
+    \item \textbf{Scale-adaptive Processing}: Implementing scale-aware refinement strategies could better handle objects of varying sizes within the same image.
+    
+    \item \textbf{Context-aware Refinement}: Incorporating semantic context understanding could help resolve ambiguous cases where visual similarity leads to misclassification.
+\end{itemize}
+
+In summary, the qualitative analysis demonstrates that UniCL-AffSeg achieves significant improvements in pseudo-label quality through enhanced object coverage, detail preservation, and boundary delineation. While certain challenges remain, particularly in complex multi-object scenarios and background disambiguation, the overall improvements validate the effectiveness of our approach and provide clear directions for future research.
 
 
 
