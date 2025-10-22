@@ -138,23 +138,23 @@ Conversely, conventional vision transformers like ViT generate feature maps at a
 \begin{figure}[htbp]
     \centering
     \fbox{ % Draw a box around the entire figure
-        \begin{minipage}{0.9\textwidth} % Adjust the width as needed
-            \begin{subfigure}[b]{0.45\textwidth}
+        \begin{minipage}{0.95\textwidth} % Adjust the width as needed
+            \begin{subfigure}[b]{0.49\linewidth}
                 \centering
-                \includegraphics[width=\textwidth]{swin-vs-vit-archi-a.pdf}
                 \caption{Swin Transformer}
+                \includegraphics[width=\textwidth]{swin-vs-vit-archi-a.png}
                 \label{fig:swin_transformer_data_flow}
             \end{subfigure}
             \hfill
-            \begin{subfigure}[b]{0.45\textwidth}
+            \begin{subfigure}[b]{0.4\linewidth}
                 \centering
-                \includegraphics[width=\textwidth]{swin-vs-vit-archi-b.pdf}
                 \caption{Vision Transformers}
+                \includegraphics[width=\textwidth]{swin-vs-vit-archi-b.png}
                 \label{fig:vit_data_flow}
             \end{subfigure}
         \end{minipage}
     }
-    \caption{Comparison of Swin Transformer and ViT Architectures}
+    \caption{Comparison of Swin Transformer \cite{transformer_swin} and ViT \cite{transformer_vit} Architectures. Image taken from \cite{transformer_swin}.}
     \label{fig:swin_vs_vit_architecture}
 \end{figure}
 
