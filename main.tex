@@ -77,24 +77,18 @@
 
 \begin{acknowledgement}
     I am profoundly grateful to my supervisor, Dr. Md. Hasanul Kabir, Professor, Department of Computer Science and Engineering, for his outstanding guidance, support, and feedback throughout this research journey. His expertise and encouragement have been pivotal in shaping the direction and quality of this thesis.
-
-His patience and dedication to his work have inspired me to aim for excellence and approach challenges with curiosity and determination. His constructive feedback and insightful suggestions have significantly deepened my understanding of the domain and inspired me to think critically and creatively.
-
-It has been an honor to work under his supervision, and I deeply appreciate his invaluable time and effort in guiding me through this research.
+    
+    His patience and dedication to his work have inspired me to aim for excellence and approach challenges with curiosity and determination. His constructive feedback and insightful suggestions have significantly deepened my understanding of the domain and inspired me to think critically and creatively.
+    
+    It has been an honor to work under his supervision, and I deeply appreciate his invaluable time and effort in guiding me through this research.
 \end{acknowledgement}
 
 % Write your abstract here.
 \begin{abstract}
-Semantic segmentation is a key task in computer vision that involves interpreting images at the pixel level. While fully supervised methods provide high accuracy, they require extensive pixel-level annotations, making them resource-intensive. Weakly Supervised Semantic Segmentation (WSSS) addresses this issue by using weaker supervision formats like image-level labels, reducing the need for annotation while still training effective segmentation models.
-
-Recent WSSS advancements have shown that competitive performance can be reached with minimal labeled data through the use of Class Activation Maps (CAMs). However, challenges such as sparsity and inadequate boundary delineation affect CAM quality.
-
-This study aims to improve CAM quality by exploring effective backbone architectures and refinement strategies. We investigate multi-modal architectures like UniCL and hierarchical transformers such as Swin Transformer to enhance feature extraction. To further refine CAMs, we use an affinity-based framework that combines decoder-derived affinities with encoder affinity maps, creating more semantically coherent pseudo-labels. Additionally, a Pixel-Adaptive Refinement (PAR) module proposed by \cite{wsss_afa_affinity_from_attention} to refine pseudo-labels based on local similarities, ensuring better object boundaries.
-
-Experiments on the PASCAL VOC 2012 dataset demonstrate that our approach achieves strong segmentation performance, with a mean IoU of 50.3\% on the validation set and 50.8\% on the test set. The model performs best on large, distinctive categories such as \textit{bus}, \textit{sheep}, and \textit{horse}, but struggles with small or underrepresented classes like \textit{person}, \textit{chair}, and \textit{potted plant}. The poor performance of the \textit{person} class arises from initial CAM confidence being biased toward background regions, which propagates through the Random Walk-based Refinement Module (RFM), while the Pixel-Adaptive module tends to oversmooth fine structures such as limbs. These challenges are further compounded by biases in UniCL's pretraining datasets (ImageNet-21K and YFCC-14M), which provide limited representation for human-centric and small-object categories.
-
-Overall, our findings highlight the effectiveness of UniCL and Swin Transformer in enhancing CAM quality and segmentation performance under weak supervision, while also revealing key limitations that motivate future work on scale-aware and bias-compensated refinement strategies.
+    \addcontentsline{toc}{chapter}{Abstract}
+    Semantic segmentation is a fundamental computer vision task requiring pixel-level understanding of images. While fully supervised methods achieve high accuracy, they rely on costly pixel-level annotations. Weakly Supervised Semantic Segmentation (WSSS) mitigates this by using weaker supervision, such as image-level labels, to train effective models. Recent WSSS progress leverages Class Activation Maps (CAMs), though their sparsity and poor boundary localization remain challenges. This study enhances CAM quality through multi-modal backbones like UniCL and hierarchical transformers such as Swin Transformer for stronger feature extraction, coupled with an affinity-based framework that fuses encoder and decoder affinities for semantically coherent pseudo-labels. A Pixel-Adaptive Refinement (PAR) module further improves object boundaries using local similarity cues. Experiments on the PASCAL VOC 2012 dataset yield mean IoUs of 50.3\% (validation) and 50.8\% (test), with strong performance on large, distinctive classes but weaker results for small or human-centric ones due to CAM bias and dataset imbalance. Overall, our findings demonstrate that UniCL and Swin Transformer significantly improve CAM quality and segmentation under weak supervision while underscoring the need for scale-aware, bias-compensated refinement strategies.
 \end{abstract}
+
 
 %-------------------------- MAIN BODY --------------------------%
 % Switch to arabic page numbering
