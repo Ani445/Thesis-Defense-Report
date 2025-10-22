@@ -47,7 +47,13 @@
 \RequirePackage[hidelinks]{hyperref}
 
 % Bibliography
-\RequirePackage[backend=biber, style=ieee, sorting=nyt, backref=true]{biblatex}
+\RequirePackage[
+  backend=biber,
+  bibstyle=ieee,
+  citestyle=numeric-comp,
+  sorting=nty
+]{biblatex}
+
 \setlength{\bibitemsep}{0.8\baselineskip}
 
 % Handling personnel (author, supervisor, and co-supervisor) (custom style file)
