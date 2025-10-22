@@ -44,6 +44,13 @@ In summary, semantic segmentation represents a vital step toward achieving full 
 \label{subsec:fully_supervised}
 Fully supervised semantic segmentation represents the traditional and most widely adopted paradigm for training segmentation models. In this approach, models are trained on datasets that contain pixel-level annotations—where every pixel in each training image is manually labeled with its corresponding class. This allows the model to learn precise spatial and contextual relationships between objects and their boundaries. Prominent datasets such as PASCAL VOC, Cityscapes, and ADE20K have played a significant role in advancing research under this framework.
 
+\begin{figure}[htbp]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{figures/fsss.pdf}}
+    \caption{Pipeline of the fully supervised semantic segmentation framework, where ground-truth pixel-level annotations are used directly to train the segmentation model.}
+    \label{fig:fsss}
+\end{figure}
+
 In a typical fully supervised setting, a deep convolutional neural network (CNN) or transformer-based architecture learns to map an input image to a dense output map where each pixel corresponds to a predicted semantic label. Models like Fully Convolutional Networks (FCNs), U-Net, SegNet, and DeepLab exemplify the success of this paradigm. These models leverage encoder-decoder designs, skip connections, and multi-scale feature extraction to achieve fine-grained segmentation results. The encoder captures global context, while the decoder reconstructs spatial details to produce high-resolution predictions.
 
 However, fully supervised learning comes with a major limitation—its dependence on large-scale, densely annotated datasets. The annotation process is not only labor-intensive but also time-consuming and costly, particularly for complex scenes with numerous small or overlapping objects. For instance, annotating a single high-resolution image in the Cityscapes dataset can take several hours. This restricts scalability and makes it difficult to apply such methods to specialized domains like medical imaging or remote sensing, where expert labeling is required. Moreover, fully supervised models may overfit to specific dataset distributions, limiting their generalization to unseen environments. Despite these challenges, fully supervised approaches continue to serve as the benchmark and foundation upon which more flexible and efficient paradigms are built.
@@ -51,6 +58,13 @@ However, fully supervised learning comes with a major limitation—its dependenc
 \subsection{Weakly Supervised Semantic Segmentation}
 \label{subsec:weakly_supervised}
 To overcome the data annotation bottleneck in fully supervised learning, weakly supervised semantic segmentation (WSSS) has emerged as a promising alternative. Instead of relying on expensive pixel-level labels, weakly supervised methods train models using weaker forms of supervision, such as image-level labels, bounding boxes, scribbles, or points. The goal is to achieve competitive segmentation accuracy while significantly reducing the labeling effort.
+
+\begin{figure}[htbp]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{figures/wsss.pdf}}
+    \caption{Pipeline of the WSSS framework illustrating CAM generation, refinement, and pseudo-label creation for segmentation training. Image-level labels serve as weak supervision to generate Class Activation Maps (CAMs), which are subsequently refined into pseudo-labels for training the segmentation network.}
+    \label{fig:wsss}
+\end{figure}
 
 In WSSS, the central challenge lies in bridging the gap between coarse supervision and fine-grained pixel-level prediction. For example, when only image-level labels are available (e.g., "cat" or "car"), the model must infer which specific regions of the image correspond to each class. Techniques such as Class Activation Maps (CAMs) and region refinement strategies are commonly employed to identify and expand the most discriminative regions into complete object masks. Additionally, saliency maps, pseudo-label generation, and consistency regularization are often used to improve localization accuracy and enforce smoothness in segmentation outputs.
 
