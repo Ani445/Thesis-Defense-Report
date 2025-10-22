@@ -5,12 +5,12 @@
 \label{sec:semantic_segmentation}
 In recent years, the field of computer vision has undergone rapid advancements, largely driven by the increasing availability of large-scale annotated datasets, powerful computational resources, and deep learning architectures. Among the many tasks in computer vision, semantic segmentation has emerged as one of the most critical and challenging problems due to its potential applications in numerous real-world domains, such as autonomous driving, medical imaging, remote sensing, robotics, and augmented reality. Unlike simple image classification, which assigns a single label to an entire image, semantic segmentation aims to provide a pixel-level understanding of the visual scene by assigning a semantic label to every pixel in an image as shown in \autoref{fig:semantic_segmentation_example}. This process enables machines to perceive not just the presence of objects, but also their exact spatial extents and boundaries within the visual field.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \setlength{\tabcolsep}{2pt} % adjust spacing
     \renewcommand{\arraystretch}{0.9}
     % \fbox{ % Add border around the figure
-        \begin{minipage}{0.6\textwidth}
+        \begin{minipage}{0.8\textwidth}
             \centering
             % CAMs with class labels on the left
             \begin{tabular}{c c} % first column = label
@@ -82,11 +82,7 @@ Additionally, the refinement techniques applied to these CAMs often fail to full
 
 So, keeping in mind the above challenges, we aim to develop a weakly supervised semantic segmentation model that can effectively leverage image-level labels to produce accurate and detailed segmentation maps. Our approach will focus on enhancing the spatial precision and completeness of the generated CAMs.
 
-\section{Challenges of Semantic Segmentation}
-\label{sec:challenges_of_semantic_segmentation}
-Semantic segmentation faces several challenges that hinder its widespread adoption and effectiveness:
-
-\section{Challenges of Weakly Supervised Semantic Segmentation}
+\section{Challenges of WSSS}
 \label{sec:challenges_of_wsss}
 
 While weakly supervised semantic segmentation (WSSS) reduces the annotation burden compared to fully supervised methods, it introduces its own set of challenges:
