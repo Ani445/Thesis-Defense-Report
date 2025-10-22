@@ -859,6 +859,45 @@
       \verb https://arxiv.org/abs/2103.14862
       \endverb
     \endentry
+    \entry{sbd_dataset}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=9cadf8ca1dd9b5f5a830ba2059b2517f}{%
+           family={Hariharan},
+           familyi={H\bibinitperiod},
+           given={Bharath},
+           giveni={B\bibinitperiod}}}%
+        {{hash=a2e469525d819a078d47774a74a8fcb6}{%
+           family={Arbeláez},
+           familyi={A\bibinitperiod},
+           given={Pablo},
+           giveni={P\bibinitperiod}}}%
+        {{hash=bd5dadbe57bedc5957c19a3154c4d424}{%
+           family={Girshick},
+           familyi={G\bibinitperiod},
+           given={Ross},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c75a5377b6dc5213831576e88ffe553c}{%
+           family={Malik},
+           familyi={M\bibinitperiod},
+           given={Jitendra},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{1e616761daf39cb8edfc10a6b5c9e144}
+      \strng{fullhash}{a8ef08457b976db76189f263fa50ffe0}
+      \strng{fullhashraw}{a8ef08457b976db76189f263fa50ffe0}
+      \strng{bibnamehash}{a8ef08457b976db76189f263fa50ffe0}
+      \strng{authorbibnamehash}{a8ef08457b976db76189f263fa50ffe0}
+      \strng{authornamehash}{1e616761daf39cb8edfc10a6b5c9e144}
+      \strng{authorfullhash}{a8ef08457b976db76189f263fa50ffe0}
+      \strng{authorfullhashraw}{a8ef08457b976db76189f263fa50ffe0}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ICCV}
+      \field{title}{Semantic contours from inverse detectors}
+      \field{year}{2011}
+    \endentry
     \entry{wsss_dsrg_deep_seeded_region_growing}{inproceedings}{}{}
       \name{author}{5}{}{%
         {{hash=800352834f20c08bfb9c71e2873d3d37}{%
