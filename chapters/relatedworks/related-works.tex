@@ -18,7 +18,7 @@ Then came the era of deep learning, where convolutional neural networks (CNNs) r
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/fcn}}
-    \caption{Fully Convolutional Network (FCN) for semantic segmentation.}
+    \caption{Fully Convolutional Network (FCN) for semantic segmentation (adapted from \cite{fsss_fcn}).}
     \label{fig:fcn}
 \end{figure}
 
@@ -34,7 +34,7 @@ The DeepLab series~\cite{fsss_deeplabv1, fsss_deeplabv2, fsss_deeplabv3,fsss_dee
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/deeplabv3+}}
-    \caption{Architecture of DeepLabv3+.}
+    \caption{Architecture of DeepLabv3+ (adapted from \cite{fsss_deeplabv3plus}).}
     \label{fig:dlv3+}
 \end{figure}
 
@@ -46,7 +46,7 @@ SegNet~\cite{fsss_segnet} is an encoder-decoder architecture that focuses on eff
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/segnet}}
-    \caption{An illustration of the SegNet architecture.}
+    \caption{An illustration of the SegNet architecture (adapted from \cite{fsss_segnet}).}
     \label{fig:segnet}
 \end{figure}
 
@@ -64,7 +64,7 @@ The Segmenter~\cite{fsss_segmenter} architecture combines a ViT backbone with a 
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/segmenter}}
-    \caption{The SegFormer framework.}
+    \caption{The SegFormer framework (adapted from \cite{fsss_segmenter}).}
     \label{fig:segmenter}
 \end{figure}
 
@@ -74,7 +74,7 @@ SegFormer~\cite{fsss_segformer} is a transformer-based architecture that combine
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/segformer}}
-    \caption{An illustration of the SegNet architecture.}
+    \caption{An illustration of the SegNet architecture (adapted from \cite{fsss_segformer}).}
     \label{fig:segformer}
 \end{figure}
 SegFormer, as illustrated in ~\autoref{fig:segformer} uses a hierarchical transformer encoder to capture multi-scale features and a lightweight decoder to produce the final segmentation output. The SegFormer model has shown state-of-the-art performance on various benchmark datasets, demonstrating the effectiveness of combining CNNs and transformers in semantic segmentation tasks.
@@ -261,7 +261,7 @@ The architecture of AffinityNet \cite{wsss_affinitynet} relies on three DNNs: a 
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=0.8\textwidth]{figures/related_works/affinitynet}}
-    \caption{Overall architecture of AffinityNet.}
+    \caption{Overall architecture of AffinityNet (adapted from \cite{wsss_affinitynet}).}
     \label{fig:affinitynet}
 \end{figure}
 
@@ -277,8 +277,8 @@ CLIP-ES \cite{wsss_clip_es} employs the CLIP ViT-B/16 backbone, where the image 
 
 \begin{figure}[htbp]
     \centering
-    \fbox{\includegraphics[width=\textwidth]{figures/related_works/frozenclip}}
-    \caption{Overall architecture of WeCLIP.}
+    \fbox{\includegraphics[width=0.98\textwidth]{figures/related_works/frozenclip}}
+    \caption{Overall architecture of WeCLIP (adapted from \cite{wsss_frozen_clip}).}
     \label{fig:frozenclip}
 \end{figure}
 
@@ -306,8 +306,8 @@ In DSRG\cite{wsss_dsrg_deep_seeded_region_growing}, pseudo labels are generated 
 The AFA\cite{wsss_afa_affinity_from_attention} module computes semantic affinities directly by linearly combining multi-head attention outputs through an MLP layer. To ensure matrix symmetry, the affinity matrix is summed with its transpose, under the assumption that nodes with the same semantics should be equivalent. 
 \begin{figure}[htbp]
     \centering
-    \fbox{\includegraphics[width=\textwidth]{figures/related_works/afa}}
-    \caption{AFA framework for WSSS.}
+    \fbox{\includegraphics[width=0.98\textwidth]{figures/related_works/afa}}
+    \caption{AFA framework for WSSS (adapted from \cite{wsss_afa_affinity_from_attention}).}
     \label{fig:afa}
 \end{figure}
 Supervision is provided by pseudo affinity labels derived from refined CAMs: pixels are assigned to the class with the highest activation, and affinities are set positive if two pixels share the same class; otherwise negative. These pseudo affinity labels supervise the affinity prediction process, as shown in ~\autoref{fig:afa}. The learned semantic affinities are then used in a random walk propagation to refine the CAMs.
@@ -316,7 +316,7 @@ In ToCo\cite{wsss_toco_token_contrast}, auxiliary CAMs are segmented into pseudo
 \begin{figure}[htbp]
     \centering
     \fbox{\includegraphics[width=\textwidth]{figures/related_works/toco}}
-    \caption{Overall framework of ToCo.}
+    \caption{Overall framework of ToCo (adapted from \cite{wsss_toco_token_contrast}).}
     \label{fig:toco}
 \end{figure}
 Additionally, as shown in ~\autoref{fig:toco}, the Class Token Contrast (CTC) module enforces consistency across entire object regions by aligning representations of global and local class tokens. Specifically, it reduces the gap between projected global class tokens and projected local tokens cropped from uncertain or background regions, thereby improving pseudo label quality.
@@ -344,8 +344,8 @@ AFA \cite{wsss_afa_affinity_from_attention} advanced this idea by showing that p
 CLIP-ES \cite{wsss_clip_es} uses a similar approach, but instead of using the attention maps from the transformer, it uses the attention maps from the CLIP model. The CLIP model is a powerful vision-language model that has been shown to be effective in object detection and segmentation tasks. 
 \begin{figure}[htbp]
     \centering
-    \fbox{\includegraphics[width=\textwidth]{figures/related_works/clipes}}
-    \caption{Overview of CLIP-ES framework.}
+    \fbox{\includegraphics[width=0.98\textwidth]{figures/related_works/clipes}}
+    \caption{Overview of CLIP-ES framework (adapted from \cite{wsss_clip_es}).}
     \label{fig:clipes}
 \end{figure}
 By leveraging the attention maps from the CLIP model, CLIP-ES is able to generate high-quality pseudo labels that are more accurate and robust than those generated by traditional methods. It uses the random walk propagation like AFA, along with a bounding box mask to mask certain affinities while covering more object regions, as shown in ~\autoref{fig:clipes}.
