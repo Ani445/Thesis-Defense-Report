@@ -94,13 +94,13 @@ Fully supervised semantic segmentation has achieved remarkable success, largely 
 Fully supervised semantic segmentation depends on pixel-level segmentation masks annotated by humans. However, generating such dense annotations is tedious, time consuming, and costly. Furthermore, crowd-sourced annotators must undergo special training to handle the complexity of pixel-level labeling, restricting the scale and diversity of available datasets. Consequently, most curated datasets are limited to a small set of object categories. In contrast, unlabeled or weakly annotated images can be collected in abundance, at much lower cost, and in shorter time. This has motivated research into weakly supervised semantic segmentation (WSSS) to make semantic segmentation models more scalable.
 
 
-\section{Types of WSSS}
-\label{sec:types-weakly-supervised}
+\subsection{Types of WSSS}
+\label{subsec:types-weakly-supervised}
 A wide range of weak supervision has been explored, including bounding boxes, scribbles, points, image-level labels,  eye tracks, free-form squiggles, or noisy web tags. Bounding boxes provide rough object boundaries, offering useful localization cues, though they still require annotators to draw accurate boxes.  Scribble-based supervision allows annotators to roughly mark object regions without outlining exact object boundaries. Point supervision, by contrast, typically uses a single annotated pixel per object, giving coarse location information. While less costly than pixel-accurate masks, these methods still involve some level of manual annotation, making large-scale labeling expensive.
 
 
-\section{Image-Level Label Based Weak Supervision}
-\label{sec:image-level-label}
+\subsection{Image-Level Label Based Weak Supervision}
+\label{subsec:image-level-label}
 Image-level annotation represents a cost-effective and efficient form of supervision for weakly supervised semantic segmentation. Here, each training image is provided only with class labels indicating which object categories are present, but without any information about their spatial locations. The main challenge, therefore, is to correctly associate these image-level labels with the appropriate pixels in the image.
 
 The initial approaches attempted to train segmentation models directly from image-level labels~\cite{dcnn}, but the performance was unsatisfactory. Later methods introduced discriminative localization techniques such as Class Activation Maps (CAMs)~\cite{cam}, which highlight class-relevant regions. These coarse cues were then refined using auxiliary information such as superpixels~\cite{imagelevelpixel}, segmentation proposals~\cite{imagelevelpixel}, or motion information from videos~\cite{wsss_motion_cues}. Some works, such as Adversarial Erasing~\cite{adversarial_erasing}, expanded object coverage progressively by iteratively searching new regions. Others, like Kolesnikov and Lampert \cite{kolesnikov2016}, trained networks to approximate the dense CRF \cite{krähenbühl} applied on CAMs for refinement.
@@ -109,32 +109,12 @@ Some approaches learn to predict affinity matrices at the pixel level [36], to r
 
 Recent advances incorporate transformers into WSSS \cite{camtokens, getam}. TS-CAM \cite{camtokens} leverages the global information capturing ability of ViT by combining class-token attention with CAMs. \cite{getam} refines class-specific maps by using attention gradients. MCTformer \cite{wsss_MCTformer} expands this idea by embedding multiple class tokens to learn attention maps for different categories. AFA \cite{wsss_afa_affinity_from_attention} instead derives semantic affinities directly from attention maps to refine coarse pseudo-labels. WeCLIP \cite{wsss_frozen_clip} pushes this further by exploiting the frozen CLIP backbone to generate high-quality pseudo-labels, which are dynamically updated using a refinement module (RFM).
 
-
-\section{WSSS Training Approaches}
-\label{sec:stages}
-
-Weakly supervised semantic segmentation has two main solutions based on their training processes: multistage approaches \cite{instance_wsss,wsss_L2G,wsss_rib} and single stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}.
-
-\subsection{Multistage}
-\label{subsec:multi-stage}
-
-Multistage WSSS has multiple steps. Typically, a classification model is first trained to generate the CAM,  which are then converted into initial pixel-level pseudo labels. These pseudo labels are refined through affinity matrix and random walk propagation\cite{wsss_affinitynet, wsss_afa_affinity_from_attention}, or seeded region growing[SRG] or contrastive learning. Then these refined pseudo labels are used for supervising a segmentation model.
-
-Du et al. \cite{pixel_to_prototype} introduced a pixel-to-prototype contrastive method that enforces semantic consistency at the feature level, leading to improved pseudo-label quality. MCTformer \cite{wsss_MCTformer} extended transformer-based models with multiple class tokens, enabling the generation of category-specific attention maps for refined CAMs. More recently, researchers have incorporated CLIP into the WSSS pipeline. For instance, CLIMS \cite{wsss_clims} used CLIP to highlight more complete object regions while suppressing confident background activations. Similarly, CLIP-ES \cite{wsss_clip_es} applied a softmax-based GradCAM \cite{cam_grad} guided by carefully designed text prompts, allowing CLIP to produce reliable pseudo labels for segmentation supervision.
-
-\subsection{Single Stage}
-\label{subsec:single-stage}
-
-In single-stage weakly supervised semantic segmentation, the model tries to learn segmentation directly from weak supervision (like image-level labels) in one shot. A network is trained that produces segmentation outputs without going through separate phases of label generation and refinement. There's no explicit intermediate step to improve pseudo labels — the model directly predicts segmentation maps during training based on weak supervision signals.
-
-Earlier work in this line used ImageNet-pretrained backbones \cite{dataset_imagenet} to jointly optimize classification and segmentation, with most efforts devoted to improving supervision quality or constraining the learning process. AA\&AR \cite{wsss_aaar} proposed an adaptive affinity loss that facilitates semantic propagation within the segmentation branch. AFA \cite{wsss_afa_affinity_from_attention} introduced an affinity branch to refine CAMs online, yielding stronger pseudo labels during training. ToCo \cite{wsss_toco_token_contrast} further advanced this direction by employing token-level contrastive learning to mitigate over-smoothing in CAM generation, thereby providing better online supervision.
-
-\section{Class Activation Maps}
-\label{sec:class-activation-maps}
+\subsection{Class Activation Maps}
+\label{subsec:class-activation-maps}
 
 Class Activation Maps (CAMs) serve as a crucial interpretability mechanism in deep learning, enabling the visualization of spatial regions within an image that most strongly influence a model's classification decisions. By highlighting class-discriminative areas, CAMs facilitate a deeper understanding of the model's internal reasoning and are foundational for generating localization cues in weakly supervised semantic segmentation. This section provides a comprehensive overview of CAM generation methodologies, with particular emphasis on their implementation in advanced frameworks such as UniCL and architectures like the Swin Transformer.
 
-\subsection{Basic Classification}
+\subsubsection{Basic Classification}
 \label{subsec:basic_classification}
 
 In a standard image classification task, the model learns to assign input images to specific categories. To generate CAMs, global average pooling is applied to the feature maps from the final convolutional layer, condensing spatial information into a single vector. This process produces a heatmap that emphasizes the image regions most influential for the model's classification decision.
@@ -159,7 +139,7 @@ No matter how the feature maps are generated or what the backbone is, the MLP he
 
 Convolutional Neural Networks (CNNs) are often considered “black-box” models due to the limited interpretability of their internal decision-making process. To address this, Class Activation Mapping (CAM) was introduced by Zhou et al.~\cite{cam}, demonstrating that CNNs can act as unsupervised object detectors by highlighting discriminative image regions relevant to classification. CAM and its variants have since become central to Weakly Supervised Semantic Segmentation (WSSS), where such localization cues are refined into pixel-level pseudo-labels for segmentation training.
 
-\subsection{Vanilla CAM}
+\subsubsection{Vanilla CAM}
 
 The original CAM~\cite{cam} requires a specific network architecture where fully connected layers are replaced by a Global Average Pooling (GAP) layer followed by a linear classifier. The process is illustrated in \autoref{fig:basic_cam_generation_process}:
 
@@ -181,7 +161,7 @@ The original CAM~\cite{cam} requires a specific network architecture where fully
 
 Although effective, CAM requires the network to be modified by inserting GAP, which limits its general applicability.
 
-\subsection{Grad-CAM}
+\subsubsection{Grad-CAM}
 \label{subsec:grad_cam}
 
 To overcome CAM's architectural constraint, Selvaraju et al.~\cite{cam_grad} proposed Gradient-weighted CAM (Grad-CAM). Unlike CAM, Grad-CAM can be applied to any CNN-based model without requiring structural changes. Instead of relying solely on classifier weights, Grad-CAM leverages the gradient of the target class score with respect to feature maps. The process is illustrated in \autoref{fig:grad_cam_generation_process}:
@@ -206,7 +186,7 @@ To overcome CAM's architectural constraint, Selvaraju et al.~\cite{cam_grad} pro
 
 Grad-CAM preserves the architectural flexibility missing in CAM, while still providing class-discriminative localization.
 
-\subsection{Grad-CAM++}
+\subsubsection{Grad-CAM++}
 Grad-CAM++~\cite{cam_gradpp} was proposed to address two main limitations of Grad-CAM: (1) poor handling of multiple object instances of the same class, and (2) sensitivity to object size and distribution. Instead of relying only on first-order gradients, Grad-CAM++ incorporates higher-order derivatives of the class score with respect to feature maps.
 
 \begin{enumerate}
@@ -219,7 +199,7 @@ Grad-CAM++~\cite{cam_gradpp} was proposed to address two main limitations of Gra
 
 This method improves localization in complex scenarios, such as small objects or multiple instances, while requiring only one backward pass, keeping computational costs similar to Grad-CAM.
 
-\subsection{LayerCAM}
+\subsubsection{LayerCAM}
 LayerCAM\cite{layer_cam} builds on the intuition that meaningful localization is not limited to the last convolutional layer. Earlier and intermediate layers often capture fine-grained features such as edges and textures, which can complement coarse semantic features from deeper layers.
 
 LayerCAM\cite{layer_cam} computes CAMs at multiple levels of the network:
@@ -232,7 +212,7 @@ LayerCAM\cite{layer_cam} computes CAMs at multiple levels of the network:
 
 By integrating multilayer signals, LayerCAM\cite{layer_cam} enhances both interpretability and localization accuracy compared to Grad-CAM.
 
-\subsection{Attention Rollout and Attention Flow}
+\subsubsection{Attention Rollout and Attention Flow}
 Beyond CNN-based visualization, transformer-based networks introduced attention-based interpretability. Abnar and Zuidema~\cite{attention_rollout} proposed two techniques:
 
 - \textbf{Attention Rollout}: Recursively multiplies the attention matrices across layers, incorporating residual connections. This assumes that the token identity propagates linearly through attention weights, providing a global view of how input tokens influence the final decision. \\
@@ -240,7 +220,7 @@ Beyond CNN-based visualization, transformer-based networks introduced attention-
 
 Both methods generate token-level importance maps that correlate strongly with gradient-based measures, improving interpretability for transformer architectures.
 
-\subsection{RelevanceCAM}
+\subsubsection{RelevanceCAM}
 RelevanceCAM~\cite{relevance_cam} incorporates Layer-wise Relevance Propagation (LRP) into CAM generation. Unlike gradient-based methods that can suffer from the shattered gradient problem, LRP redistributes the prediction score backward through the network based on relevance conservation principles.
 
 \begin{enumerate}
@@ -255,7 +235,7 @@ RelevanceCAM~\cite{relevance_cam} provides more stable and faithful explanations
 \subsection{Summary}
 Overall, CAM-based methods have evolved from the original GAP-based CAM~\cite{cam} to gradient-driven approaches like Grad-CAM~\cite{cam_grad}, higher-order generalizations such as Grad-CAM++~\cite{cam_gradpp}, multi-layer extensions like LayerCAM~\cite{layer_cam}, attention-based methods for transformers~\cite{attention_rollout}, and LRP-driven methods like RelevanceCAM~\cite{relevance_cam}. These advances have been pivotal in WSSS, where class-discriminative heatmaps serve as initial localization cues that are refined into pixel-level pseudo-labels for segmentation.
 
-\section{How WSSS Models Work: A Breakdown}
+\section{Component-Wise Literature Review of WSSS Models}
 \label{sec:how-wsss-models-work}
 
 \subsection{Feature Extraction From Backbone}
@@ -357,3 +337,27 @@ CLIP-ES \cite{wsss_clip_es} uses a similar approach, but instead of using the at
 By leveraging the attention maps from the CLIP model, CLIP-ES is able to generate high-quality pseudo labels that are more accurate and robust than those generated by traditional methods. It uses the random walk propagation like AFA, along with a bounding box mask to mask certain affinities while covering more object regions, as shown in ~\autoref{fig:clipes}.
 
 WeCLIP\cite{wsss_frozen_clip} is another technique that uses the CLIP model to generate pseudo labels. In addition to using the attention maps from the CLIP model, it uses the decoder to generate pseudo labels. Since its backbone is frozen, it requires a decoder to enable the model to learn the affinities of the features. Then it weights the decoder affinities with the frozen CLIP attention maps to get the final affinity map. After that, it uses the random walk propagation with box mask like CLIP-ES and applies the PAR module of AFA to get the final segmentation pseudo labels.
+
+\section{WSSS Training Approaches}
+\label{sec:stages}
+
+Weakly supervised semantic segmentation has two main solutions based on their training processes: multistage approaches \cite{instance_wsss,wsss_L2G,wsss_rib} and single stage approaches \cite{wsss_reliability_does_matter, wsss_afa_affinity_from_attention}.
+
+\subsection{Multistage}
+\label{subsec:multi-stage}
+
+Multistage WSSS has multiple steps. Typically, a classification model is first trained to generate the CAM,  which are then converted into initial pixel-level pseudo labels. These pseudo labels are refined through affinity matrix and random walk propagation\cite{wsss_affinitynet, wsss_afa_affinity_from_attention}, or seeded region growing[SRG] or contrastive learning. Then these refined pseudo labels are used for supervising a segmentation model.
+
+Du et al. \cite{pixel_to_prototype} introduced a pixel-to-prototype contrastive method that enforces semantic consistency at the feature level, leading to improved pseudo-label quality. MCTformer \cite{wsss_MCTformer} extended transformer-based models with multiple class tokens, enabling the generation of category-specific attention maps for refined CAMs. More recently, researchers have incorporated CLIP into the WSSS pipeline. For instance, CLIMS \cite{wsss_clims} used CLIP to highlight more complete object regions while suppressing confident background activations. Similarly, CLIP-ES \cite{wsss_clip_es} applied a softmax-based GradCAM \cite{cam_grad} guided by carefully designed text prompts, allowing CLIP to produce reliable pseudo labels for segmentation supervision.
+
+\subsection{Single Stage}
+\label{subsec:single-stage}
+
+In single-stage weakly supervised semantic segmentation, the model tries to learn segmentation directly from weak supervision (like image-level labels) in one shot. A network is trained that produces segmentation outputs without going through separate phases of label generation and refinement. There's no explicit intermediate step to improve pseudo labels — the model directly predicts segmentation maps during training based on weak supervision signals.
+
+Earlier work in this line used ImageNet-pretrained backbones \cite{dataset_imagenet} to jointly optimize classification and segmentation, with most efforts devoted to improving supervision quality or constraining the learning process. AA\&AR \cite{wsss_aaar} proposed an adaptive affinity loss that facilitates semantic propagation within the segmentation branch. AFA \cite{wsss_afa_affinity_from_attention} introduced an affinity branch to refine CAMs online, yielding stronger pseudo labels during training. ToCo \cite{wsss_toco_token_contrast} further advanced this direction by employing token-level contrastive learning to mitigate over-smoothing in CAM generation, thereby providing better online supervision.
+
+\section{Summary}
+\label{sec:summary-related-works}
+
+In summary, weakly supervised semantic segmentation has evolved significantly, with various types of weak supervision being explored. Image-level labels have emerged as a cost-effective form of supervision, leading to the development of techniques like Class Activation Maps (CAMs) for localization. Numerous methods have been proposed to refine these CAMs into high-quality pseudo labels, leveraging affinity matrices, random walk propagation, and contrastive learning. Both multistage and single-stage training approaches have been employed, each with its own advantages. Recent advancements have also integrated powerful models like CLIP to enhance pseudo label generation. Overall, these developments have contributed to more effective and scalable WSSS models.

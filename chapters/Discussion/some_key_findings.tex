@@ -1,3 +1,4 @@
+
 \section{Key Findings}
 \label{sec:key_findings}
 
@@ -24,11 +25,43 @@ The analysis of UniCL-AffSeg in the context of weakly supervised semantic segmen
 	\item \textbf{Potential improvements:} Incorporating stronger initialization strategies (e.g., contrastive pretraining on object parts) or leveraging pseudo-label refinement techniques could enhance initial activations and lead to more accurate final masks.
 \end{itemize}
 
+\begin{figure}[thbp]
+  \centering
+  \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
+  \renewcommand{\arraystretch}{0.4}
+
+  % Add a border using \fbox around the tabular
+  \begin{center}
+    \fbox{%
+      \begin{tabular}{c c c}
+        \textbf{Grad-CAM} & \textbf{Layer-CAM} & \textbf{Grad-CAM++} \\
+        [2pt]
+        % First row of images
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2007_009807_12} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2007_009807_12} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2007_009807_12} \\
+
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2011_001967_2} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2011_001967_2} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2011_001967_2} \\
+
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2008_003976_0} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2008_003976_0} &
+        \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2008_003976_0} \\
+
+      \end{tabular}
+    }
+  \end{center}
+
+  \caption{Comparison of CAM visualization methods on the Pascal VOC dataset for single class scenario. Columns show Grad-CAM, Layer-CAM, and Grad-CAM++ respectively. Each row corresponds to a different example image.}
+  \label{fig:cam_variation_singleclass}
+\end{figure}
+
+
 \subsection*{4. Broader Implications for WSSS Pipeline Design}
 \begin{itemize}
 	\item \textbf{Contrastive learning frameworks:} The results highlight the potential of frameworks like UniCL in weakly supervised settings.
 	\item \textbf{Balance needed:} There is a need to balance local detail and global context for optimal performance.
 	\item \textbf{General framework:} Addressing these challenges can improve segmentation performance and provide a more general approach for integrating vision-language pretraining with weak supervision in diverse visual recognition tasks.
 \end{itemize}
-
 % ...existing code...
