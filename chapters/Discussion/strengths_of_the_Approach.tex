@@ -1,51 +1,19 @@
-% \begin{figure}[!t]
-%   \centering
-%   \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
-%   \renewcommand{\arraystretch}{0.4}
+\section{Strengths of the Approach}
+\label{sec:strengths_of_approach}
 
-%   % Add a border using \fbox around the tabular
-%   \begin{center}
-%     \fbox{%
-%       \begin{tabular}{c c c}
-%         \textbf{Grad-CAM} & \textbf{Layer-CAM} & \textbf{Grad-CAM++} \\
-%         [2pt]
-%         % First row of images
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2007_009807_12} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2007_009807_12} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2007_009807_12} \\
+The proposed UniCL-AffSeg framework demonstrates several strengths that collectively advance the state of weakly supervised semantic segmentation (WSSS). By combining multi-modal representation learning with hierarchical transformer-based feature extraction and affinity-driven refinement, UniCL-AffSeg effectively enhances both localization accuracy and boundary quality in segmentation masks. The following subsections outline these major strengths.
 
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2011_001967_2} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2011_001967_2} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2011_001967_2} \\
+\subsection{Multi-Modal Learning and Unified Objectives}
+Leveraging UniCL’s unified contrastive and classification objectives, the framework aligns image and text representations in a shared embedding space. This integration enriches the semantic understanding of visual features without requiring pixel-level supervision. In practice, this results in more discriminative and spatially coherent Class Activation Maps (CAMs), as reflected in the model’s improved localization performance on large and visually distinctive categories such as \textit{bus}, \textit{sheep}, and \textit{horse}. The cross-modal synergy also enhances generalization across diverse scenes, reducing dependency on external localization cues like saliency maps.
 
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcam/2008_003976_0} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/layercam/2008_003976_0} &
-%         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/cams/gradcampp/2008_003976_0} \\
+\subsection{Hierarchical Feature Extraction with Swin Transformer}
+The Swin Transformer backbone provides hierarchical multi-scale features that capture both local and global context—an essential quality for dense prediction tasks. Its shifted-window attention mechanism preserves fine-grained boundary details while maintaining computational efficiency. This hierarchical representation allows UniCL-AffSeg to delineate object boundaries more precisely and maintain structural continuity, particularly in multi-object scenes where traditional CAMs often suffer from fragmentation or missing parts.
 
-%       \end{tabular}
-%     }
-%   \end{center}
+\subsection{Affinity-Based Refinement for Semantic Consistency}
+The affinity-based refinement module significantly enhances semantic consistency in pseudo-labels. By integrating encoder- and decoder-level affinity maps and filtering them through deviation scoring, the framework propagates relevant activations across object regions while suppressing background noise. This results in smoother, more complete segmentation masks with improved intra-object coherence. The approach effectively reduces over-segmentation and false activations in cluttered scenes, contributing to the framework’s robustness under purely weak supervision.
 
-%   \caption{Comparison of CAM visualization methods on the Pascal VOC dataset for single class scenario. Columns show Grad-CAM, Layer-CAM, and Grad-CAM++ respectively. Each row corresponds to a different example image.}
-%   \label{fig:cam_variation_singleclass}
-% \end{figure}
+\subsection{Efficiency and Scalability}
+Despite incorporating multi-modal and transformer-based components, UniCL-AffSeg remains computationally efficient. Swin’s linear-complexity attention and UniCL’s pre-trained representations enable scalable training on large datasets like PASCAL VOC 2012. Moreover, the Pixel-Adaptive Refinement (PAR) module introduces only minimal overhead while significantly improving boundary sharpness through adaptive color and spatial filtering. Together, these design choices ensure a favorable balance between segmentation accuracy and computational cost, making the framework suitable for broader real-world deployment.
 
-
-% \section{Strengths of the Approach}
-% \label{sec:strengths_of_approach}
-
-% The proposed UniCL-AffSeg framework offers several notable strengths that position it as a promising advancement in weakly supervised semantic segmentation (WSSS). By integrating the UniCL framework with a Swin Transformer backbone and affinity-based refinement strategies, the approach leverages multi-modal learning, hierarchical feature extraction, and semantic consistency to overcome common limitations in WSSS pipelines. The following subsections outline these key strengths.
-
-% \subsection{Multi-Modal Learning and Unified Objectives}
-% UniCL's unified contrastive and classification objectives enable robust alignment between image and text modalities, enhancing feature representations without requiring dense annotations. This multi-modal synergy facilitates better image-text correspondence, leading to more discriminative class activation maps (CAMs) compared to traditional single-modal methods. As a result, the framework can generalize across diverse datasets and handle complex scenes with multiple objects, reducing reliance on external cues like saliency maps.
-
-% \subsection{Hierarchical Feature Extraction with Swin Transformer}
-% The Swin Transformer's hierarchical architecture provides multi-scale feature maps that capture both local details and global context, making it particularly suited for dense prediction tasks like segmentation. Unlike global attention mechanisms in ViT-based models, Swin's shifted-window design ensures computational efficiency while preserving fine-grained local information, such as object boundaries and textures. This locality bias improves boundary precision in CAMs, addressing a common weakness in WSSS where activations often miss intricate object parts.
-
-% \subsection{Affinity-Based Refinement for Semantic Consistency}
-% The affinity-based CAM refinement technique, which combines encoder-derived affinity maps with decoder affinities, promotes semantic coherence by propagating information across pixel regions. This approach mitigates noise and fragmentation in initial CAMs, leading to more reliable pseudo-labels. By selecting high-quality affinity maps through deviation scoring, the method ensures stability and reduces overfitting, resulting in improved segmentation quality without additional supervision.
-
-% \subsection{Efficiency and Scalability}
-% The overall framework is computationally efficient, benefiting from Swin's linear complexity and UniCL's pre-trained multi-modal representations. This allows for scalable training on large datasets like PASCAL VOC 2012, making the approach feasible for real-world applications with limited resources. Furthermore, the integration of Pixel-Adaptive Refinement (PAR) enhances boundary accuracy by incorporating color and spatial similarities, providing a lightweight yet effective post-processing step.
-
-% In summary, these strengths collectively enable UniCL-AffSeg to generate higher-quality CAMs and pseudo-labels, narrowing the gap between weakly supervised and fully supervised segmentation while maintaining practicality. Future iterations could build on these advantages to further optimize performance in challenging scenarios.
+\subsection{Overall Impact}
+These strengths collectively enable UniCL-AffSeg to produce high-quality CAMs and pseudo-labels that bridge much of the gap between weakly supervised and fully supervised methods. The framework demonstrates that hierarchical transformers and multi-modal pretraining, when combined with affinity-based refinement, can deliver scalable and annotation-efficient segmentation without reliance on dense supervision.
