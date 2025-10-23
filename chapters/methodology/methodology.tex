@@ -244,7 +244,7 @@ where \( P \in \mathbb{R}^{C \times H \times W} \), \( C \) is the number of cla
 
 \section{CAM Refinement and Pseudo-Label Generation}
 \label{sec:refinement}
-\subsection{Affinity based CAM refinement}  
+\subsection{Affinity based CAM Refinement}  
 The initial CAMs produced by the backbone tend to focus only on sparse, highly discriminative regions. These activations are often noisy and insufficient to be used directly as supervision. Therefore, a refinement module is required where the initial CAM is improved. The refined CAM is then used as a pseudolabel for supervision.  
 
 The most common strategy for rectifying CAMs is by exploiting the feature relationships within the backbone that generates them. This is referred to as affinity-based CAM refinement, first introduced by \cite{wsss_affinitynet}. In transformer-based backbones, the attention maps naturally encode semantic-level affinities between tokens or patches. From these attention maps, an affinity matrix $A_f$ can be constructed and employed for CAM refinement via random walk propagation. In parallel, another affinity matrix, $A$, can be derived from the predicted pseudolabel produced by the decoder. The cross-entropy loss between these two affinity matrices is then incorporated into the training objective.  
@@ -281,7 +281,7 @@ We compute such affinity matrices across multiple intermediate encoder blocks to
 This multi-block affinity representation provides richer contextual cues for propagating and refining class activation maps.
 
 
-\subsection{Extracting affinity map from the decoder}
+\subsection{Extracting Affinity Map from the Decoder}
 \label{subsec:decoder_aff_mat}
 Based on the feature map $F_u$ obtained from the decoder (as defined in Eq.~(2)), an affinity map is constructed as follows:
 
@@ -292,7 +292,7 @@ Based on the feature map $F_u$ obtained from the decoder (as defined in Eq.~(2))
 
 where $F_u \in \mathbb{R}^{d \times h \times w}$ is reshaped into a matrix of size $d \times hw$ before the computation. The $\text{Sigmoid}(\cdot)$ function ensures that the values in the resulting affinity map lie in the range $[0, 1]$. Consequently, the computed affinity map $A_f$ has the dimensions $\mathbb{R}^{hw \times hw}$. Here, $\top$ denotes the matrix transpose.
 
-\subsection{Selecting affinity maps of the image encoder}
+\subsection{Selecting Affinity Maps of the Image Encoder}
 \label{subsec:att_map_encoder}
 Following \cite{wsss_frozen_clip}, we extract all the affinity maps from the frozen CLIP image encoder, denoted as $\{A^l\}_{l=1}^N$, where each affinity map $A^l \in \mathbb{R}^{hw \times hw}$. To evaluate the reliability of each affinity map $A^l$, we compare it with the previously computed decoder affinity map $A_f$ using the following deviation score:
 
@@ -316,7 +316,7 @@ Here, $G^l \in \{0,1\}$ is expanded to $G^l_e \in \mathbb{R}^{hw \times hw}$ for
 
 This selection mechanism ensures that only high-quality affinity maps consistent with the encoder-derived relationships are preserved, thereby improving the robustness of the CAM refinement process.  
 
-\subsection{Utilizing the frozen encoder affinity maps}
+\subsection{Utilizing the Frozen Encoder Affinity Maps}
 \label{subsec: mul_attn_and_aff}
 Using the affinity map $A_f$ and the filtered affinity maps of the encoder, we construct a refining map $R$ by weighing the decoder affinity matrix with the mean of the selected encoder affinity maps. This method of selection is adopted first by \cite{wsss_frozen_clip}. The equation is given as:
 
@@ -332,7 +332,7 @@ where $\odot$ denotes element-wise multiplication, and $N_m$ is the number of va
 
 Here, $G^l_e \in \mathbb{R}^{hw \times hw}$ is the expanded binary filter corresponding to $G^l$. The refining map $R$ effectively integrates the reliable encoder affinity maps weighted by the affinity map $A_f$, enhancing meaningful relationships while suppressing noisy or irrelevant information.
 
-\subsection{Constructing the semantic transition matrix}
+\subsection{Constructing the Semantic Transition Matrix}
 \label{subsec:trans_mat}
 Now that we have the affinity matrix $R$, to apply the random walk propagation, we need to at first normalize the rows for converting it into a transition probability matrix. In addition, column normalization ensures consistency and symmetric behavior. Sinkhorn normalization \cite{math_sinkhorn} is thus used to convert $R$ into a double stochastic matrix $R_{\text{nor}}$.
 
@@ -365,7 +365,7 @@ where, $M^c_{\text{init}} \in \mathbb{R}^{hw \times 1}$ is the initial CAM for c
 
 Finally, the refined CAM $M^c_f$ is passed through an online post-processing module - specifically, the pixel-adaptive refinement module proposed in \cite{wsss_afa_affinity_from_attention}.
 
-\subsection{Pixel Adaptive refinement module}
+\subsection{Pixel Adaptive Refinement module}
 \label{subsec:par}
 To ensure local consistency, pixel-adaptive convolution is introduced by \cite{wsss_afa_affinity_from_attention}. It uses local RGB and spatial information to define the low-level pair-wise semantic affinity of two pixels. Given an input image \( I \in \mathbb{R}^{h \times w \times 3} \), the pairwise affinities between two pixels at positions \((i, j)\) and \((k, l)\) is calculated as follows:
 
