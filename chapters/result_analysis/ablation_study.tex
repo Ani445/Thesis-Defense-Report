@@ -53,14 +53,12 @@ tv/monitor    & 0.451 & 0.419 \\ \hline
 
 Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the Refinement Module (RFM) on pseudo-label generation across diverse object categories. Without RFM, CAMs frequently appear fragmented and incomplete, particularly along fine structures such as bird wings or bicycle wheels. Incorporating RFM results in smoother, spatially coherent masks with improved object coverage and sharper boundaries, effectively reducing under-segmentation and background noise (e.g., in the airplane and dog examples). 
 
-\begin{figure}[H]
+\begin{figure}[thbp]
   \centering
   \setlength{\tabcolsep}{0.5pt} % adjust spacing between images
   \renewcommand{\arraystretch}{0.4}
-
   % Add a border around the figure using a minipage and \fbox
   \fbox{%
-    \begin{minipage}{0.98\linewidth}
       \centering
       \begin{tabular}{c c c c}
         \textbf{Without RFM} & \textbf{With RFM} & \hspace{10pt} \textbf{Without RFM} & \textbf{With RFM} \\
@@ -85,7 +83,6 @@ Figure \ref{fig:qualitative_ablation} demonstrates the qualitative effect of the
         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withoutrfm/2009_000074_[13, 14]} &
         \includegraphics[width=0.18\linewidth, height=0.18\linewidth]{figures/ablation/withrfm/2009_000074_[13, 14]} \\
       \end{tabular}
-    \end{minipage}
   }
 
   \caption{Qualitative ablation on the Pascal VOC dataset showing the effect of the Refinement Module (RFM) \cite{wsss_frozen_clip} using our method. Each pair compares pseudo-labels generated without (left) and with (right) RFM. The RFM enhances boundary precision and recovers missing object regions, leading to more complete and accurate segmentation masks.}
