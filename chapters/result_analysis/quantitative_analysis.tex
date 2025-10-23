@@ -11,3 +11,17 @@ These results indicate that the model generalizes well across both validation an
 \input{chapters/result_analysis/per_class_performance.tex}
 
 \input{chapters/result_analysis/comparison_with_baselines.tex}
+
+
+%summary
+\subsection{Summary of Quantitative Analysis}
+\label{subsubsec:quantitative_summary}
+
+Overall, the quantitative results reveal that our UniCL-AffSeg framework demonstrates reasonable segmentation ability under image- and language-level supervision, despite operating without pixel-level annotations. The model achieves comparable performance on both validation (50.3\% mIoU) and test (50.8\% mIoU) sets, indicating good generalization and stable behavior across unseen data. 
+
+A closer look at per-class IoUs shows that UniCL-AffSeg performs strongly on large, visually distinct categories such as \textit{bus}, \textit{cow}, and \textit{sheep}, while struggling on small or underrepresented ones like \textit{person}, \textit{chair}, and \textit{bicycle}. This disparity highlights the limitations of Swin-based affinity representations in capturing fine-grained or globally contextual features. 
+
+When compared with state-of-the-art weakly supervised segmentation models, our approach trails methods like WeCLIP and ToCo, which rely on ViT-based attention mechanisms. The relatively lower mIoU suggests that while Swin Transformers provide strong local representations, their limited global context impedes effective region propagation during pseudo-label generation. 
+
+These findings collectively emphasize the need for integrating global reasoning components—such as cross-window attention or hybrid ViT-Swin architectures—to bridge the gap with ViT-based WSSS models and improve small-object segmentation consistency.
+
