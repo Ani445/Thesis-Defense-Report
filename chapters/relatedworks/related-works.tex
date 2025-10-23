@@ -359,7 +359,7 @@ In single-stage weakly supervised semantic segmentation, the model tries to lear
 
 Earlier work in this line used ImageNet-pretrained backbones \cite{dataset_imagenet} to jointly optimize classification and segmentation, with most efforts devoted to improving supervision quality or constraining the learning process. AA\&AR \cite{wsss_aaar} proposed an adaptive affinity loss that facilitates semantic propagation within the segmentation branch. AFA \cite{wsss_afa_affinity_from_attention} introduced an affinity branch to refine CAMs online, yielding stronger pseudo labels during training. ToCo \cite{wsss_toco_token_contrast} further advanced this direction by employing token-level contrastive learning to mitigate over-smoothing in CAM generation, thereby providing better online supervision.
 
-\section{Summary}
+\section*{Summary}
 \label{sec:summary-related-works}
 
 In summary, weakly supervised semantic segmentation has evolved significantly, with various types of weak supervision being explored. Image-level labels have emerged as a cost-effective form of supervision, leading to the development of techniques like Class Activation Maps (CAMs) for localization. Numerous methods have been proposed to refine these CAMs into high-quality pseudo labels, leveraging affinity matrices, random walk propagation, and contrastive learning. Both multistage and single-stage training approaches have been employed, each with its own advantages. Recent advancements have also integrated powerful models like CLIP to enhance pseudo label generation. Overall, these developments have contributed to more effective and scalable WSSS models.
